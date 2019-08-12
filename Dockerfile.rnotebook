@@ -1,0 +1,12 @@
+FROM rocker/tidyverse
+MAINTAINER edvald@wuxinextcode.com
+
+COPY --chown=rstudio:rstudio . /home/rstudio/gorr/
+WORKDIR /home/rstudio/gorr
+RUN R -q -e "devtools::install(upgrade_dependencies = F)"
+RUN apt update
+RUN apt install -y python-pip
+RUN pip install pandas
+RUN apt --no-install-recommends install -y  texlive-base texlive-bibtex-extra texlive-extra-utils texlive-generic-recommended texlive-fonts-recommended texlive-font-utils texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-math-extra texlive-pictures texlive-pstricks texlive-science lmodern
+RUN R -q -e "install.packages('reticulate')"
+RUN R -q -e "install.packages('tinytex')"

@@ -1,0 +1,35 @@
+Type: Package
+Package: gorr
+Title: GOR Direct Query API for R
+Version: 0.2.7
+Authors@R: c(
+    person("WuXi", "Nextcode", role = c("aut", "cre"), email = "support@wuxinextcode.com")
+    )
+Maintainer: WuXi NextCode <support@wuxinextcode.com>
+Description: R library for remote execution of GOR queries and authorization with WuXi NextCode gateway API.
+License: LGPL (>= 2.1)
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    readr (>= 1.1.1),
+    purrr (>= 0.2.4),
+    cli (>= 1.0.0),
+    crayon (>= 1.3.4),
+    magrittr (>= 1.5),
+    assertthat (>= 0.2.0),
+    stringr (>= 1.3.0),
+    httr (>= 1.3.1),
+    jsonlite (>= 1.5),
+    openssl (>= 1.0.1),
+    lubridate (>= 1.7.4),
+    data.table
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
+Suggests: 
+    testthat (>= 2.0.0),
+    knitr (>= 1.20),
+    rmarkdown (>= 1.10),
+    processx,
+    tibble,
+    fs
