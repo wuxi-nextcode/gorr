@@ -8,7 +8,6 @@ Authors@R: c(
     )
 URL: https://github.com/wuxi-nextcode/gorr
 BugReports: https://github.com/wuxi-nextcode/gorr/issues
-Maintainer: WuXi NextCode <support@wuxinextcode.com>
 Description: R library for remote execution of GOR queries and authorization with WuXi NextCode gateway API.
 License: LGPL (>= 2.1)
 Encoding: UTF-8

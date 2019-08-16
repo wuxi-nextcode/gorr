@@ -6,3 +6,9 @@
 Dockerfile.*
 Makefile
 ^LICENSE\.md$
+^\.git*
+.Renviron
+.Rhistory
+.gitignore
+vignettes/.gitignore
+..Rcheck
