@@ -9,9 +9,10 @@ get_access_token <- function(api_key, url) {
     assertthat::assert_that(assertthat::is.string(api_key))
     assertthat::assert_that(assertthat::is.string(url))
 
+    token_parts <- get_jwt_token_payload(api_key)
 
     body <- list(
-        client_id = "api-key-client",
+        client_id = token_parts$azp,
         grant_type = "refresh_token",
         refresh_token = api_key
     )
