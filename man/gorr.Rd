@@ -21,15 +21,15 @@ The main functions you'll be using are:
 \dontrun{
 library(gorr)
 # Go to your CSA instance of choice that runs the Query API, e.g.
-# https://4-20-test.wuxinextcodedev.com
+# https://your-wxnc-instance
 # Note the internal names of the projects you have access to
-# go to and copy your api_key from: https://4-20-test.wuxinextcodedev.com/api-key-service/token
+# go to and copy your api_key from: https://your-wxnc-instance/api-key-service/token
 # Paste it into the variable below:
 
 api_key <- ""
 
 # Make connection object
-conn <- gor_connect(api_key, "test_proj")
+conn <- gor_connect(api_key, "your_project")
 
 # Print the connection details
 print(conn)
