@@ -32,8 +32,8 @@ gor_connect <- function(api_key, project, api_endpoint = "/api/query") {
         gorr__failure("Authentication error", paste(
             "API key expired at",
             as.character(expiry_date),
-            "\n     Please get a new one at: ",
-            with(service_url_parts, stringr::str_glue("{scheme}://{hostname}/api-key-service/token"))
+            if (token_payload$azp == "api-key-client")
+                with(service_url_parts, stringr::str_glue("\n     Please get a new one at: {scheme}://{hostname}/api-key-service/token"))
         ))
     }
 
