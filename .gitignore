@@ -2,7 +2,8 @@
 .Renviron
 .RData
 .Rproj.user
-..Rcheck
+*Rcheck
+*.tar.gz
 .DS_Store
 inst/doc
 testscript.R
