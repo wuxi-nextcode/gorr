@@ -34,8 +34,8 @@ library(tibble)
 First we'll need to establish a connection to our direct query API. To do that we'll need to call `gor_connect` and provide it with the relevant parameters pointing to the direct-query-service, i.e. `api_key` and `project`:
 
 ```{r}
-api_key <- Sys.getenv("GORR_API_KEY")
-conn <- gor_connect(api_key, project = Sys.getenv("GORR_API_PROJECT"))
+api_key <- Sys.getenv("GOR_API_KEY")
+conn <- gor_connect(api_key, project = Sys.getenv("GOR_API_PROJECT"))
 conn
 ```
 

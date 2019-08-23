@@ -15,8 +15,16 @@
 #' api_key <- "...paste from your /api-key-service/token endpoint..."
 #' conn <- gor_connect(api_key, "test_project")
 #' }
-gor_connect <- function(api_key, project, api_endpoint = "/api/query") {
-    assert_that(is.string(api_key))
+gor_connect <- function(api_key = NULL, project = NULL, api_endpoint = "/api/query") {
+    if (is.null(api_key)) {
+        api_key <- Sys.getenv("GOR_API_KEY")
+        if (api_key == "") gorr__failure("api_key not provided, the alternative GOR_API_KEY environment variable is not set")
+    }
+    if (is.null(project)) {
+        project <- Sys.getenv("GOR_API_PROJECT")
+        if (project == "") gorr__failure("project not provided, the alternative GOR_API_PROJECT environment variable is not set")
+    }
+
 
     token_payload <- get_jwt_token_payload(api_key)
     expiry_date <- lubridate::as_datetime(token_payload$exp)
