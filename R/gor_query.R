@@ -29,8 +29,8 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE"),
 #'
 #' @examples
 #' \dontrun{
-#' api_key <- Sys.getenv("GORR_API_KEY")
-#' project <- Sys.getenv("GORR_PROJECT")
+#' api_key <- Sys.getenv("GOR_API_KEY")
+#' project <- Sys.getenv("GOR_PROJECT")
 #' conn <- gor_connect(api_key, project)
 #' "gor #dbsnp# | top 100" %>%
 #'     gor_query(conn)
