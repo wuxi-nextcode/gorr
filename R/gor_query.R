@@ -95,7 +95,7 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T) {
 
         result
     },
-    interrupt = function(err) gorr__kill_query(query_id, conn),
+    interrupt = function(err) gorr__kill_query(query_response$links$self, conn),
     error = stop)
 }
 
