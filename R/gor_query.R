@@ -6,7 +6,8 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE"),
     if (conn$access_token_exp - lubridate::now() < lubridate::minutes(1)) {
         conn <- gorr__reconnect(conn)
     }
-    response <- request.fun(url = url, body = body, conn$header)
+    debug <- getOption("gor.debug", default = F)
+    response <- request.fun(url = url, body = body, conn$header, encode = "json", if (debug) httr::verbose() )
 
     if (parse.body) {
         gorr__get_response_body(response)
@@ -35,7 +36,7 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE"),
 #' "gor #dbsnp# | top 100" %>%
 #'     gor_query(conn)
 #' }
-gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T) {
+gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, relations = NULL) {
     assertthat::assert_that(is.string(query))
     assertthat::assert_that(class(conn) == "gor_connection")
 
@@ -54,7 +55,7 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T) {
         cli::cat_rule("", col = "blue")
     }
     spinner("Submitting Query")
-    query_response <- gorr__post_query(query, conn)
+    query_response <- gorr__post_query(query, conn, relations)
     if (interactive()) {
         cli::cat_line("")
         cli::cat_line(paste0(" Server assigned query ID ", crayon::green(paste0("#",query_response$id))))
@@ -67,7 +68,7 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T) {
             status_response <- gorr__get_query_status(query_response$links$self, conn)
             spinner(sprintf("%s (elapsed: %.1f %s)", status_response$status, elapsed, attr(elapsed, "units")))
             if (status_response$status == "FAILED")
-                gorr__failure("Query Execution Failed", status_response)
+                gorr__failure(status_response$error$type,  status_response$error$description)
 
             if (status_response$status == "DONE")
                 break
@@ -104,12 +105,30 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T) {
 #'
 #' @param query GOR query
 #' @param conn connection object, see \code{\link{gor_connect}}
+#' @param relations data.frames to include with the query in the format \code{list(list(table_name = data.frame() ))}
 #'
 #' @return response content object, see \code{\link[httr]{content}}
-gorr__post_query <- function(query, conn) {
+gorr__post_query <- function(query, conn, relations = NULL) {
+    if (!is.null(relations)) {
+        relations <-
+            relations %>%
+            imap(function(df,name) {
+                list(name = name,
+                     fingerprint = digest::digest(df, algo = "md5"),
+                     data = readr::format_tsv(df),
+                     extension = ".tsv")
+                }) %>%
+            unname()
+
+        # make sure all relation keys are in the format [key]
+        if (!all(stringr::str_detect(names(relations), "\\[.*\\]"))) {
+            names(relations) <- paste0("[", stringr::str_replace_all(names(relations), c("[" = "")), "]")
+        }
+    }
+
     gorr__api_request("POST",
         url = conn$endpoints$query,
-        body = list(query = query, project = conn$project),
+        body = list(query = query, project = conn$project,  relations = relations),
         conn)
 }
 
@@ -213,15 +232,14 @@ gorr__kill_query <- function(query_url, conn) {
 #'
 #' @return response body from (\code{\link[httr]{content}})
 gorr__get_response_body <- function(response, content.fun = httr::content) {
-    # Conveniently converts HTTP errors to R errors
-    httr::stop_for_status(response$status)
     response_body <- content.fun(response)
     # Check to see if the query response has an error in it
-    if (!is.null(response$error)) {
-        gorr__failure(httr::http_status(response$code)$message,
-                      response$error$description)
+    if (response$status_code != 200 && !is.null(response_body$error)) {
+        gorr__failure(httr::http_status(response$status_code)$message,
+                      paste(c(response_body$error$description, response_body$error$errors), collapse = "\n\t"))
     }
-
+    # Conveniently converts HTTP errors to R errors
+    httr::stop_for_status(response$status_code)
     response_body
 }
 
