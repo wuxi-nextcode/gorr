@@ -1,18 +1,12 @@
-![GOR-R](man/figures/logo.png)
+![GOR-R](man/figures/logo.svg)
 
 
 ## Installation
 
-### Installing from tar-ball
+### Installing from github using `devtools`
 
 ``` r
-install.packages("gorr_[version_number].tar.gz", repos = NULL, type = "source")
-```
-
-### Installing from WuXi Nextcode's CDN (currently not set up):
-
-``` r
-install.packages("gorr.tar.gz", repos = "https://cdn.nextcode.com/public/libraries/R", type = "source")
+devtools::install_github("wuxi-nextcode/gorr")
 ```
 
 ## Example
@@ -27,17 +21,23 @@ library(gorr)
 library(tidyverse)
 ```
 
-### Connecting to the direct query service
+### Connecting to a GOR Query API
 
-First we'll need to establish a connection to our direct query API. To do that we'll need to call `gor_connect` and provide it with the relevant parameters pointing to the direct-query-service, i.e. `api_key` and `project`. You get the API Key from the `/api-key-service/token` endpoint on your CSA instance, and you can find a list of projects available to you in CSA as well, remember to use the internal project name. Once you have those two things, you have everything you need to make a connection object:
+First we'll need to establish a connection to our query API. To do that we'll need to call `gor_connect` and provide it with the relevant parameters pointing to the direct-query-service, i.e. `api_key` and `project`. You get the API Key from the `/api-key-service/token` endpoint on your CSA instance, and you can find a list of projects available to you in CSA as well, remember to use the internal project name. Once you have those two things, you have everything you need to make a connection object:
 
 ``` r
 api_key <- "your_api_key_here"
 conn <- gor_connect(api_key, project = "test_proj")
 ```
 
-If everything goes as planned, we'll have a `conn` object to 
-pass into the `gor_query` function to finally run a query:
+Alternatively, one can define the environment variables `GOR_API_KEY` and (optionally) `GOR_API_PROJECT`. This can also be done for your R session exclusively by including those lines in a `.Renviron` file in your working directory. When these variables are set you can call gor_connect without specifying `api_key` or `project`:
+
+```r
+conn <- gor_connect() # uses both GOR_API_KEY and GOR_API_PROJECT
+conn <- gor_connect(project = "test_proj") # uses only GOR_API_KEY 
+```
+
+If everything goes as planned, we'll have a `conn` object to pass into the `gor_query` function to finally run a query:
 
 ```r 
 result <- gor_query("gor #dbsnp# | top 100", conn)

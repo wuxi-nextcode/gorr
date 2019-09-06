@@ -14,7 +14,7 @@ gor_query(query, conn, timeout = 0, page_size = 1e+05, parse = T,
 
 \item{timeout}{timeout in seconds, default to 0 (none), uses \code{\link[base]{setTimeLimit}} to interrupt, note that setting any limit has a small overhead – well under 1\% on the systems measured.}
 
-\item{page_size}{large results are returned in paged responses, this parameter controls the page size (e.g. 1000 lines at a time), default is 0 (everything is fetched in one request)}
+\item{page_size}{large results are returned in paged responses, this parameter controls the page size (e.g. 1000 lines at a time), default is 100k. A value of 0 means everything is fetched in one request}
 
 \item{parse}{should the TSV output be parsed into a dataframe? False will make the function return the results as text object}
 

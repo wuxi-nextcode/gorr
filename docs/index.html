@@ -6,9 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GOR Direct Query API for R • gorr</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="GOR Direct Query API for R">
 <meta property="og:description" content="R library for remote execution of GOR queries and authorization with WuXi NextCode gateway API.">
 <meta property="og:image" content="/logo.png">
@@ -31,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.9.9000</span>
       </span>
     </div>
 
@@ -39,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -65,7 +72,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/wuxi-nextcode/gorr">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -78,22 +85,19 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="contents col-md-9">
 
-<p><img src="reference/figures/logo.png" alt="GOR-R"></p>
+<p><img src="reference/figures/logo.svg" alt="GOR-R"></p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<div id="installing-from-tar-ball" class="section level3">
+<div id="installing-from-github-using-devtools" class="section level3">
 <h3 class="hasAnchor">
-<a href="#installing-from-tar-ball" class="anchor"></a>Installing from tar-ball</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"gorr_[version_number].tar.gz"</span>, <span class="dt">repos =</span> <span class="ot">NULL</span>, <span class="dt">type =</span> <span class="st">"source"</span>)</a></code></pre></div>
-</div>
-<div id="installing-from-wuxi-nextcodes-cdn-currently-not-set-up" class="section level3">
-<h3 class="hasAnchor">
-<a href="#installing-from-wuxi-nextcodes-cdn-currently-not-set-up" class="anchor"></a>Installing from WuXi Nextcode’s CDN (currently not set up):</h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"gorr.tar.gz"</span>, <span class="dt">repos =</span> <span class="st">"https://cdn.nextcode.com/public/libraries/R"</span>, <span class="dt">type =</span> <span class="st">"source"</span>)</a></code></pre></div>
+<a href="#installing-from-github-using-devtools" class="anchor"></a>Installing from github using <code>devtools</code>
+</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/reexports.html">install_github</a></span>(<span class="st">"wuxi-nextcode/gorr"</span>)</a></code></pre></div>
 </div>
 </div>
 <div id="example" class="section level2">
@@ -104,19 +108,22 @@
 <h3 class="hasAnchor">
 <a href="#load-packages" class="anchor"></a>Load packages</h3>
 <p>First load the <code>gorr</code> package, the <code>tidyverse</code> package is recommended in general, but not required for this example</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(gorr)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tidyverse)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(gorr)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyverse)</a></code></pre></div>
 </div>
-<div id="connecting-to-the-direct-query-service" class="section level3">
+<div id="connecting-to-a-gor-query-api" class="section level3">
 <h3 class="hasAnchor">
-<a href="#connecting-to-the-direct-query-service" class="anchor"></a>Connecting to the direct query service</h3>
-<p>First we’ll need to establish a connection to our direct query API. To do that we’ll need to call <code>gor_connect</code> and provide it with the relevant parameters pointing to the direct-query-service, i.e. <code>api_key</code> and <code>project</code>. You get the API Key from the <code>/api-key-service/token</code> endpoint on your CSA instance, and you can find a list of projects available to you in CSA as well, remember to use the internal project name. Once you have those two things, you have everything you need to make a connection object:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">api_key &lt;-<span class="st"> "your_api_key_here"</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">conn &lt;-<span class="st"> </span><span class="kw"><a href="reference/gor_connect.html">gor_connect</a></span>(api_key, <span class="dt">project =</span> <span class="st">"test_proj"</span>)</a></code></pre></div>
+<a href="#connecting-to-a-gor-query-api" class="anchor"></a>Connecting to a GOR Query API</h3>
+<p>First we’ll need to establish a connection to our query API. To do that we’ll need to call <code>gor_connect</code> and provide it with the relevant parameters pointing to the direct-query-service, i.e. <code>api_key</code> and <code>project</code>. You get the API Key from the <code>/api-key-service/token</code> endpoint on your CSA instance, and you can find a list of projects available to you in CSA as well, remember to use the internal project name. Once you have those two things, you have everything you need to make a connection object:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">api_key &lt;-<span class="st"> "your_api_key_here"</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">conn &lt;-<span class="st"> </span><span class="kw"><a href="reference/gor_connect.html">gor_connect</a></span>(api_key, <span class="dt">project =</span> <span class="st">"test_proj"</span>)</a></code></pre></div>
+<p>Alternatively, one can define the environment variables <code>GOR_API_KEY</code> and (optionally) <code>GOR_API_PROJECT</code>. This can also be done for your R session exclusively by including those lines in a <code>.Renviron</code> file in your working directory. When these variables are set you can call gor_connect without specifying <code>api_key</code> or <code>project</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">conn &lt;-<span class="st"> </span><span class="kw"><a href="reference/gor_connect.html">gor_connect</a></span>() <span class="co"># uses both GOR_API_KEY and GOR_API_PROJECT</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">conn &lt;-<span class="st"> </span><span class="kw"><a href="reference/gor_connect.html">gor_connect</a></span>(<span class="dt">project =</span> <span class="st">"test_proj"</span>) <span class="co"># uses only GOR_API_KEY </span></a></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object to pass into the <code>gor_query</code> function to finally run a query:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">result &lt;-<span class="st"> </span><span class="kw"><a href="reference/gor_query.html">gor_query</a></span>(<span class="st">"gor #dbsnp# | top 100"</span>, conn)</a></code></pre></div>
 <p>The results come back as an R <code>data.frame</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(result)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(result)</a></code></pre></div>
 <p>By default, character columns are returned as is, i.e. not converted to factors. This allows for more flexibility on the user-end, but as an example here we an turn all character columns into factors:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">result &lt;-<span class="st"> </span></a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">    </span>result <span class="op">%&gt;%</span></a>
@@ -129,7 +136,7 @@
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="st">    | hide rsIDs</span></a>
 <a class="sourceLine" id="cb8-6" data-line-number="6"><span class="st">    | top 100"</span> <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="st">    </span><span class="kw"><a href="reference/gor_query.html">gor_query</a></span>(conn)</a></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/print">print</a></span>(chr21_results)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(chr21_results)</a></code></pre></div>
 </div>
 </div>
 
@@ -164,17 +171,20 @@
   </div>
 </div>
 
+
       <footer><div class="copyright">
   <p>Developed by <a href="http://wuxinextcode.com">WuXi Nextcode</a>, Edvald Gislason.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
