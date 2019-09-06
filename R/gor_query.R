@@ -22,7 +22,7 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE"),
 #' @param query gor query string
 #' @param conn gor connection structure, create it using \code{\link{gor_connect}}
 #' @param timeout timeout in seconds, default to 0 (none), uses \code{\link[base]{setTimeLimit}} to interrupt, note that setting any limit has a small overhead – well under 1\% on the systems measured.
-#' @param page_size large results are returned in paged responses, this parameter controls the page size (e.g. 1000 lines at a time), default is 0 (everything is fetched in one request)
+#' @param page_size large results are returned in paged responses, this parameter controls the page size (e.g. 1000 lines at a time), default is 100k. A value of 0 means everything is fetched in one request
 #' @param parse should the TSV output be parsed into a dataframe? False will make the function return the results as text object
 #' @param relations list of tables to upload and make available in the query, e.g. \code{list(cars = cars, letters = data.frame(letter = letters))}, refer to them in the query using [] around their names, e.g. `nor -h [cars]`
 #'
@@ -111,9 +111,14 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, re
 #' @return response content object, see \code{\link[httr]{content}}
 gorr__post_query <- function(query, conn, relations = NULL) {
     if (!is.null(relations)) {
+        if (!all(purrr::map_lgl(relations, is.data.frame)))
+            gorr__failure("Invalid relations parameter", "All relations must be dataframes")
+        if (any(stringr::str_length(names(relations)) == 0))
+            gorr__failure("All relations need to be named", "Valid: list(x = cars, y = faithful, z = airquality ), Invalid: list(cars, y = faithful, z = airquality) ")
+
         relations <-
             relations %>%
-            imap(function(df,name) {
+            purrr::imap(function(df,name) {
                 list(name = name,
                      fingerprint = digest::digest(df, algo = "md5"),
                      data = paste0("#", readr::format_tsv(df)), # # is added to indicate header for GOR
