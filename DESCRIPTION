@@ -25,7 +25,8 @@ Imports:
     openssl (>= 1.0.1),
     lubridate (>= 1.7.4),
     data.table,
-    digest
+    digest,
+    pryr
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
