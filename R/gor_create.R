@@ -10,7 +10,6 @@
 #' @param conn connection object from \code{\link{gor_connect}}
 #'
 #' @return partial-application of function \code{\link{gor_query}} with the `conn` and `relations` parameters set.
-#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -18,6 +17,7 @@
 #'   query("nor [air] | where Treatment = 'nonchilled'")
 #'
 #' }
+#' @export
 gor_create <- function(..., defs = "", conn = NULL, replace = NULL) {
   dots <- pryr::named_dots(...)
   if (!is.null(replace)) {
@@ -34,13 +34,13 @@ gor_create <- function(..., defs = "", conn = NULL, replace = NULL) {
       defs <- prev$defs
     }
 
-    prev_names <- discard(names(prev$dots), ~ . %in% names(dots))
+    prev_names <- purrr::discard(names(prev$dots), ~ . %in% names(dots))
 
     dots <- c(dots, prev$dots[prev_names])
 
   }
 
-  dots <- discard(dots, is.null)
+  dots <- purrr::discard(dots, is.null)
 
   fn <- function(query) {
       # evaluating the dots inside this function is necessary, otherwise virtual relations are fixed.
@@ -88,3 +88,4 @@ print.gor_creation <- function(x, ...) {
             cli::cat_line("   ", crayon::italic(as.character(code)))
         })
 }
+
