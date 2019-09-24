@@ -19,7 +19,7 @@
 #' }
 #' @export
 gor_create <- function(..., defs = "", conn = NULL, replace = NULL) {
-  dots <- pryr::named_dots(...)
+  dots <- rlang::dots_list(...)
   if (!is.null(replace)) {
     if (class(replace) != "gor_creation") {
         stop("replace parameter must be of class gor_creation, see gor_create", call. = F)

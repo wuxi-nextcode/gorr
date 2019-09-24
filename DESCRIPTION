@@ -24,9 +24,9 @@ Imports:
     jsonlite (>= 1.5),
     openssl (>= 1.0.1),
     lubridate (>= 1.7.4),
-    data.table,
-    digest,
-    pryr
+    data.table (>= 1.12.2),
+    digest (>= 0.6.20),
+    rlang (>= 0.4.0)
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
