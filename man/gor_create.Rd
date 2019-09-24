@@ -4,10 +4,12 @@
 \alias{gor_create}
 \title{gor_create}
 \usage{
-gor_create(..., conn = NULL)
+gor_create(..., defs = "", conn = NULL, replace = NULL)
 }
 \arguments{
 \item{...}{ellipse for the relations to include}
+
+\item{defs}{definitions string}
 
 \item{conn}{connection object from \code{\link{gor_connect}}}
 }
