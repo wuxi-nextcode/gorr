@@ -76,16 +76,15 @@ print.gor_creation <- function(x, ...) {
     x$defs %>%
         stringr::str_trim() %>%
         stringr::str_split("\n", simplify = T) %>%
-        map_chr(stringr::str_trim) %>%
+        purrr::map_chr(stringr::str_trim) %>%
         paste0(" ", .) %>%
-        map_chr(crayon::italic) %>%
-        walk(cli::cat_line)
+        purrr::map_chr(crayon::italic) %>%
+        purrr::walk(cli::cat_line)
 
     cli::cat_line(crayon::green("Create statements & virtual relations"))
-    x$dots %>%
-        iwalk(function(code, name) {
-            cli::cat_line(" ", crayon::bold(name))
-            cli::cat_line("   ", crayon::italic(as.character(code)))
-        })
+    purrr::iwalk(x$dots, function(code, name) {
+        cli::cat_line(" ", crayon::bold(name))
+        cli::cat_line("   ", crayon::italic(as.character(code)))
+    })
 }
 
