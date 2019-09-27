@@ -1,4 +1,4 @@
-# gorr (development version)
+# gorr 0.3.0
 
 # gorr 0.2.9
 
