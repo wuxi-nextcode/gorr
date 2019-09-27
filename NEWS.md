@@ -1,5 +1,9 @@
 # gorr 0.3.0
 
+* Virtual relations feature implemented, allowing referencing local data frame (via upload), and maintaining GOR create statements and definitions.
+* API Error messages correctly displayed
+* Fixed issue with killing remote tasks (cancelling queries)
+
 # gorr 0.2.9
 
 Killing queries now works as expected 
