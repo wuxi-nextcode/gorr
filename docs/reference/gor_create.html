@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.9.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -101,6 +101,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/basic-query.html">Executing a Basic GOR Query</a>
+    </li>
+    <li>
+      <a href="../articles/gor-create.html">Using create statements and referencing local data frames</a>
     </li>
   </ul>
 </li>
@@ -154,6 +157,10 @@
       <th>conn</th>
       <td><p>connection object from <code><a href='gor_connect.html'>gor_connect</a></code></p></td>
     </tr>
+    <tr>
+      <th>replace</th>
+      <td><p>replace a previously created <code>gor_create</code> closure. When supplied, the two will be merged, overwriting existing values with the current values if they have been previously defined</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -165,9 +172,12 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-  <span class='no'>query</span> <span class='kw'>&lt;-</span> <span class='fu'>gor_create</span>(<span class='kw'>air</span> <span class='kw'>=</span> <span class='no'>airquality</span>, <span class='kw'>conn</span> <span class='kw'>=</span> <span class='no'>conn</span>)
-  <span class='fu'>query</span>(<span class='st'>"nor [air] | where Treatment = 'nonchilled'"</span>)
-
+<span class='no'>query</span> <span class='kw'>&lt;-</span> <span class='fu'>gor_create</span>(<span class='kw'>conn</span> <span class='kw'>=</span> <span class='no'>conn</span>)
+<span class='no'>query</span> <span class='kw'>&lt;-</span> <span class='fu'>gor_create</span>(<span class='kw'>air</span> <span class='kw'>=</span> <span class='no'>airquality</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='no'>query</span>)
+<span class='fu'>query</span>(<span class='st'>"nor [air] | where Month=8"</span>)
+<span class='no'>months_df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>12</span>, <span class='kw'>MonthName</span> <span class='kw'>=</span> <span class='no'>month.abb</span>)
+<span class='no'>query</span> <span class='kw'>&lt;-</span> <span class='fu'>gor_create</span>(<span class='kw'>months</span> <span class='kw'>=</span> <span class='no'>months_df</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='no'>query</span>)
+<span class='fu'>query</span>(<span class='st'>"nor [air] | map -c Month [months]"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

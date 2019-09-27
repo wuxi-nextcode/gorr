@@ -3,4 +3,5 @@ pkgdown: 1.4.0
 pkgdown_sha: ~
 articles:
   basic-query: basic-query.html
+  gor-create: gor-create.html
 

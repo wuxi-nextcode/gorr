@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.9.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -62,6 +62,9 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/basic-query.html">Executing a Basic GOR Query</a>
+    </li>
+    <li>
+      <a href="../articles/gor-create.html">Using create statements and referencing local data frames</a>
     </li>
   </ul>
 </li>
@@ -93,7 +96,7 @@
                         <h4 class="author">Edvald Gislason <a href="mailto:edvald@wuxinextcode.com" class="email">edvald@wuxinextcode.com</a>
 </h4>
             
-            <h4 class="date">2019-09-26</h4>
+            <h4 class="date">2019-09-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/master/vignettes/basic-query.Rmd"><code>vignettes/basic-query.Rmd</code></a></small>
       <div class="hidden name"><code>basic-query.Rmd</code></div>
@@ -118,15 +121,15 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">api_key &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"GOR_API_KEY"</span>)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">conn &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gor_connect.html">gor_connect</a></span>(api_key, <span class="dt">project =</span> <span class="kw"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span>(<span class="st">"GOR_API_PROJECT"</span>))</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3">conn</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; ── GOR query service connection ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── Version: 1.7.0 ──</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; ── GOR query service connection ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────── Version: 1.7.0 ──</span></a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; ● Service Root: https://platform.wuxinextcodedev.com/api/query</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; ● Build Date: 2019-09-03T11:48:35Z</span></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; ● Commit: db54f4da</span></a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; ● Project: ukbb_hg38</span></a>
 <a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; ● API key issued at: 2019-08-09 15:37:41</span></a>
 <a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; ● API key expires at: Never</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; ● Access token issued at: 2019-09-26 16:22:04</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; ● Access token expires at: 2019-09-26 17:22:04</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; ● Access token issued at: 2019-09-27 11:35:05</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; ● Access token expires at: 2019-09-27 12:35:05</span></a></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object to pass into the <code>gor_query</code> function to finally run a query:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">result &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gor_query.html">gor_query</a></span>(<span class="st">"gor #dbsnp# | top 100"</span>, conn)</a></code></pre></div>
 <p>The results come back as an R <code>data.frame</code>:</p>
