@@ -21,11 +21,12 @@ In this example, we're going to show how the `gor_create` can be used to prepare
 
 ## Load packages
 
-First load the `gorr` package, the `tidyverse` package is recommended:
+First load the `gorr` package, the `tidyverse` package is recommended, but for the sake of simplicity we pick out the ones we're using:
 
 ```{r packages}
 library(gorr)
-suppressPackageStartupMessages(library(tidyverse))
+library(magrittr) # pipe
+library(dplyr)
 ```
 
 Next we make a `conn` object for holding information on the API we're connecting to. `gor_connect` takes 2 parameters `api_key` and `project` but if either are left out then it will try to read the environment variables `GOR_API_KEY`, and `GOR_API_PROJECT` respectively. Here below we have the `GOR_API_KEY` environment variable already defined so supplying the function only with a target project suffices. After this we create a `query` function/closure so we don't have to reference `conn` again:

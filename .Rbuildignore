@@ -12,3 +12,4 @@ Makefile
 .gitignore
 vignettes/.gitignore
 ..Rcheck
+pkgdown

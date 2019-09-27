@@ -12,6 +12,8 @@ gor_create(..., defs = "", conn = NULL, replace = NULL)
 \item{defs}{definitions string}
 
 \item{conn}{connection object from \code{\link{gor_connect}}}
+
+\item{replace}{replace a previously created \code{gor_create} closure. When supplied, the two will be merged, overwriting existing values with the current values if they have been previously defined}
 }
 \value{
 partial-application of function \code{\link{gor_query}} with the \code{conn} and \code{relations} parameters set.
@@ -24,8 +26,11 @@ Relations can be either local dataframes (uploaded) or string queries(turned int
 }
 \examples{
 \dontrun{
-  query <- gor_create(air = airquality, conn = conn)
-  query("nor [air] | where Treatment = 'nonchilled'")
-
+query <- gor_create(conn = conn)
+query <- gor_create(air = airquality, replace = query)
+query("nor [air] | where Month=8")
+months_df <- data.frame(id = 1:12, MonthName = month.abb)
+query <- gor_create(months = months_df, replace = query)
+query("nor [air] | map -c Month [months]")
 }
 }
