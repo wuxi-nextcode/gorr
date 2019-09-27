@@ -1,5 +1,6 @@
 ![GOR-R](man/figures/logo.svg)
 
+See full documentation at [https://wuxi-nextcode.github.io/gorr/](https://wuxi-nextcode.github.io/gorr/)
 
 ## Installation
 
