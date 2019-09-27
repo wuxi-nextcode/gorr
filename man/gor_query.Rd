@@ -4,7 +4,8 @@
 \alias{gor_query}
 \title{Run a GOR query}
 \usage{
-gor_query(query, conn, timeout = 0, page_size = 1e+05, parse = T)
+gor_query(query, conn, timeout = 0, page_size = 1e+05, parse = T,
+  relations = NULL)
 }
 \arguments{
 \item{query}{gor query string}
@@ -13,9 +14,11 @@ gor_query(query, conn, timeout = 0, page_size = 1e+05, parse = T)
 
 \item{timeout}{timeout in seconds, default to 0 (none), uses \code{\link[base]{setTimeLimit}} to interrupt, note that setting any limit has a small overhead – well under 1\% on the systems measured.}
 
-\item{page_size}{large results are returned in paged responses, this parameter controls the page size (e.g. 1000 lines at a time), default is 0 (everything is fetched in one request)}
+\item{page_size}{large results are returned in paged responses, this parameter controls the page size (e.g. 1000 lines at a time), default is 100k. A value of 0 means everything is fetched in one request}
 
 \item{parse}{should the TSV output be parsed into a dataframe? False will make the function return the results as text object}
+
+\item{relations}{list of tables to upload and make available in the query, e.g. \code{list(cars = cars, letters = data.frame(letter = letters))}, refer to them in the query using [] around their names, e.g. \code{nor -h [cars]}}
 }
 \value{
 data.frame of gor results, i.e. gor results are passed to \code{\link[readr]{read_tsv}}
@@ -25,8 +28,8 @@ Run a GOR query
 }
 \examples{
 \dontrun{
-api_key <- Sys.getenv("GORR_API_KEY")
-project <- Sys.getenv("GORR_PROJECT")
+api_key <- Sys.getenv("GOR_API_KEY")
+project <- Sys.getenv("GOR_PROJECT")
 conn <- gor_connect(api_key, project)
 "gor #dbsnp# | top 100" \%>\%
     gor_query(conn)

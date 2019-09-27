@@ -1,0 +1,88 @@
+---
+title: "Using create statements and referencing local data frames"
+author: "Edvald Gislason <edvald@wuxinextcode.com>"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{GOR Create Statements and Virtual Relations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+requireNamespace("knitr")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+In this example, we're going to show how the `gor_create` can be used to prepare and construct a query <a href="https://en.wikipedia.org/wiki/Closure_(computer_programming)">closure</a>. This both reduces repetitions in code, as well as simplifies iterative workflows in GOR. 
+
+## Load packages
+
+First load the `gorr` package, the `tidyverse` package is recommended, but for the sake of simplicity we pick out the ones we're using:
+
+```{r packages}
+library(gorr)
+library(magrittr) # pipe
+library(dplyr)
+```
+
+Next we make a `conn` object for holding information on the API we're connecting to. `gor_connect` takes 2 parameters `api_key` and `project` but if either are left out then it will try to read the environment variables `GOR_API_KEY`, and `GOR_API_PROJECT` respectively. Here below we have the `GOR_API_KEY` environment variable already defined so supplying the function only with a target project suffices. After this we create a `query` function/closure so we don't have to reference `conn` again:
+
+```{r}
+conn <- gor_connect(project = "ukbb_hg38")
+query <- gor_create(conn = conn)
+query
+```
+
+Now we can call that function with only the query parameter. Let's search for genes containing _BRCA_ and save the resulting table as a local dataframe `mygenes`:
+
+```{r}
+mygenes <- query("gor #genes# | grep BRCA")
+mygenes
+```
+
+Next we can expand on our previously defined `query` function by supplying it back into `gor_create` as the `replace` parameter. This time we include some definitions using the `defs` parameter and then we can alias our local dataframe so that we can reference it in remote queries. In GOR this is called _virtual relations_:
+
+```{r}
+query <- gor_create(
+  defs = "def variants = #dbsnp#",
+  mygenes = mygenes, 
+  replace = query
+)
+query
+```
+Now that we have our updated `query` function, we can use it to `gor` our table of genes and join it to the `#dbsnp#` table we aliased as `variants` in the definitions part above. The result is a list of all variants within each gene in our table
+
+```{r}
+brca_variants <- query("
+    gor [mygenes] | join -segvar variants        
+")
+
+brca_variants %>% 
+  group_by(gene_symbol) %>%
+  summarize(records = n(),
+            variants = n_distinct(rsids))
+```
+The reason for the difference in `# records `and `# variants` above can be explained by looking into the data:
+
+```{r}
+target_variant <- 
+  brca_variants %>%
+  group_by(rsids) %>%
+  count() %>% 
+  ungroup() %>%
+  arrange(desc(n)) %>%
+  head(n = 1) %>%
+  pull(rsids)
+
+target_variant
+```
+
+
+```{r}
+brca_variants %>% filter(rsids == target_variant) %>% select(-distance)
+```
+

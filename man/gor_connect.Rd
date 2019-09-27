@@ -5,7 +5,8 @@
 \title{Set up a connection object, and call the health endpoint to make sure everything is up and running on the
 server side}
 \usage{
-gor_connect(api_key, project, api_endpoint = "/api/query")
+gor_connect(api_key = NULL, project = NULL,
+  api_endpoint = "/api/query")
 }
 \arguments{
 \item{api_key}{the api key from the /api-key-service endpoint of your CSA host through a browser}
