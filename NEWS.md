@@ -1,3 +1,5 @@
+# gorr 0.3.1
+
 # gorr 0.3.0
 
 * Virtual relations feature implemented, allowing referencing local data frame (via upload), and maintaining GOR create statements and definitions.
