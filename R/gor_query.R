@@ -280,8 +280,8 @@ gorr__failure <- function(msg, detail = NULL) {
             detail <- paste(names(detail), detail, sep = ": ", collapse = "\n    ")
 
         stop(paste(crayon::red(msg), "\nDetails: \n    ", detail), call. = F)
+    } else {
+        stop(crayon::red(msg), call. = F)
     }
-
-    stop(crayon::red(msg), call. = F)
 }
 
