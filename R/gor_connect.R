@@ -115,34 +115,33 @@ gorr__reconnect <- function(conn) {
 #'
 #' @return payload json structure as R structure, created with \code{\link[jsonlite]{fromJSON}}
 get_jwt_token_payload <- function(jwt_token) {
-    if (stringr::str_count(jwt_token, "\\.") != 2) {
-        gorr__failure(
-            "Invalid refresh token",
-            "Refresh tokens (JWT) should consist of 3 parts separated by dots")
-    }
+    tryCatch({
+        if (stringr::str_count(jwt_token, "\\.") != 2) {
+            stop("Refresh tokens (JWT) should consist of 3 parts separated by dots", call. = F)
+        }
+        fix_padding <- function(jwt) {
+            missing_padding <- stringr::str_length(jwt) %% 4
 
-    fix_padding <- function(jwt) {
-        missing_padding <- stringr::str_length(jwt) %% 4
+            if (missing_padding > 0)
+                paste(c(jwt, rep("=", 4 - missing_padding)), collapse = "" )
+            else
+                jwt
+        }
+        jwt_to_list <- function(jwt) {
+            jwt %>%
+                fix_padding() %>%
+                openssl::base64_decode() %>%
+                rawToChar() %>%
+                jsonlite::fromJSON()
+        }
 
-        if (missing_padding > 0)
-            paste(c(jwt, rep("=", 4 - missing_padding)), collapse = "" )
-        else
-            jwt
-    }
-    jwt_to_list <- function(jwt) {
-        jwt %>%
-            fix_padding() %>%
-            openssl::base64_decode() %>%
-            rawToChar() %>%
-            jsonlite::fromJSON()
-    }
+        parts <- stringr::str_split(jwt_token, "\\.", simplify = T)
+        # parts[1] is header, parts[2] is the payload, and parts[3] is signature verification
+        jwt_to_list(parts[2])
 
-    parts <- stringr::str_split(jwt_token, "\\.", simplify = T)
-    # parts[1] is header, parts[2] is the payload, and parts[3] is signature verification
-    #header <- jwt_to_list(parts[1])
-    #if (header$typ != "JWT")
-    #    gorr__failure("Token is not a JWT token", stringr::str_glue("Token header was: {header}"))
-    jwt_to_list(parts[2])
+    },
+    error = function(x) gorr__failure("Invalid refresh token", x$message))
+
 }
 
 

@@ -19,7 +19,14 @@ get_access_token <- function(api_key, url) {
 
     response <- httr::POST(url, body = body, encode = "form")
     if (response$status_code != 200) {
-        gorr__failure("Unable to connect to authentication service",
+        content <- httr::content(response)
+        error_message <- if (!is.null(content$error_description))  {
+            content$error_description
+        } else {
+            "Unable to connect to authentication service"
+        }
+
+        gorr__failure(error_message,
                       paste("HTTP Status Code", response$status_code, httr::message_for_status(response$status_code)))
     }
 
