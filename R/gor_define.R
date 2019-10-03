@@ -67,11 +67,7 @@ merge.list <- function(x, y, ...) {
     if (is.null(y)) return(x)
     if (is.null(x)) return(y)
 
-    x_names <- names(x)
-    y_names <- names(y)
-
-    keep_x_names <- purrr::discard(x_names, `%in%`, y_names)
-
+    keep_x_names <- setdiff(names(x), names(y))
 
     merged <- c(y, x[keep_x_names])
     merged[sort(names(merged))]
