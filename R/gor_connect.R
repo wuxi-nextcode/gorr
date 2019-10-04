@@ -3,6 +3,7 @@
 #'
 #' @param api_key the api key from the /api-key-service endpoint of your CSA host through a browser
 #' @param project project name
+#' @param root_url root_url of the Query API to use, e.g. "http://localhost:1337"
 #' @param api_endpoint the api endpoint path on the server, defaults to /api/query
 #'
 #' @return returns a list with the connection data
@@ -14,47 +15,66 @@
 #' \dontrun{
 #' api_key <- "...paste from your /api-key-service/token endpoint..."
 #' conn <- gor_connect(api_key, "test_project")
+#'
+#' # or have gor_connect take the api_key from the environment variable GOR_API_KEY:
+#' conn <- gor_connect(project = "test_project")
+#'
 #' }
-gor_connect <- function(api_key = NULL, project = NULL, api_endpoint = "/api/query") {
-    if (is.null(api_key)) {
-        api_key <- Sys.getenv("GOR_API_KEY")
-        if (api_key == "") gorr__failure("api_key not provided, the alternative GOR_API_KEY environment variable is not set")
-    }
+gor_connect <- function(api_key = NULL, project = NULL, root_url = NULL, api_endpoint = "/api/query") {
     if (is.null(project)) {
         project <- Sys.getenv("GOR_API_PROJECT")
         if (project == "") gorr__failure("project not provided, the alternative GOR_API_PROJECT environment variable is not set")
     }
 
+    if (is.null(api_key)) {
+        api_key <- Sys.getenv("GOR_API_KEY")
+        if (api_key == "") {
+            if (is.null(root_url)) gorr__failure(
+                 "api_key not provided, the alternative GOR_API_KEY environment variable is not set and the optional root_url parameter is not provided")
+
+            message("api_key not provided, the alternative GOR_API_KEY environment variable is not, proceeding without one since root_url is provided")
+        }
+
+    }
 
     token_payload <- get_jwt_token_payload(api_key)
-    expiry_date <- lubridate::as_datetime(token_payload$exp)
+    expiry_date <- if (is.null(token_payload)) NULL else lubridate::as_datetime(token_payload$exp)
+    if (is.null(root_url))
+        root_url <- token_payload$iss
 
     service_url_parts <-
-        token_payload %$%
-        httr::parse_url(iss) %$%
-        list(scheme = scheme, hostname = hostname, path = path)
+        httr::parse_url(root_url)
+    service_url_parts$path <- api_endpoint
+    service_root <- httr::build_url(service_url_parts)
 
-    service_root <- with(service_url_parts, stringr::str_glue("{scheme}://{hostname}{api_endpoint}"))
-
-    if (token_payload$exp > 0 && expiry_date <= lubridate::now()) {
+    if (!is.null(token_payload) && token_payload$exp > 0 && expiry_date <= lubridate::now()) {
         gorr__failure("Authentication error", paste(
             "API key expired at",
             as.character(expiry_date),
-            if (token_payload$azp == "api-key-client")
-                with(service_url_parts, stringr::str_glue("\n     Please get a new one at: {scheme}://{hostname}/api-key-service/token"))
+            if (token_payload$azp == "api-key-client") {
+                key_service_url <- httr::parse_url(token_payload$iss)
+                key_service_url$path <- "api-key-service/token"
+                key_service_url <- httr::build_url(key_service_url)
+                stringr::str_glue("\n     Please get a new one at: {key_service_url}")
+            }
         ))
     }
 
 
+    header <- NULL
+    access_token_payload <- NULL
+    if (!is.null(token_payload)) {
+        url_parts <- httr::parse_url(token_payload$iss)
+        url_parts$path <- paste0(url_parts$path, "/protocol/openid-connect/token")
+        url <- httr::build_url(url_parts)
+        header <- get_access_token(api_key, url)
+        access_token_payload <- get_jwt_token_payload(header$headers[["authorization"]])
+    }
 
-    header <- get_access_token(
-        api_key,
-        with(service_url_parts,
-             stringr::str_glue("{scheme}://{hostname}/{path}/protocol/openid-connect/token")))
+    payload_date <- function(d) {
+        if (is.null(d) || d == 0) NULL else lubridate::as_datetime(d)
+    }
 
-    access_token_payload <- get_jwt_token_payload(header$headers[["authorization"]])
-
-    payload_date <- function(d) if (d == 0) "Never" else lubridate::as_datetime(d)
     conn_data <- list(
         api_key = api_key,
         service_root = service_root,
@@ -66,19 +86,22 @@ gor_connect <- function(api_key = NULL, project = NULL, api_endpoint = "/api/que
         access_token_iat = payload_date(access_token_payload$iat))
 
 
+    response <- gorr__api_request(
+        "GET", conn_data$service_root, conn = conn_data, parse.body = T)
 
-    response <-
-        conn_data$service_root %>%
-        httr::GET() %>%
-        httr::content()
 
     if (!assertthat::has_name(response, "endpoints"))
-        gorr__failure(response)
+        gorr__failure("Unexpected response from host", "Is this a GOR Query API?")
 
     conn_data$endpoints <- response$endpoints
     conn_data$build_info <- response$build_info
     conn_data$service_name <- response$service_name
     structure(conn_data, class = "gor_connection")
+}
+
+
+`%||%` <- function(lhs, rhs) {
+    if (is.null(lhs)) rhs else lhs
 }
 
 
@@ -90,10 +113,10 @@ print.gor_connection <- function(x, ...) {
     cli::cat_bullet(crayon::blue("Build Date: "), x$build_info$build_timestamp)
     cli::cat_bullet(crayon::blue("Commit: "), x$build_info$commit)
     cli::cat_bullet(crayon::blue("Project: "), x$project)
-    cli::cat_bullet(crayon::blue("API key issued at: "), as.character(x$api_key_iat))
-    cli::cat_bullet(crayon::blue("API key expires at: "), as.character(x$api_key_exp))
-    cli::cat_bullet(crayon::blue("Access token issued at: "), as.character(x$access_token_iat))
-    cli::cat_bullet(crayon::blue("Access token expires at: "), as.character(x$access_token_exp))
+    cli::cat_bullet(crayon::blue("API key issued at: "), as.character(x$api_key_iat %||% "Never"))
+    cli::cat_bullet(crayon::blue("API key expires at: "), as.character(x$api_key_exp %||% "Never"))
+    cli::cat_bullet(crayon::blue("Access token issued at: "), as.character(x$access_token_iat %||% "Never"))
+    cli::cat_bullet(crayon::blue("Access token expires at: "), as.character(x$access_token_exp %||% "Never"))
 
 }
 
@@ -115,6 +138,9 @@ gorr__reconnect <- function(conn) {
 #'
 #' @return payload json structure as R structure, created with \code{\link[jsonlite]{fromJSON}}
 get_jwt_token_payload <- function(jwt_token) {
+    # return NULL for empty or null tokens
+    if(is.null(jwt_token) || jwt_token == "") return(NULL)
+
     tryCatch({
         if (stringr::str_count(jwt_token, "\\.") != 2) {
             stop("Refresh tokens (JWT) should consist of 3 parts separated by dots", call. = F)

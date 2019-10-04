@@ -5,13 +5,15 @@
 \title{Set up a connection object, and call the health endpoint to make sure everything is up and running on the
 server side}
 \usage{
-gor_connect(api_key = NULL, project = NULL,
+gor_connect(api_key = NULL, project = NULL, root_url = NULL,
   api_endpoint = "/api/query")
 }
 \arguments{
 \item{api_key}{the api key from the /api-key-service endpoint of your CSA host through a browser}
 
 \item{project}{project name}
+
+\item{root_url}{root_url of the Query API to use, e.g. "http://localhost:1337"}
 
 \item{api_endpoint}{the api endpoint path on the server, defaults to /api/query}
 }
@@ -26,5 +28,9 @@ server side
 \dontrun{
 api_key <- "...paste from your /api-key-service/token endpoint..."
 conn <- gor_connect(api_key, "test_project")
+
+# or have gor_connect take the api_key from the environment variable GOR_API_KEY:
+conn <- gor_connect(project = "test_project")
+
 }
 }

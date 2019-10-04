@@ -4,7 +4,8 @@
 \alias{gorr__get_response_body}
 \title{Get response body, fail with an error if it has one}
 \usage{
-gorr__get_response_body(response, content.fun = httr::content)
+gorr__get_response_body(response,
+  content.fun = purrr::partial(httr::content, encoding = "UTF-8"))
 }
 \arguments{
 \item{response}{from e.g.  \code{\link[httr]{POST}}, \code{\link[httr]{GET}}, \code{\link[httr]{DELETE}}}

@@ -3,7 +3,7 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE"),
     request.fun <- match.arg(request.fun)
     request.fun <- switch(request.fun, POST = httr::POST, GET = httr::GET, DELETE = httr::DELETE)
 
-    if (conn$access_token_exp - lubridate::now() < lubridate::minutes(1)) {
+    if (!is.null(conn$access_token_exp) && conn$access_token_exp - lubridate::now() < lubridate::minutes(1)) {
         conn <- gorr__reconnect(conn)
     }
     debug <- getOption("gor.debug", default = F)
@@ -237,7 +237,7 @@ gorr__kill_query <- function(query_url, conn) {
 #' @param content.fun content function used to extract content from the response, e.g. \code{\link[httr]{text_content}}
 #'
 #' @return response body from (\code{\link[httr]{content}})
-gorr__get_response_body <- function(response, content.fun = httr::content) {
+gorr__get_response_body <- function(response, content.fun = purrr::partial(httr::content, encoding = "UTF-8")) {
     response_body <- content.fun(response)
     # Check to see if the query response has an error in it
     if (response$status_code != 200 && !is.null(response_body$error)) {
