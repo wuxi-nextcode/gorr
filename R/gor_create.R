@@ -22,28 +22,32 @@
 #' query("nor [air] | map -c Month [months]")
 #' }
 #' @export
-gor_create <- function(..., defs = "", conn = NULL, replace = NULL) {
+gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL) {
+    defs <- gor_define(defs)
+
     dots <- rlang::dots_list(...)
     if (!is.null(replace)) {
         if (class(replace) != "gor_creation") {
-            stop("replace parameter must be of class gor_creation, see gor_create", call. = F)
+            gorr__failure("replace parameter must be of class gor_creation, see gor_create")
         }
 
         prev <- attributes(replace)
         if (is.null(conn)) {
-            if (is.null(prev$conn)) stop("conn parameter must be supplied", call. = F)
+            if (is.null(prev$conn)) gorr__failure("conn parameter must be supplied")
             conn <- prev$conn
         }
 
-        if (defs == "") {
-            defs <- prev$defs
-        }
+        defs <- merge(prev$defs, defs)
 
         prev_names <- purrr::discard(names(prev$dots), ~ . %in% names(dots))
 
         dots <- c(dots, prev$dots[prev_names])
 
     }
+
+    # make sure that conn is set at this point
+    if (is.null(conn))
+        gorr__failure("conn parameter must be provided or provided as a part of replace parameter")
 
     dots <- purrr::discard(dots, is.null)
 
@@ -58,9 +62,13 @@ gor_create <- function(..., defs = "", conn = NULL, replace = NULL) {
             purrr::imap(~ stringr::str_glue("create {.y} = {.x};")) %>%
             paste(collapse = "\n")
 
-        query <- c(defs, create_statements, query) %>%
+        def_statements <- defs %>%
+            purrr::imap(~ stringr::str_glue("def {.y} = {.x};")) %>%
+            paste(collapse = "\n")
+
+        query <- c(def_statements, create_statements, query) %>%
             purrr::discard(function(x) is.null(x) || x == "") %>%
-            paste(collapse = ";\n")
+            paste(collapse = "\n")
         gor_query(query, conn = conn, relations = virtual_relations)
     }
 
@@ -79,16 +87,13 @@ print.gor_creation <- function(x, ...) {
     bullet(crayon::blue("Project: "), x$conn$project)
 
     cli::cat_line(crayon::green("Definitions"))
-    if (x$defs == "") {
+    if (length(x$defs) == 0) {
         cli::cat_line("  None")
     } else {
-        x$defs %>%
-            stringr::str_trim() %>%
-            stringr::str_split("\n", simplify = T) %>%
-            purrr::map_chr(stringr::str_trim) %>%
-            paste0(" ", .) %>%
-            purrr::map_chr(crayon::italic) %>%
-            purrr::walk(cli::cat_line)
+        iwalk(x$defs, function(code, name) {
+        stringr::str_c("  def ", crayon::bold(name), " = ", code, ";") %>%
+            cli::cat_line()
+        })
     }
 
     cli::cat_line(crayon::green("Create statements & virtual relations"))
@@ -99,7 +104,7 @@ print.gor_creation <- function(x, ...) {
             cli::cat_line(" ", crayon::bold(name))
 
             if (is.data.frame(code)) {
-                preview <- utils::capture.output(print(code))
+                preview <- utils::capture.output(print(dplyr::tbl_df(code)))
                 cli::cat_line("   ", preview)
             } else {
                 cli::cat_line("   ", crayon::italic(code))

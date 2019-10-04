@@ -4,7 +4,7 @@
 \alias{gor_create}
 \title{gor_create}
 \usage{
-gor_create(..., defs = "", conn = NULL, replace = NULL)
+gor_create(..., defs = NULL, conn = NULL, replace = NULL)
 }
 \arguments{
 \item{...}{ellipse for the relations to include}
