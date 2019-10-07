@@ -34,7 +34,6 @@ Next we make a `conn` object for holding information on the API we're connecting
 ```{r}
 conn <- gor_connect(project = "ukbb_hg38")
 query <- gor_create(conn = conn)
-query
 ```
 
 Now we can call that function with our query, along with a `persist` parameter for storing the results on the server. Let's make a .tsv file of the first 1000 SNPs in dbSNP:

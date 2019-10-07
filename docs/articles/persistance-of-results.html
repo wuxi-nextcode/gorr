@@ -126,16 +126,7 @@
 <a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#&gt;     intersect, setdiff, setequal, union</span></a></code></pre></div>
 <p>Next we make a <code>conn</code> object for holding information on the API we’re connecting to. <code>gor_connect</code> takes 2 parameters <code>api_key</code> and <code>project</code> but if either are left out then it will try to read the environment variables <code>GOR_API_KEY</code>, and <code>GOR_API_PROJECT</code> respectively. Here below we have the <code>GOR_API_KEY</code> environment variable already defined so supplying the function only with a target project suffices. After this we create a <code>query</code> function/closure so we don’t have to reference <code>conn</code> again:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">conn &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gor_connect.html">gor_connect</a></span>(<span class="dt">project =</span> <span class="st">"ukbb_hg38"</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">query &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gor_create.html">gor_create</a></span>(<span class="dt">conn =</span> conn)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">query</a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; ── GOR Creation Query ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; Connection</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;  Service Root: https://platform.wuxinextcodedev.com/api/query</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt;  Project: ukbb_hg38</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; Definitions</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;   None</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; Create statements &amp; virtual relations</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;   None</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2">query &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gor_create.html">gor_create</a></span>(<span class="dt">conn =</span> conn)</a></code></pre></div>
 <p>Now we can call that function with our query, along with a <code>persist</code> parameter for storing the results on the server. Let’s make a .tsv file of the first 1000 SNPs in dbSNP:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">query</span>(<span class="st">"gor #dbsnp# | top 1000"</span>, <span class="dt">persist =</span> <span class="st">"user_data/doc/dbsnp_1000.gorz"</span>)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">query</span>(<span class="st">"gor #dbsnp# | top 1000"</span>, <span class="dt">persist =</span> <span class="st">"user_data/doc/dbsnp_1000.tsv"</span>)</a></code></pre></div>
