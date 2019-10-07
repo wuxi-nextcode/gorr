@@ -4,4 +4,5 @@ pkgdown_sha: ~
 articles:
   basic-query: basic-query.html
   gor-create: gor-create.html
+  persistance-of-results: persistance-of-results.html
 
