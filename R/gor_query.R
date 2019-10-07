@@ -25,6 +25,7 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE"),
 #' @param page_size large results are returned in paged responses, this parameter controls the page size (e.g. 1000 lines at a time), default is 100k. A value of 0 means everything is fetched in one request
 #' @param parse should the TSV output be parsed into a dataframe? False will make the function return the results as text object
 #' @param relations list of tables to upload and make available in the query, e.g. \code{list(cars = cars, letters = data.frame(letter = letters))}, refer to them in the query using [] around their names, e.g. `nor -h [cars]`
+#' @param persist remote path to file for saving results of the query into. Query results will not be fetched if this parameter is set.
 #'
 #' @return data.frame of gor results, i.e. gor results are passed to \code{\link[readr]{read_tsv}}
 #' @export
@@ -37,7 +38,7 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE"),
 #' "gor #dbsnp# | top 100" %>%
 #'     gor_query(conn)
 #' }
-gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, relations = NULL) {
+gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, relations = NULL, persist = NULL) {
     assertthat::assert_that(is.string(query))
     assertthat::assert_that(class(conn) == "gor_connection")
 
@@ -56,7 +57,7 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, re
         cli::cat_rule("", col = "blue")
     }
     spinner("Submitting Query")
-    query_response <- gorr__post_query(query, conn, relations)
+    query_response <- gorr__post_query(query, conn, relations, persist)
     if (interactive()) {
         cli::cat_line("")
         cli::cat_line(paste0(" Server assigned query ID ", crayon::green(paste0("#",query_response$id))))
@@ -82,20 +83,27 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, re
                           fs::fs_bytes(status_response$stats$size_bytes), "bytes")
         }
 
-        result <- gorr__get_query_results(query_response$links$result, conn,
-                                          spinner = spinner, query_limit = page_size, parse = parse)
+        # If we are persisting the results, then don't also fetch them over the wire
+        if (is.null(persist)) {
+            result <- gorr__get_query_results(query_response$links$result, conn,
+                                              spinner = spinner, query_limit = page_size, parse = parse)
+        } else {
+            result <- NULL
+            parse <- F
+        }
 
         if (parse && !is.data.frame(result)) {
             gorr__failure("Unexpected result:", result)
         }
 
         if (interactive()) {
-            cli::cat_line("")
+            if (!is.null(persist))
+                cli::cat_line(" Results saved to remote file: ", crayon::green(crayon::italic(persist)))
             cli::cat_rule("Done", col = "green")
         }
 
-
-        result
+        # if there are no results, then return invisibly.
+        if (is.null(result)) invisible(result) else result
     },
     interrupt = function(err) gorr__kill_query(query_response$links$self, conn),
     error = stop)
@@ -107,9 +115,10 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, re
 #' @param query GOR query
 #' @param conn connection object, see \code{\link{gor_connect}}
 #' @param relations data.frames to include with the query in the format \code{list(list(table_name = data.frame() ))}
+#' @param persist remote path to file for saving results of the query into. Query results will not be fetched if this parameter is set.
 #'
 #' @return response content object, see \code{\link[httr]{content}}
-gorr__post_query <- function(query, conn, relations = NULL) {
+gorr__post_query <- function(query, conn, relations = NULL, persist = NULL) {
     if (!is.null(relations)) {
         if (!all(purrr::map_lgl(relations, is.data.frame)))
             gorr__failure("Invalid relations parameter", "All relations must be dataframes")
@@ -132,9 +141,14 @@ gorr__post_query <- function(query, conn, relations = NULL) {
         }
     }
 
+    body <- list(query = query, project = conn$project,  relations = relations)
+    if (!is.null(persist)) {
+        body$persist <- persist
+    }
+
     gorr__api_request("POST",
         url = conn$endpoints$query,
-        body = list(query = query, project = conn$project,  relations = relations),
+        body = body,
         conn)
 }
 

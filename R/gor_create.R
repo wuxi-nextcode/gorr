@@ -51,7 +51,7 @@ gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL) {
 
     dots <- purrr::discard(dots, is.null)
 
-    fn <- function(query) {
+    fn <- function(query, ...) {
         # evaluating the dots inside this function is necessary, otherwise virtual relations are fixed.
         relations <- lapply(dots, eval, parent.frame())
         # Pick out virtual relations
@@ -69,7 +69,7 @@ gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL) {
         query <- c(def_statements, create_statements, query) %>%
             purrr::discard(function(x) is.null(x) || x == "") %>%
             paste(collapse = "\n")
-        gor_query(query, conn = conn, relations = virtual_relations)
+        gor_query(query, conn = conn, relations = virtual_relations, ...)
     }
 
     structure(fn, class = "gor_creation", defs = defs, dots = dots, conn = conn)
