@@ -1,6 +1,11 @@
 # gorr 0.3.2
 
+* Persistance of query results now supported, i.e. the ability to save query results to files on the server, usually under user_data/path/to/file
+
 # gorr 0.3.1
+
+* Definitions can now be merged in consecutive `gor_create` calls using the replace parameter. 
+* Support for custom host connections, regardless of the provided API key.
 
 # gorr 0.3.0
 
