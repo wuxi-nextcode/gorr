@@ -90,7 +90,7 @@ print.gor_creation <- function(x, ...) {
     if (length(x$defs) == 0) {
         cli::cat_line("  None")
     } else {
-        iwalk(x$defs, function(code, name) {
+        purrr::iwalk(x$defs, function(code, name) {
         stringr::str_c("  def ", crayon::bold(name), " = ", code, ";") %>%
             cli::cat_line()
         })
