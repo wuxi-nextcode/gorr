@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -141,7 +141,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>gor_query</span>(<span class='no'>query</span>, <span class='no'>conn</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>page_size</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='no'>T</span>,
-  <span class='kw'>relations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>relations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>persist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -169,6 +169,10 @@
     <tr>
       <th>relations</th>
       <td><p>list of tables to upload and make available in the query, e.g. <code><a href='https://rdrr.io/r/base/list.html'>list(cars = cars, letters = data.frame(letter = letters))</a></code>, refer to them in the query using [] around their names, e.g. <code>nor -h [cars]</code></p></td>
+    </tr>
+    <tr>
+      <th>persist</th>
+      <td><p>remote path to file for saving results of the query into. Query results will not be fetched if this parameter is set.</p></td>
     </tr>
     </table>
 

@@ -80,7 +80,7 @@ server side" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
       </span>
     </div>
 
@@ -145,7 +145,7 @@ server side</h1>
 server side</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gor_connect</span>(<span class='kw'>api_key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>project</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>gor_connect</span>(<span class='kw'>api_key</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>project</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>root_url</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>api_endpoint</span> <span class='kw'>=</span> <span class='st'>"/api/query"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -158,6 +158,10 @@ server side</p>
     <tr>
       <th>project</th>
       <td><p>project name</p></td>
+    </tr>
+    <tr>
+      <th>root_url</th>
+      <td><p>root_url of the Query API to use, e.g. "http://localhost:1337"</p></td>
     </tr>
     <tr>
       <th>api_endpoint</th>
@@ -173,6 +177,10 @@ server side</p>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='no'>api_key</span> <span class='kw'>&lt;-</span> <span class='st'>"...paste from your /api-key-service/token endpoint..."</span>
 <span class='no'>conn</span> <span class='kw'>&lt;-</span> <span class='fu'>gor_connect</span>(<span class='no'>api_key</span>, <span class='st'>"test_project"</span>)
+
+<span class='co'># or have gor_connect take the api_key from the environment variable GOR_API_KEY:</span>
+<span class='no'>conn</span> <span class='kw'>&lt;-</span> <span class='fu'>gor_connect</span>(<span class='kw'>project</span> <span class='kw'>=</span> <span class='st'>"test_project"</span>)
+
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
