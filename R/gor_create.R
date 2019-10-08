@@ -38,11 +38,7 @@ gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL) {
         }
 
         defs <- merge(prev$defs, defs)
-
-        prev_names <- purrr::discard(names(prev$dots), ~ . %in% names(dots))
-
-        dots <- c(dots, prev$dots[prev_names])
-
+        dots <-  merge(prev$dots, dots)
     }
 
     # make sure that conn is set at this point

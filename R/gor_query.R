@@ -277,7 +277,7 @@ rpad <- function(x, width = NULL) {
 }
 
 gorr__spinner <- function(msg) {
-    cat("\r", rpad(msg, cli::console_width() - 1))
+    cat("\r", rpad(msg, cli::console_width() - 1), "\n")
 }
 
 #' Custom wrapper for stop() with formated error messages
