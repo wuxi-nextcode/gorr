@@ -4,7 +4,7 @@
 \alias{gorr__post_query}
 \title{Post query to api. This is not a public function, but is called from \code{\link{gor_query}}}
 \usage{
-gorr__post_query(query, conn, relations = NULL)
+gorr__post_query(query, conn, relations = NULL, persist = NULL)
 }
 \arguments{
 \item{query}{GOR query}
@@ -12,6 +12,8 @@ gorr__post_query(query, conn, relations = NULL)
 \item{conn}{connection object, see \code{\link{gor_connect}}}
 
 \item{relations}{data.frames to include with the query in the format \code{list(list(table_name = data.frame() ))}}
+
+\item{persist}{remote path to file for saving results of the query into. Query results will not be fetched if this parameter is set.}
 }
 \value{
 response content object, see \code{\link[httr]{content}}

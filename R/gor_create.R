@@ -38,11 +38,7 @@ gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL) {
         }
 
         defs <- merge(prev$defs, defs)
-
-        prev_names <- purrr::discard(names(prev$dots), ~ . %in% names(dots))
-
-        dots <- c(dots, prev$dots[prev_names])
-
+        dots <-  merge(prev$dots, dots)
     }
 
     # make sure that conn is set at this point
@@ -51,7 +47,7 @@ gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL) {
 
     dots <- purrr::discard(dots, is.null)
 
-    fn <- function(query) {
+    fn <- function(query, ...) {
         # evaluating the dots inside this function is necessary, otherwise virtual relations are fixed.
         relations <- lapply(dots, eval, parent.frame())
         # Pick out virtual relations
@@ -69,7 +65,7 @@ gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL) {
         query <- c(def_statements, create_statements, query) %>%
             purrr::discard(function(x) is.null(x) || x == "") %>%
             paste(collapse = "\n")
-        gor_query(query, conn = conn, relations = virtual_relations)
+        gor_query(query, conn = conn, relations = virtual_relations, ...)
     }
 
     structure(fn, class = "gor_creation", defs = defs, dots = dots, conn = conn)
@@ -90,7 +86,7 @@ print.gor_creation <- function(x, ...) {
     if (length(x$defs) == 0) {
         cli::cat_line("  None")
     } else {
-        iwalk(x$defs, function(code, name) {
+        purrr::iwalk(x$defs, function(code, name) {
         stringr::str_c("  def ", crayon::bold(name), " = ", code, ";") %>%
             cli::cat_line()
         })
