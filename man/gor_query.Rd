@@ -5,7 +5,7 @@
 \title{Run a GOR query}
 \usage{
 gor_query(query, conn, timeout = 0, page_size = 1e+05, parse = T,
-  relations = NULL)
+  relations = NULL, persist = NULL)
 }
 \arguments{
 \item{query}{gor query string}
@@ -19,6 +19,8 @@ gor_query(query, conn, timeout = 0, page_size = 1e+05, parse = T,
 \item{parse}{should the TSV output be parsed into a dataframe? False will make the function return the results as text object}
 
 \item{relations}{list of tables to upload and make available in the query, e.g. \code{list(cars = cars, letters = data.frame(letter = letters))}, refer to them in the query using [] around their names, e.g. \code{nor -h [cars]}}
+
+\item{persist}{remote path to file for saving results of the query into. Query results will not be fetched if this parameter is set.}
 }
 \value{
 data.frame of gor results, i.e. gor results are passed to \code{\link[readr]{read_tsv}}

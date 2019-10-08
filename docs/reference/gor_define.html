@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Run a GOR query — gor_query • gorr</title>
+<title>GOR Define — gor_define • gorr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,9 @@
 
 
 
-<meta property="og:title" content="Run a GOR query — gor_query" />
-<meta property="og:description" content="Run a GOR query" />
+<meta property="og:title" content="GOR Define — gor_define" />
+<meta property="og:description" content="Takes a parameter and parses it into a gor_definitions structure, which is basically a named list
+of define statements, i.e. def name = code;" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -134,69 +135,53 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Run a GOR query</h1>
-    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/gor_query.R'><code>R/gor_query.R</code></a></small>
-    <div class="hidden name"><code>gor_query.Rd</code></div>
+    <h1>GOR Define</h1>
+    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/gor_define.R'><code>R/gor_define.R</code></a></small>
+    <div class="hidden name"><code>gor_define.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Run a GOR query</p>
+    <p>Takes a parameter and parses it into a <code>gor_definitions</code> structure, which is basically a named list
+of define statements, i.e. <code>def name = code;</code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>gor_query</span>(<span class='no'>query</span>, <span class='no'>conn</span>, <span class='kw'>timeout</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>page_size</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>, <span class='kw'>parse</span> <span class='kw'>=</span> <span class='no'>T</span>,
-  <span class='kw'>relations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>persist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>gor_define</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>query</th>
-      <td><p>gor query string</p></td>
-    </tr>
-    <tr>
-      <th>conn</th>
-      <td><p>gor connection structure, create it using <code><a href='gor_connect.html'>gor_connect</a></code></p></td>
-    </tr>
-    <tr>
-      <th>timeout</th>
-      <td><p>timeout in seconds, default to 0 (none), uses <code><a href='https://rdrr.io/r/base/setTimeLimit.html'>setTimeLimit</a></code> to interrupt, note that setting any limit has a small overhead – well under 1% on the systems measured.</p></td>
-    </tr>
-    <tr>
-      <th>page_size</th>
-      <td><p>large results are returned in paged responses, this parameter controls the page size (e.g. 1000 lines at a time), default is 100k. A value of 0 means everything is fetched in one request</p></td>
-    </tr>
-    <tr>
-      <th>parse</th>
-      <td><p>should the TSV output be parsed into a dataframe? False will make the function return the results as text object</p></td>
-    </tr>
-    <tr>
-      <th>relations</th>
-      <td><p>list of tables to upload and make available in the query, e.g. <code><a href='https://rdrr.io/r/base/list.html'>list(cars = cars, letters = data.frame(letter = letters))</a></code>, refer to them in the query using [] around their names, e.g. <code>nor -h [cars]</code></p></td>
-    </tr>
-    <tr>
-      <th>persist</th>
-      <td><p>remote path to file for saving results of the query into. Query results will not be fetched if this parameter is set.</p></td>
+      <th>x</th>
+      <td><p>can be a string, <code>gor_definitions</code> structure, list, or NULL</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>data.frame of gor results, i.e. gor results are passed to <code><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_tsv</a></code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>api_key</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>"GOR_API_KEY"</span>)
-<span class='no'>project</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span>(<span class='st'>"GOR_PROJECT"</span>)
-<span class='no'>conn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gor_connect.html'>gor_connect</a></span>(<span class='no'>api_key</span>, <span class='no'>project</span>)
-<span class='st'>"gor #dbsnp# | top 100"</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'>gor_query</span>(<span class='no'>conn</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># below are just examples of input, not necessarily valid gor `def` code</span>
+<span class='fu'>gor_define</span>(<span class='st'>"
+   def #var1# = 10;
+   def fun($1, $2) = gor $1
+       | some
+       | pipe
+       | step $2;
+"</span>)</div><div class='output co'>#&gt; $`#var1#`
+#&gt; [1] "10"
+#&gt; 
+#&gt; $`fun($1, $2)`
+#&gt; [1] "gor $1 | some | pipe | step $2"
+#&gt; 
+#&gt; attr(,"class")
+#&gt; [1] "gor_definitions" "list"           </div><div class='input'>
+<span class='fu'>gor_define</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>`#var1#`</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>limit</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>block</span> <span class='kw'>=</span> <span class='st'>"| some | pipe | step"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: all definitions must be a string, coercing to string</span></div><div class='output co'>#&gt;                 #var1#                  limit                  block 
+#&gt;                   "10"                   "20" "| some | pipe | step" 
+#&gt; attr(,"class")
+#&gt; [1] "gor_definitions" "list"           </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

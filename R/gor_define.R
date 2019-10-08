@@ -69,6 +69,8 @@ merge.list <- function(x, y, ...) {
 
     keep_x_names <- setdiff(names(x), names(y))
 
-    merged <- c(y, x[keep_x_names])
-    merged[sort(names(merged))]
+    names_order <- union(names(x), names(y))
+
+    merged <- c(x[keep_x_names], y)
+    purrr::discard(merged[names_order], is.null)
 }
