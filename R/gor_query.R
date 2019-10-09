@@ -85,8 +85,9 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, re
 
         # If we are persisting the results, then don't also fetch them over the wire
         if (is.null(persist)) {
-            result <- gorr__get_query_results(query_response$links$result, conn,
-                                              spinner = spinner, query_limit = page_size, parse = parse)
+            result <- gorr__get_query_results(
+                query_response$links$result, conn,
+                spinner = spinner, query_limit = page_size, parse = parse)
         } else {
             result <- NULL
             parse <- F
@@ -255,8 +256,20 @@ gorr__get_response_body <- function(response, content.fun = purrr::partial(httr:
     response_body <- content.fun(response)
     # Check to see if the query response has an error in it
     if (response$status_code != 200 && !is.null(response_body$error)) {
-        gorr__failure(httr::http_status(response$status_code)$message,
-                      paste(c(response_body$error$description, response_body$error$errors), collapse = "\n\t"))
+        message <- httr::http_status(response$status_code)$message
+        details <- response_body$error$description
+        if (!is.null(response_body$error$virtual_relations)) {
+            virtual_relations <- purrr::map_chr(response_body$error$virtual_relations, function(x) {
+              if (is.null(x$fingerprint)) x$fingerprint <- "NULL"
+              stringr::str_c(x$name, " - fingerprint: ", x$fingerprint)
+            })
+
+            virtual_relations <- paste(virtual_relations, collapse = "\n\t\t - ")
+
+            details <- paste0(details, "\n",  virtual_relations)
+        }
+
+        gorr__failure(message, details)
     }
     # Conveniently converts HTTP errors to R errors
     httr::stop_for_status(response$status_code)
@@ -277,7 +290,7 @@ rpad <- function(x, width = NULL) {
 }
 
 gorr__spinner <- function(msg) {
-    cat("\r", rpad(msg, cli::console_width() - 1), "\n")
+    cat("\r", rpad(msg, cli::console_width() - 1))
 }
 
 #' Custom wrapper for stop() with formated error messages
