@@ -17,7 +17,7 @@ document:
 	$(R) "devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))"
 
 install: document
-	$(R) "devtools::install(upgrade_dependencies = F)"
+	$(R) "devtools::install(upgrade = 'never')"
 
 auth:
 	docker login -u ${DOCKER_HUB_USERNAME} -p ${DOCKER_HUB_PASSWORD}
