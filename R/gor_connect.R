@@ -3,7 +3,7 @@
 #'
 #' @param api_key the api key from the /api-key-service endpoint of your CSA host through a browser
 #' @param project project name
-#' @param root_url root_url of the Query API to use, e.g. "http://localhost:1337"
+#' @param root_url root_url of the Query API to use, e.g. "http://localhost:1337". If left as NULL the function will try to get it from the environment variable GOR_API_ROOT_URL, otherwise it will take it from the iss part of the decoded JWT (api_key)
 #' @param api_endpoint the api endpoint path on the server, defaults to /api/query
 #'
 #' @return returns a list with the connection data
@@ -39,8 +39,10 @@ gor_connect <- function(api_key = NULL, project = NULL, root_url = NULL, api_end
 
     token_payload <- get_jwt_token_payload(api_key)
     expiry_date <- if (is.null(token_payload)) NULL else lubridate::as_datetime(token_payload$exp)
-    if (is.null(root_url))
-        root_url <- token_payload$iss
+    if (is.null(root_url)) {
+        root_url_env <- Sys.getenv("GOR_API_ROOT_URL")
+        root_url <- if(root_url_env == "") token_payload$iss else root_url_env
+    }
 
     service_url_parts <-
         httr::parse_url(root_url)
