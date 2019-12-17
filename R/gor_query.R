@@ -254,6 +254,7 @@ gorr__kill_query <- function(query_url, conn) {
 #' @return response body from (\code{\link[httr]{content}})
 gorr__get_response_body <- function(response, content.fun = purrr::partial(httr::content, encoding = "UTF-8")) {
     response_body <- content.fun(response)
+
     # Check to see if the query response has an error in it
     if (response$status_code != 200 && !is.null(response_body$error)) {
         message <- httr::http_status(response$status_code)$message
@@ -268,6 +269,13 @@ gorr__get_response_body <- function(response, content.fun = purrr::partial(httr:
 
             details <- paste0(details, "\n",  virtual_relations)
         }
+
+        gorr__failure(message, details)
+    }
+
+    if (!is.character(response_body) && !is.null(response_body$status) && response_body$status == "FAILED" ) {
+        message <- response_body$status
+        details <- response_body$status_message
 
         gorr__failure(message, details)
     }

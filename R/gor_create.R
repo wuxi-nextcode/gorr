@@ -38,7 +38,7 @@ gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL) {
         }
 
         defs <- merge(prev$defs, defs)
-        dots <-  merge(prev$dots, dots)
+        dots <- merge(prev$dots, dots)
     }
 
     # make sure that conn is set at this point
@@ -91,7 +91,7 @@ print.gor_creation <- function(x, ...) {
         cli::cat_line("  None")
     } else {
         purrr::iwalk(x$defs, function(code, name) {
-        stringr::str_c("  def ", crayon::bold(name), " = ", code, ";") %>%
+            stringr::str_c("  def ", crayon::bold(name), " = ", code, ";") %>%
             cli::cat_line()
         })
     }

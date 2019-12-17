@@ -3,8 +3,8 @@
 #'
 #' @param api_key the api key from the /api-key-service endpoint of your CSA host through a browser
 #' @param project project name
-#' @param root_url root_url of the Query API to use, e.g. "http://localhost:1337"
-#' @param api_endpoint the api endpoint path on the server, defaults to /api/query
+#' @param root_url root_url of the Query API to use, e.g. "http://localhost:1337". If left as NULL the function will try to get it from the environment variable GOR_API_ROOT_URL, otherwise it will take it from the iss part of the decoded JWT (api_key)
+#' @param api_endpoint the api endpoint path on the server. If left as NULL the function will try to get it from the environment variable GOR_API_ENDPOINT, otherwise defaults to /api/query
 #'
 #' @return returns a list with the connection data
 #' @export
@@ -20,7 +20,7 @@
 #' conn <- gor_connect(project = "test_project")
 #'
 #' }
-gor_connect <- function(api_key = NULL, project = NULL, root_url = NULL, api_endpoint = "/api/query") {
+gor_connect <- function(api_key = NULL, project = NULL, root_url = NULL, api_endpoint = NULL) {
     if (is.null(project)) {
         project <- Sys.getenv("GOR_API_PROJECT")
         if (project == "") gorr__failure("project not provided, the alternative GOR_API_PROJECT environment variable is not set")
@@ -37,10 +37,17 @@ gor_connect <- function(api_key = NULL, project = NULL, root_url = NULL, api_end
 
     }
 
+    if (is.null(api_endpoint)) {
+        api_endpoint_env <- Sys.getenv("GOR_API_ENDPOINT")
+        api_endpoint <- if (api_endpoint_env == "") "/api/query" else api_endpoint_env
+    }
+
     token_payload <- get_jwt_token_payload(api_key)
     expiry_date <- if (is.null(token_payload)) NULL else lubridate::as_datetime(token_payload$exp)
-    if (is.null(root_url))
-        root_url <- token_payload$iss
+    if (is.null(root_url)) {
+        root_url_env <- Sys.getenv("GOR_API_ROOT_URL")
+        root_url <- if (root_url_env == "") token_payload$iss else root_url_env
+    }
 
     service_url_parts <-
         httr::parse_url(root_url)

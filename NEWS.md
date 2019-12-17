@@ -1,3 +1,5 @@
+# gorr 0.3.3
+
 # gorr 0.3.2
 
 * Persistance of query results now supported, i.e. the ability to save query results to files on the server, usually under user_data/path/to/file
