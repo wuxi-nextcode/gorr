@@ -10,10 +10,13 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE"),
     response <- request.fun(url = url, body = body, conn$header, encode = "json", if (debug) httr::verbose() )
 
     if (parse.body) {
-        gorr__get_response_body(response)
-    } else {
-        response
+        tryCatch({
+            response <- gorr__get_response_body(response)
+        },
+        error = function(e) gorr__failure(paste("Failure while querying", url), e$message))
     }
+
+    response
 }
 
 
@@ -255,6 +258,9 @@ gorr__kill_query <- function(query_url, conn) {
 gorr__get_response_body <- function(response, content.fun = purrr::partial(httr::content, encoding = "UTF-8")) {
     response_body <- content.fun(response)
 
+    # Conveniently converts HTTP errors to R errors
+    httr::stop_for_status(response$status_code)
+
     # Check to see if the query response has an error in it
     if (response$status_code != 200 && !is.null(response_body$error)) {
         message <- httr::http_status(response$status_code)$message
@@ -279,8 +285,7 @@ gorr__get_response_body <- function(response, content.fun = purrr::partial(httr:
 
         gorr__failure(message, details)
     }
-    # Conveniently converts HTTP errors to R errors
-    httr::stop_for_status(response$status_code)
+
     response_body
 }
 
