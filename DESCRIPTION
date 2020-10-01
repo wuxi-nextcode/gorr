@@ -1,10 +1,11 @@
 Type: Package
 Package: gorr
 Title: GOR Direct Query API for R
-Version: 0.3.3
+Version: 0.3.4
 Authors@R: c(
-    person("WuXi", "Nextcode", role = c("aut", "cre"), email = "support@wuxinextcode.com"),
-    person("Edvald", "Gislason", role = "aut", email = "edvald@wuxinextcode.com")
+    person("Genuity", "Science", role = c("aut", "cre","cph"), email = "support@genuitysci.com"),
+    person("Edvald", "Gislason", role = "aut", email = ""),
+    person("Ólafur", "Flygenring", role = "ctb", email = "olafurh@genuitysci.com")
     )
 URL: https://github.com/wuxi-nextcode/gorr
 BugReports: https://github.com/wuxi-nextcode/gorr/issues
