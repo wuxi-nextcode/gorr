@@ -47,6 +47,7 @@
 
 
 <meta property="og:title" content="Run a GOR query — gor_query" />
+<meta property="og:description" content="Run a GOR query" />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -142,6 +143,7 @@
     </div>
 
     <div class="ref-description">
+    <p>Run a GOR query</p>
     </div>
 
     <pre class="usage"><span class='fu'>gor_query</span><span class='op'>(</span>
@@ -167,15 +169,39 @@
     </tr>
     <tr>
       <th>timeout</th>
-      <td><p>timeout in seconds, default to 0 (none), uses <code><a href='https://rdrr.io/r/base/setTimeLimit.html'>setTimeLimit</a></code> to interrupt, note that setting any limit has a small overhead – well under 1\<!-- % on the systems measured.} --></p>
-<p>page_sizelarge results are returned in paged responses, this parameter controls the page size (e.g. 1000 lines at a time), default is 100k. A value of 0 means everything is fetched in one request</p>
-<p>parseshould the TSV output be parsed into a dataframe? False will make the function return the results as text object</p>
-<p>relationslist of tables to upload and make available in the query, e.g. <code><a href='https://rdrr.io/r/base/list.html'>list(cars = cars, letters = data.frame(letter = letters))</a></code>, refer to them in the query using [] around their names, e.g. <code>nor -h [cars]</code></p>
-<p>persistremote path to file for saving results of the query into. Query results will not be fetched if this parameter is set.</p></td>
+      <td><p>timeout in seconds, default to 0 (none), uses <code><a href='https://rdrr.io/r/base/setTimeLimit.html'>setTimeLimit</a></code> to interrupt, note that setting any limit has a small overhead – well under 1% on the systems measured.</p></td>
+    </tr>
+    <tr>
+      <th>page_size</th>
+      <td><p>large results are returned in paged responses, this parameter controls the page size (e.g. 1000 lines at a time), default is 100k. A value of 0 means everything is fetched in one request</p></td>
+    </tr>
+    <tr>
+      <th>parse</th>
+      <td><p>should the TSV output be parsed into a dataframe? False will make the function return the results as text object</p></td>
+    </tr>
+    <tr>
+      <th>relations</th>
+      <td><p>list of tables to upload and make available in the query, e.g. <code><a href='https://rdrr.io/r/base/list.html'>list(cars = cars, letters = data.frame(letter = letters))</a></code>, refer to them in the query using [] around their names, e.g. <code>nor -h [cars]</code></p></td>
+    </tr>
+    <tr>
+      <th>persist</th>
+      <td><p>remote path to file for saving results of the query into. Query results will not be fetched if this parameter is set.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>data.frame of gor results, i.e. gor results are passed to <code><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_tsv</a></code></p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>api_key</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GOR_API_KEY"</span><span class='op'>)</span>
+<span class='va'>project</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GOR_PROJECT"</span><span class='op'>)</span>
+<span class='va'>conn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='gor_connect.html'>gor_connect</a></span><span class='op'>(</span><span class='va'>api_key</span>, <span class='va'>project</span><span class='op'>)</span>
+<span class='st'>"gor #dbsnp# | top 100"</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>gor_query</span><span class='op'>(</span><span class='va'>conn</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

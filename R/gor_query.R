@@ -24,7 +24,7 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE"),
 #'
 #' @param query gor query string
 #' @param conn gor connection structure, create it using \code{\link{gor_connect}}
-#' @param timeout timeout in seconds, default to 0 (none), uses \code{\link[base]{setTimeLimit}} to interrupt, note that setting any limit has a small overhead – well under 1\% on the systems measured.
+#' @param timeout timeout in seconds, default to 0 (none), uses \code{\link[base]{setTimeLimit}} to interrupt, note that setting any limit has a small overhead – well under 1% on the systems measured.
 #' @param page_size large results are returned in paged responses, this parameter controls the page size (e.g. 1000 lines at a time), default is 100k. A value of 0 means everything is fetched in one request
 #' @param parse should the TSV output be parsed into a dataframe? False will make the function return the results as text object
 #' @param relations list of tables to upload and make available in the query, e.g. \code{list(cars = cars, letters = data.frame(letter = letters))}, refer to them in the query using [] around their names, e.g. `nor -h [cars]`
