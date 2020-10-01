@@ -54,7 +54,7 @@ gor_connect <- function(api_key = NULL, project = NULL, root_url = NULL, api_end
     service_url_parts$path <- api_endpoint
     service_root <- httr::build_url(service_url_parts)
 
-    if (!is.null(token_payload) && !is.null(expiry_date) > 0 && (expiry_date <= lubridate::now())) {
+    if (!is.null(expiry_date) && (expiry_date <= lubridate::now())) {
         gorr__failure("Authentication error", paste(
             "API key expired at",
             as.character(expiry_date),
