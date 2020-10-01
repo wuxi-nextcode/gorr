@@ -1,4 +1,10 @@
+# gorr 0.3.4
+
+* Handle JWT tokens that don't have a expiration date.
+
 # gorr 0.3.3
+
+* Misc improvements.
 
 # gorr 0.3.2
 
