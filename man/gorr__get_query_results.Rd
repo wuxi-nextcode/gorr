@@ -4,8 +4,14 @@
 \alias{gorr__get_query_results}
 \title{Get server query results}
 \usage{
-gorr__get_query_results(query_result_url, conn, spinner = invisible,
-  query_limit = 10000, offset = 0, parse = T)
+gorr__get_query_results(
+  query_result_url,
+  conn,
+  spinner = invisible,
+  query_limit = 10000,
+  offset = 0,
+  parse = T
+)
 }
 \arguments{
 \item{query_result_url}{query result url}

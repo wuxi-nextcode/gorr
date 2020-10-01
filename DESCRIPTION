@@ -30,7 +30,7 @@ Imports:
     rlang (>= 0.4.0)
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 Suggests: 
     testthat (>= 2.0.0),
     knitr (>= 1.20),

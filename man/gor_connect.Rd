@@ -5,17 +5,21 @@
 \title{Set up a connection object, and call the health endpoint to make sure everything is up and running on the
 server side}
 \usage{
-gor_connect(api_key = NULL, project = NULL, root_url = NULL,
-  api_endpoint = "/api/query")
+gor_connect(
+  api_key = NULL,
+  project = NULL,
+  root_url = NULL,
+  api_endpoint = NULL
+)
 }
 \arguments{
 \item{api_key}{the api key from the /api-key-service endpoint of your CSA host through a browser}
 
 \item{project}{project name}
 
-\item{root_url}{root_url of the Query API to use, e.g. "http://localhost:1337"}
+\item{root_url}{root_url of the Query API to use, e.g. "http://localhost:1337". If left as NULL the function will try to get it from the environment variable GOR_API_ROOT_URL, otherwise it will take it from the iss part of the decoded JWT (api_key)}
 
-\item{api_endpoint}{the api endpoint path on the server, defaults to /api/query}
+\item{api_endpoint}{the api endpoint path on the server. If left as NULL the function will try to get it from the environment variable GOR_API_ENDPOINT, otherwise defaults to /api/query}
 }
 \value{
 returns a list with the connection data

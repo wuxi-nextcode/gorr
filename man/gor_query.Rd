@@ -4,15 +4,22 @@
 \alias{gor_query}
 \title{Run a GOR query}
 \usage{
-gor_query(query, conn, timeout = 0, page_size = 1e+05, parse = T,
-  relations = NULL, persist = NULL)
+gor_query(
+  query,
+  conn,
+  timeout = 0,
+  page_size = 1e+05,
+  parse = T,
+  relations = NULL,
+  persist = NULL
+)
 }
 \arguments{
 \item{query}{gor query string}
 
 \item{conn}{gor connection structure, create it using \code{\link{gor_connect}}}
 
-\item{timeout}{timeout in seconds, default to 0 (none), uses \code{\link[base]{setTimeLimit}} to interrupt, note that setting any limit has a small overhead – well under 1\% on the systems measured.}
+\item{timeout}{timeout in seconds, default to 0 (none), uses \code{\link[base]{setTimeLimit}} to interrupt, note that setting any limit has a small overhead – well under 1\\% on the systems measured.}
 
 \item{page_size}{large results are returned in paged responses, this parameter controls the page size (e.g. 1000 lines at a time), default is 100k. A value of 0 means everything is fetched in one request}
 

@@ -3,11 +3,7 @@
 \docType{package}
 \name{gorr}
 \alias{gorr}
-\alias{gorr-package}
 \title{GOR-R: R library for remote execution of GOR queries and authorization with WuXi NextCode gateway API.}
-\description{
-GOR-R: R library for remote execution of GOR queries and authorization with WuXi NextCode gateway API.
-}
 \section{GOR-R functions}{
 
 The main functions you'll be using are:

@@ -11,7 +11,7 @@ gor_define(x)
 }
 \description{
 Takes a parameter and parses it into a \code{gor_definitions} structure, which is basically a named list
-of define statements, i.e. \code{def name = code;}
+of define statements, i.e. \verb{def name = code;}
 }
 \examples{
 # below are just examples of input, not necessarily valid gor `def` code
