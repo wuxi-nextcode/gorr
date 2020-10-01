@@ -43,7 +43,7 @@ gor_connect <- function(api_key = NULL, project = NULL, root_url = NULL, api_end
     }
 
     token_payload <- get_jwt_token_payload(api_key)
-    expiry_date <- if (is.null(token_payload)) NULL else lubridate::as_datetime(token_payload$exp)
+    expiry_date <- if (is.null(token_payload) || is.null(token_payload$exp)) NULL else lubridate::as_datetime(token_payload$exp)
     if (is.null(root_url)) {
         root_url_env <- Sys.getenv("GOR_API_ROOT_URL")
         root_url <- if (root_url_env == "") token_payload$iss else root_url_env
@@ -54,7 +54,7 @@ gor_connect <- function(api_key = NULL, project = NULL, root_url = NULL, api_end
     service_url_parts$path <- api_endpoint
     service_root <- httr::build_url(service_url_parts)
 
-    if (!is.null(token_payload) && token_payload$exp > 0 && expiry_date <= lubridate::now()) {
+    if (!is.null(token_payload) && !is.null(expiry_date) > 0 && (expiry_date <= lubridate::now())) {
         gorr__failure("Authentication error", paste(
             "API key expired at",
             as.character(expiry_date),
