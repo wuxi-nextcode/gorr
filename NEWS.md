@@ -1,3 +1,8 @@
+# gorr 0.3.5
+
+* Removed usage of deprecated dplyr methods so we don't get warning messages.
+* Updated unit tests so that they don't care about the case of result headings (GOR is case-insensitive).
+
 # gorr 0.3.4
 
 * Handle JWT tokens that don't have a expiration date.

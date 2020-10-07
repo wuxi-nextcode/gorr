@@ -23,8 +23,9 @@
 # usethis::use_vignette("basic_query")
 
 
-#' GOR-R: R library for remote execution of GOR queries and authorization with WuXi NextCode gateway API.
+#'   GOR-R
 #'
+#' @description R library for remote execution of GOR queries and authorization with Genuity Science gateway API.
 #' @docType package
 #' @name gorr
 #' @section GOR-R functions:
@@ -54,7 +55,6 @@
 #'
 #' print(results)
 #' }
-
 NULL
 
 
