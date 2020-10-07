@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
       </span>
     </div>
 
@@ -99,7 +99,7 @@
                         <h4 class="author">Edvald Gislason <a href="mailto:edvald@wuxinextcode.com" class="email">edvald@wuxinextcode.com</a>
 </h4>
             
-            <h4 class="date">2020-10-01</h4>
+            <h4 class="date">2020-10-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/master/vignettes/gor-create.Rmd"><code>vignettes/gor-create.Rmd</code></a></small>
       <div class="hidden name"><code>gor-create.Rmd</code></div>
@@ -132,7 +132,7 @@
 <span class="va">query</span>
 <span class="co">#&gt; ── GOR Creation Query ──────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; Connection</span>
-<span class="co">#&gt;  Service Root: https://platform.wuxinextcodedev.com/api/query</span>
+<span class="co">#&gt;  Service Root: https://staging.wuxinextcodedev.com/api/query</span>
 <span class="co">#&gt;  Project: ukbb_hg38</span>
 <span class="co">#&gt; Definitions</span>
 <span class="co">#&gt;   None</span>
@@ -141,15 +141,11 @@
 <p>Now we can call that function with only the query parameter. Let’s search for genes containing <em>BRCA</em> and save the resulting table as a local dataframe <code>mygenes</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="va">mygenes</span> <span class="op">&lt;-</span> <span class="fu">query</span><span class="op">(</span><span class="st">"gor #genes# | grep BRCA"</span><span class="op">)</span>
-<span class="co">#&gt; Warning: `tbl_df()` is deprecated as of dplyr 1.0.0.</span>
-<span class="co">#&gt; Please use `tibble::as_tibble()` instead.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
 <span class="va">mygenes</span>
 <span class="co">#&gt; # A tibble: 2 x 4</span>
 <span class="co">#&gt;   chrom gene_start gene_end gene_symbol</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt;    &lt;int&gt; &lt;chr&gt;      </span>
-<span class="co">#&gt; 1 chr13   32315473 32400266 BRCA2      </span>
+<span class="co">#&gt; 1 chr13   32315085 32400266 BRCA2      </span>
 <span class="co">#&gt; 2 chr17   43044294 43170245 BRCA1</span></pre></div>
 <p>Next we can expand on our previously defined <code>query</code> function by supplying it back into <code>gor_create</code> as the <code>replace</code> parameter. This time we include some definitions using the <code>defs</code> parameter and then we can alias our local dataframe so that we can reference it in remote queries. In GOR this is called <em>virtual relations</em>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
@@ -161,16 +157,20 @@
 <span class="va">query</span>
 <span class="co">#&gt; ── GOR Creation Query ──────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; Connection</span>
-<span class="co">#&gt;  Service Root: https://platform.wuxinextcodedev.com/api/query</span>
+<span class="co">#&gt;  Service Root: https://staging.wuxinextcodedev.com/api/query</span>
 <span class="co">#&gt;  Project: ukbb_hg38</span>
 <span class="co">#&gt; Definitions</span>
 <span class="co">#&gt;   def variants = #dbsnp#;</span>
 <span class="co">#&gt; Create statements &amp; virtual relations</span>
 <span class="co">#&gt;  mygenes</span>
+<span class="co">#&gt; Warning: `tbl_df()` is deprecated as of dplyr 1.0.0.</span>
+<span class="co">#&gt; Please use `tibble::as_tibble()` instead.</span>
+<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
+<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
 <span class="co">#&gt;    # A tibble: 2 x 4</span>
 <span class="co">#&gt;      chrom gene_start gene_end gene_symbol</span>
 <span class="co">#&gt;      &lt;chr&gt;      &lt;int&gt;    &lt;int&gt; &lt;chr&gt;      </span>
-<span class="co">#&gt;    1 chr13   32315473 32400266 BRCA2      </span>
+<span class="co">#&gt;    1 chr13   32315085 32400266 BRCA2      </span>
 <span class="co">#&gt;    2 chr17   43044294 43170245 BRCA1</span></pre></div>
 <p>Now that we have our updated <code>query</code> function, we can use it to <code>gor</code> our table of genes and join it to the <code>#dbsnp#</code> table we aliased as <code>variants</code> in the definitions part above. The result is a list of all variants within each gene in our table</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
@@ -187,7 +187,7 @@
 <span class="co">#&gt;   gene_symbol records variants</span>
 <span class="co">#&gt;   &lt;chr&gt;         &lt;int&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1 BRCA1         37150    32933</span>
-<span class="co">#&gt; 2 BRCA2         28635    25174</span></pre></div>
+<span class="co">#&gt; 2 BRCA2         28727    25260</span></pre></div>
 <p>The reason for the difference in <code># records</code>and <code># variants</code> above can be explained by looking into the data:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="va">target_variant</span> <span class="op">&lt;-</span> 
@@ -206,16 +206,16 @@
 <span class="co">#&gt; # A tibble: 23 x 8</span>
 <span class="co">#&gt;    chrom gene_start gene_end gene_symbol     pos reference        allele rsids  </span>
 <span class="co">#&gt;    &lt;chr&gt;      &lt;int&gt;    &lt;int&gt; &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;  &lt;chr&gt;  </span>
-<span class="co">#&gt;  1 chr13   32315473 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
-<span class="co">#&gt;  2 chr13   32315473 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
-<span class="co">#&gt;  3 chr13   32315473 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
-<span class="co">#&gt;  4 chr13   32315473 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
-<span class="co">#&gt;  5 chr13   32315473 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
-<span class="co">#&gt;  6 chr13   32315473 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
-<span class="co">#&gt;  7 chr13   32315473 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
-<span class="co">#&gt;  8 chr13   32315473 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
-<span class="co">#&gt;  9 chr13   32315473 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
-<span class="co">#&gt; 10 chr13   32315473 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTTT T      rs7107…</span>
+<span class="co">#&gt;  1 chr13   32315085 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
+<span class="co">#&gt;  2 chr13   32315085 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
+<span class="co">#&gt;  3 chr13   32315085 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
+<span class="co">#&gt;  4 chr13   32315085 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
+<span class="co">#&gt;  5 chr13   32315085 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
+<span class="co">#&gt;  6 chr13   32315085 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
+<span class="co">#&gt;  7 chr13   32315085 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
+<span class="co">#&gt;  8 chr13   32315085 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
+<span class="co">#&gt;  9 chr13   32315085 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
+<span class="co">#&gt; 10 chr13   32315085 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTTT T      rs7107…</span>
 <span class="co">#&gt; # … with 13 more rows</span></pre></div>
 </div>
   </div>

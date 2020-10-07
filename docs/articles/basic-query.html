@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
       </span>
     </div>
 
@@ -99,7 +99,7 @@
                         <h4 class="author">Edvald Gislason <a href="mailto:edvald@wuxinextcode.com" class="email">edvald@wuxinextcode.com</a>
 </h4>
             
-            <h4 class="date">2020-10-01</h4>
+            <h4 class="date">2020-10-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/master/vignettes/basic-query.Rmd"><code>vignettes/basic-query.Rmd</code></a></small>
       <div class="hidden name"><code>basic-query.Rmd</code></div>
@@ -126,27 +126,23 @@
 <span class="va">api_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"GOR_API_KEY"</span><span class="op">)</span>
 <span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gor_connect.html">gor_connect</a></span><span class="op">(</span><span class="va">api_key</span>, project <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"GOR_API_PROJECT"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">conn</span>
-<span class="co">#&gt; ── GOR query service connection ───────────────────────────── Version: 1.11.2 ──</span>
-<span class="co">#&gt; ● Service Root: https://platform.wuxinextcodedev.com/api/query</span>
-<span class="co">#&gt; ● Build Date: 2020-06-22T13:56:05+00:00Z</span>
-<span class="co">#&gt; ● Commit: 2adef411</span>
-<span class="co">#&gt; ● Project: ukbb_hg38</span>
-<span class="co">#&gt; ● API key issued at: 2020-10-01 09:44:51</span>
+<span class="co">#&gt; ── GOR query service connection ───────────────────────────── Version: 1.12.0 ──</span>
+<span class="co">#&gt; ● Service Root: https://staging.wuxinextcodedev.com/api/query</span>
+<span class="co">#&gt; ● Build Date: 2020-06-22T15:01:54+00:00Z</span>
+<span class="co">#&gt; ● Commit: def06de4</span>
+<span class="co">#&gt; ● Project: example</span>
+<span class="co">#&gt; ● API key issued at: 2020-10-02 10:13:50</span>
 <span class="co">#&gt; ● API key expires at: Never</span>
-<span class="co">#&gt; ● Access token issued at: 2020-10-01 16:16:15</span>
-<span class="co">#&gt; ● Access token expires at: 2020-10-08 16:16:15</span></pre></div>
+<span class="co">#&gt; ● Access token issued at: 2020-10-07 12:47:04</span>
+<span class="co">#&gt; ● Access token expires at: 2020-10-07 12:52:04</span></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object to pass into the <code>gor_query</code> function to finally run a query:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gor_query.html">gor_query</a></span><span class="op">(</span><span class="st">"gor #dbsnp# | top 100"</span>, <span class="va">conn</span><span class="op">)</span>
-<span class="co">#&gt; Warning: `tbl_df()` is deprecated as of dplyr 1.0.0.</span>
-<span class="co">#&gt; Please use `tibble::as_tibble()` instead.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span></pre></div>
+<span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gor_query.html">gor_query</a></span><span class="op">(</span><span class="st">"gor #dbsnp# | top 100"</span>, <span class="va">conn</span><span class="op">)</span></pre></div>
 <p>The results come back as an R <code>data.frame</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 100 x 5</span>
-<span class="co">#&gt;    Chrom   pos reference allele rsids       </span>
+<span class="co">#&gt;    chrom   pos reference allele rsids       </span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;       </span>
 <span class="co">#&gt;  1 chr1  10020 AA        A      rs775809821 </span>
 <span class="co">#&gt;  2 chr1  10039 A         C      rs978760828 </span>
@@ -171,7 +167,7 @@
 <div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">chr21_results</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 100 x 5</span>
-<span class="co">#&gt;    Chrom     pos reference allele snptype</span>
+<span class="co">#&gt;    chrom     pos reference allele snptype</span>
 <span class="co">#&gt;    &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;  </span>
 <span class="co">#&gt;  1 chr21 5030088 C         T      C/T    </span>
 <span class="co">#&gt;  2 chr21 5030105 C         A      C/A    </span>

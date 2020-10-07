@@ -290,7 +290,7 @@ gorr__get_response_body <- function(response, content.fun = purrr::partial(httr:
 }
 
 
-gorr__read_tsv <- purrr::compose(dplyr::tbl_df, data.table::fread)
+gorr__read_tsv <- purrr::compose(tibble::as_tibble, data.table::fread)
 
 # from cli:::rpad
 rpad <- function(x, width = NULL) {

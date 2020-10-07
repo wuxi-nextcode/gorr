@@ -1,7 +1,7 @@
 Type: Package
 Package: gorr
 Title: GOR Direct Query API for R
-Version: 0.3.4
+Version: 0.3.5
 Authors@R: c(
     person("Genuity", "Science", role = c("aut", "cre","cph"), email = "support@genuitysci.com"),
     person("Edvald", "Gislason", role = "aut", email = ""),
@@ -9,7 +9,7 @@ Authors@R: c(
     )
 URL: https://github.com/wuxi-nextcode/gorr
 BugReports: https://github.com/wuxi-nextcode/gorr/issues
-Description: R library for remote execution of GOR queries and authorization with WuXi NextCode gateway API.
+Description: R library for remote execution of GOR queries and authorization with Genuity Science gateway API.
 License: LGPL (>= 2.1)
 Encoding: UTF-8
 LazyData: true
@@ -27,7 +27,7 @@ Imports:
     lubridate (>= 1.7.4),
     data.table (>= 1.12.2),
     digest (>= 0.6.20),
-    rlang (>= 0.4.0)
+    rlang (>= 0.4.0),
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
@@ -37,4 +37,5 @@ Suggests:
     rmarkdown (>= 1.10),
     processx,
     tibble,
-    fs
+    fs,
+    dplyr

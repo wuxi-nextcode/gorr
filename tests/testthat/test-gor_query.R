@@ -1,3 +1,5 @@
+library(dplyr)
+
 context("test-gor_query.R")
 
 conn <- NULL
@@ -28,7 +30,8 @@ test_that("gor_query works", {
         gor_query(conn)
 
     expect_is(result, "data.frame")
-    expect_equal(colnames(result), c("Chrom", "pos", "reference", "allele", "rsids"))
+    cols <- sapply(colnames(result),tolower,USE.NAMES=F) # GOR is not case insensitive so we need to convert to lowercase so the tests won't brake between ref versions
+    expect_equal(cols, c("chrom", "pos", "reference", "allele", "rsids"))
     expect_equal(dim(result), c(100,5), info = "Expected dimensions of this dataframe are 100rows x 5 columns")
 })
 
@@ -40,12 +43,14 @@ test_that("gor_query paging works", {
         gor_query(conn, page_size = 100)
 
     expect_is(result, "data.frame")
-    expect_equal(colnames(result), c("Chrom", "pos", "reference", "allele", "rsids"))
+    cols <- sapply(colnames(result),tolower,USE.NAMES=F) # GOR is not case insensitive so we need to convert to lowercase so the tests won't brake between ref versions
+    expect_equal(cols, c("chrom", "pos", "reference", "allele", "rsids"))
     expect_equal(dim(result), c(1000,5), info = "Expected dimensions of this dataframe are 1000rows x 5 columns")
 
     # Catch e.g. header repititions due to paging in the next 2 steps
 
-    result$Chrom %>%
+    result %>%
+        pull(1) %>%
         unique() %>%
         expect_equal("chr1", "We only asked for chr1 in query, so we expect nothing else")
 
@@ -58,7 +63,7 @@ test_that("gor_query paging works", {
         setequal(c("C", "G", "A", "T")) %>%
         expect_true(info = "Unique reference column set values should equal the set GCAT")
 
-    result$Chrom
+    result %>% pull(1)
 })
 
 

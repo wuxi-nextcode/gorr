@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
       </span>
     </div>
 
@@ -99,7 +99,7 @@
                         <h4 class="author">Edvald Gislason <a href="mailto:edvald@wuxinextcode.com" class="email">edvald@wuxinextcode.com</a>
 </h4>
             
-            <h4 class="date">2020-10-01</h4>
+            <h4 class="date">2020-10-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/master/vignettes/persistance-of-results.Rmd"><code>vignettes/persistance-of-results.Rmd</code></a></small>
       <div class="hidden name"><code>persistance-of-results.Rmd</code></div>
@@ -136,12 +136,8 @@
 <p>Note that in this example, for the sake of demonstrating two different file types, we make two calls. One creates a <code>GORz</code> file (compressed in genomic order), the other a simple <code>tsv</code> file. Now we can read the file contents directly:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="fu">query</span><span class="op">(</span><span class="st">"gor user_data/doc/dbsnp_1000.gorz | top 10"</span><span class="op">)</span>
-<span class="co">#&gt; Warning: `tbl_df()` is deprecated as of dplyr 1.0.0.</span>
-<span class="co">#&gt; Please use `tibble::as_tibble()` instead.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
 <span class="co">#&gt; # A tibble: 10 x 5</span>
-<span class="co">#&gt;    Chrom   pos reference allele rsids       </span>
+<span class="co">#&gt;    chrom   pos reference allele rsids       </span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;chr&gt;       </span>
 <span class="co">#&gt;  1 chr1  10020 AA        A      rs775809821 </span>
 <span class="co">#&gt;  2 chr1  10039 A         C      rs978760828 </span>
