@@ -36,7 +36,7 @@ get_access_token <- function(api_key, url) {
     if (!is.null(response_content$error_description))
         gorr__failure(response_content$error_description)
 
-    httr::add_headers(authorization = paste(response_content$token_type, response_content$access_token, sep = " "))
+    httr::add_headers(Authorization = paste(stringr::str_to_title(response_content$token_type), response_content$access_token, sep = " "))
 }
 
 

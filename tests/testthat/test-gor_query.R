@@ -11,7 +11,7 @@ test_that("gor_connect works", {
         project = Sys.getenv("GOR_API_PROJECT"))
     expect_is(conn, "gor_connection")
     expect_true(!is.null(conn$header))
-    expect_true(!is.null(conn$header$headers[["authorization"]]))
+    expect_true(!is.null(conn$header$headers[["Authorization"]]))
 
 })
 
@@ -20,7 +20,7 @@ test_that("gor_connect works without parameters", {
     conn <- gor_connect()
     expect_is(conn, "gor_connection")
     expect_true(!is.null(conn$header))
-    expect_true(!is.null(conn$header$headers[["authorization"]]))
+    expect_true(!is.null(conn$header$headers[["Authorization"]]))
 
 })
 
