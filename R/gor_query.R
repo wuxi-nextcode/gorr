@@ -1,7 +1,7 @@
 gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE"),
                               url, conn, body = list(), parse.body = T) {
     request.fun <- match.arg(request.fun)
-    request.fun <- switch(request.fun, POST = httr::POST, GET = httr::GET, DELETE = httr::DELETE)
+    request.fun <- switch(request.fun, POST = httr::POST, GET = httr::GET, DELETE = httr::DELETE, PATCH = httr::PATCH)
 
     if (!is.null(conn$access_token_exp) && conn$access_token_exp - lubridate::now() < lubridate::minutes(1)) {
         conn <- gorr__reconnect(conn)
