@@ -75,7 +75,7 @@ gor_connect <- function(api_key = NULL, project = NULL, root_url = NULL, api_end
         url_parts$path <- paste0(url_parts$path, "/protocol/openid-connect/token")
         url <- httr::build_url(url_parts)
         header <- get_access_token(api_key, url)
-        access_token_payload <- get_jwt_token_payload(header$headers[["authorization"]])
+        access_token_payload <- get_jwt_token_payload(header$headers[["Authorization"]])
     }
 
     payload_date <- function(d) {

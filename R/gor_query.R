@@ -1,13 +1,13 @@
-gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE"),
-                              url, conn, body = list(), parse.body = T) {
+gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE", "PATCH"),
+                              url, conn, body = list(), query=list(), parse.body = T) {
     request.fun <- match.arg(request.fun)
-    request.fun <- switch(request.fun, POST = httr::POST, GET = httr::GET, DELETE = httr::DELETE)
+    request.fun <- switch(request.fun, POST = httr::POST, GET = httr::GET, DELETE = httr::DELETE, PATCH = httr::PATCH)
 
     if (!is.null(conn$access_token_exp) && conn$access_token_exp - lubridate::now() < lubridate::minutes(1)) {
         conn <- gorr__reconnect(conn)
     }
     debug <- getOption("gor.debug", default = F)
-    response <- request.fun(url = url, body = body, conn$header, encode = "json", if (debug) httr::verbose() )
+    response <- request.fun(url = url, body = body, query=query, conn$header, encode = "json", if (debug) httr::verbose() )
 
     if (parse.body) {
         tryCatch({
