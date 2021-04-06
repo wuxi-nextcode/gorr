@@ -1,0 +1,232 @@
+---
+title: "Exploring phenotype services"
+author: "Andri M. Stefansson <andri@genuitysci.com>"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Phenotype Services}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+requireNamespace("knitr")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+In this example, we're going to explore the capabilities of the phenotype-services using the `gorr` package. 
+
+## Load packages
+
+First load the `gorr` package, the `tidyverse` package is recommended in general, but not required for this example
+
+```{r packages}
+library(gorr)
+library(magrittr) # pipe
+library(tibble) 
+```
+
+## Connecting to the phenotype service
+
+First we'll need to establish a connection to our phenotype-catalog API. To do that we'll need to call `phenotype_connect` and provide it with the relevant parameters pointing to the phenotype-catalog-service, i.e. `api_key` and `project`:
+
+
+```{r}
+conn <- phenotype_connect(api_key = Sys.getenv("GOR_API_KEY"),
+                          project = Sys.getenv("GOR_API_PROJECT"))
+conn
+```
+
+alternative way is to use the `gor_connect` and pass the relevant `api-endpoint`
+
+```{r, eval=FALSE}
+## Dont run
+conn <- gor_connect(api_key = Sys.getenv("GOR_API_KEY"),
+                    project = Sys.getenv("GOR_API_PROJECT"),
+                    api_endpoint = "api/phenotype-catalog")
+```
+
+If everything goes as planned, we'll have a `conn` object to pass into subsequent functions.
+
+
+## List project phenotypes
+
+Let's start by listing available phenotypes in project
+
+```{r}
+phenotypes <- get_phenotypes(conn)
+sample(phenotypes, 5)
+```
+
+The results come back as a `vector` of phenotypes
+
+## Get phenotype
+
+Next, let's fetch a phenotype from the project. We'll use the first listed 
+
+```{r}
+phenotype <- get_phenotype(name = phenotypes[1], conn)
+print(phenotype[1:4])
+```
+
+The results come back as a `phenotype` object, which is a list of lists containing different info on the `phenotype` object.
+
+## Create phenotype
+
+We can add a new phenotype to the project using the `create_phenotype` function as follows
+
+```{r}
+name <- paste0("rtest_pheno", sample(1:99,1)) # Name of new phenotype
+result_type <- "QT" # Type of phenotype (either "QT", "SET" or "CATEGORY")
+description <- "This is a test phenotype" # Optional phenotype description
+new_phenotype <- create_phenotype(name, result_type, conn, description)
+print(new_phenotype[1:4])
+```
+
+A new phenotype has now been added to the project's phenotype-catalog as well as been assigned to the variable `new_phenotype`.
+
+```{r, echo=FALSE}
+print(paste0('Penotype class: ', class(new_phenotype)))
+print(paste0('Penotype name: ',  new_phenotype$name))
+print(paste0('Penotype description: ',  new_phenotype$description))
+print(paste0('Penotype State: ',  new_phenotype$state))
+```
+
+Phenotypes can also be created using the full set of metadata in a single call and with a GOR/NOR query.
+
+```{r, eval=FALSE}
+##NOT RUN##
+gor_query <- "
+def #phenos# = added_salt_to_food;
+create ##aggregate## = nor UKBB/phenotypes/fields.nord -s phenotype -f #phenos#
+    | ATMAX visit_id -gc PN,phenotype
+    | map -h -m '#empty#' -c phenotype,value <(nor -h UKBB/phenotypes/meta/field_encoding_lookup.tsv)
+    | REPLACE value if(meaning = '#empty#',value,meaning)
+    | hide meaning,visit_id,index_id;
+nor [##aggregate##] | sort -c PN
+    | pivot phenotype -ordered -gc PN -v #phenos# -e NA
+    | rename (.*)_value #{1}
+    | select PN
+"
+
+name2 <-  paste0("rtest_pheno", sample(1:99,1))
+description2 <- "A set of individuals who answered YES to the question: do you salt your food? https://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=104660"
+result_type2 <- "SET"
+category2 <- "symptoms"
+query2 <- gor_query
+tags2 <- "dietary,nutrition"
+
+new_phenotype2 <- create_phenotype(name2, result_type2, conn, description2, query = query2, tags = tags2)
+new_phenotype2
+phenotype_delete(new_phenotype2, conn)
+```
+
+If we see the phenotype's state is 'pending', or we simply want to refresh the phenotype for fetching most recent info on the phenotype,  
+we can refresh the phenotype using the `phenotype_refresh` method
+
+```{r}
+new_phenotype <- phenotype_refresh(new_phenotype, conn)
+new_phenotype
+```
+
+## Update phenotype description
+
+Passing a phenotype object and a new description to `phenotype_update_description`  updates the phenotype's description in the project's phenotype-catalog. The output is, again, an updated `phenotype` object.
+
+```{r}
+new_description <- "An updated description"
+new_phenotype <- phenotype_update_description(new_description, new_phenotype, conn)
+```
+
+
+```{r, echo=FALSE}
+print(paste0('Penotype class: ', class(new_phenotype)))
+print(paste0('Penotype name: ',  new_phenotype$name))
+print(paste0('Penotype description: ',  new_phenotype$description))
+```
+
+## Upload phenotype data
+
+Let's start by creating a dummy dataset which is a list of list:
+[[PN#1, attribute], [PN#2, attribute], ... , [PN#N, attribute]]
+
+```{r}
+cohort_size <- 2000
+pns <- as.character(1000:cohort_size+1000)
+data <- lapply(pns, function(x) { list(x, if (runif(1)>0.5) 'obease' else 'lean') })
+print(data[1:2])
+
+phenotype_upload_data(new_phenotype, data, conn)
+
+```
+
+## Get all tags available in the phenotype catalog
+
+We can list all available tags in the catalog using `get_tags` and passing the `gor_connection` object.
+
+```{r}
+get_tags(conn)
+```
+
+## Get phenotype tags
+
+Retrieve all tags for phenotype
+
+```{r}
+phenotype_get_tags(new_phenotype)
+```
+
+## Add phenotype tag/s
+
+Add a new tag/s to this phenotype. Multiple tags should be separated by either comma separated string, `"tag1,tag2"`, character vector `c("tag1", "tag2")` or a combination of the two
+
+```{r}
+new_phenotype <- phenotype_add_tag(tag = "testTag2", new_phenotype, conn)
+phenotype_get_tags(new_phenotype)
+```
+
+for assurance we can get the phenotype from server and check tags
+
+```{r}
+get_phenotype(name, conn) %>% phenotype_get_tags()
+```
+
+## Set phenotype tag/s
+
+Set the tag list for this phenotype, overriding all previous tags, defining the tags adheres to the same rules as add_phenotype_tag
+
+```{r}
+tags <- "testTag7,testTag8"
+new_phenotype <- phenotype_set_tags(tags, new_phenotype, conn)
+phenotype_get_tags(new_phenotype)
+
+```
+
+again, for assurance let's load the tags from server
+
+```{r}
+get_phenotype(name, conn) %>% phenotype_get_tags()
+```
+
+## Delete phenotype tag/s
+
+Delete a tag/s from phenotype.
+
+```{r}
+new_phenotype <- phenotype_delete_tag(tag = "testTag7", new_phenotype, conn)
+phenotype_get_tags(new_phenotype)
+#or get_phenotype(name, conn) %>% phenotype_get_tags()
+```
+
+
+## Delete phenotype
+
+A phenotype can easily be removed from a project using the `phenotype_delete` function.
+`phenotype_delete` expects a `phenotype` object. Therefore the phenotype needs to be fetched using the `get_phenotype` function if it has not been assigned to a variable already.
+
+```{r}
+phenotype_delete(new_phenotype, conn)
+```
