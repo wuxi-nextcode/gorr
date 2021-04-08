@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -69,6 +69,12 @@
     <li>
       <a href="../articles/persistance-of-results.html">Server-side Persistance of Query Results</a>
     </li>
+    <li>
+      <a href="../articles/phenotype-matrix-services.html">Exploring phenotype matrix services</a>
+    </li>
+    <li>
+      <a href="../articles/phenotype-services.html">Exploring phenotype services</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -78,7 +84,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/wuxi-nextcode/gorr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -92,14 +98,14 @@
 
       
 
-      </header><script src="gor-create_files/header-attrs-2.3/header-attrs.js"></script><div class="row">
+      </header><script src="gor-create_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Using create statements and referencing local data frames</h1>
                         <h4 class="author">Edvald Gislason <a href="mailto:edvald@wuxinextcode.com" class="email">edvald@wuxinextcode.com</a>
 </h4>
             
-            <h4 class="date">2020-10-07</h4>
+            <h4 class="date">2021-04-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/master/vignettes/gor-create.Rmd"><code>vignettes/gor-create.Rmd</code></a></small>
       <div class="hidden name"><code>gor-create.Rmd</code></div>
@@ -113,9 +119,9 @@
 <h2 class="hasAnchor">
 <a href="#load-packages" class="anchor"></a>Load packages</h2>
 <p>First load the <code>gorr</code> package, the <code>tidyverse</code> package is recommended, but for the sake of simplicity we pick out the ones we’re using:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/wuxi-nextcode/gorr">gorr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">magrittr</span><span class="op">)</span> <span class="co"># pipe</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/wuxi-nextcode/gorr">gorr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span> <span class="co"># pipe</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'dplyr'</span>
@@ -124,32 +130,32 @@
 <span class="co">#&gt;     filter, lag</span>
 <span class="co">#&gt; The following objects are masked from 'package:base':</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     intersect, setdiff, setequal, union</span></pre></div>
+<span class="co">#&gt;     intersect, setdiff, setequal, union</span></code></pre></div>
 <p>Next we make a <code>conn</code> object for holding information on the API we’re connecting to. <code>gor_connect</code> takes 2 parameters <code>api_key</code> and <code>project</code> but if either are left out then it will try to read the environment variables <code>GOR_API_KEY</code>, and <code>GOR_API_PROJECT</code> respectively. Here below we have the <code>GOR_API_KEY</code> environment variable already defined so supplying the function only with a target project suffices. After this we create a <code>query</code> function/closure so we don’t have to reference <code>conn</code> again:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gor_connect.html">gor_connect</a></span><span class="op">(</span>project <span class="op">=</span> <span class="st">"ukbb_hg38"</span><span class="op">)</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gor_connect.html">gor_connect</a></span><span class="op">(</span>project <span class="op">=</span> <span class="st">"ukbb_hg38"</span><span class="op">)</span>
 <span class="va">query</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gor_create.html">gor_create</a></span><span class="op">(</span>conn <span class="op">=</span> <span class="va">conn</span><span class="op">)</span>
 <span class="va">query</span>
 <span class="co">#&gt; ── GOR Creation Query ──────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; Connection</span>
-<span class="co">#&gt;  Service Root: https://staging.wuxinextcodedev.com/api/query</span>
+<span class="co">#&gt;  Service Root: https://platform.wuxinextcodedev.com/api/query</span>
 <span class="co">#&gt;  Project: ukbb_hg38</span>
 <span class="co">#&gt; Definitions</span>
 <span class="co">#&gt;   None</span>
 <span class="co">#&gt; Create statements &amp; virtual relations</span>
-<span class="co">#&gt;   None</span></pre></div>
+<span class="co">#&gt;   None</span></code></pre></div>
 <p>Now we can call that function with only the query parameter. Let’s search for genes containing <em>BRCA</em> and save the resulting table as a local dataframe <code>mygenes</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">mygenes</span> <span class="op">&lt;-</span> <span class="fu">query</span><span class="op">(</span><span class="st">"gor #genes# | grep BRCA"</span><span class="op">)</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mygenes</span> <span class="op">&lt;-</span> <span class="fu">query</span><span class="op">(</span><span class="st">"gor #genes# | grep BRCA"</span><span class="op">)</span>
 <span class="va">mygenes</span>
 <span class="co">#&gt; # A tibble: 2 x 4</span>
 <span class="co">#&gt;   chrom gene_start gene_end gene_symbol</span>
 <span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt;    &lt;int&gt; &lt;chr&gt;      </span>
 <span class="co">#&gt; 1 chr13   32315085 32400266 BRCA2      </span>
-<span class="co">#&gt; 2 chr17   43044294 43170245 BRCA1</span></pre></div>
+<span class="co">#&gt; 2 chr17   43044294 43170245 BRCA1</span></code></pre></div>
 <p>Next we can expand on our previously defined <code>query</code> function by supplying it back into <code>gor_create</code> as the <code>replace</code> parameter. This time we include some definitions using the <code>defs</code> parameter and then we can alias our local dataframe so that we can reference it in remote queries. In GOR this is called <em>virtual relations</em>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">query</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gor_create.html">gor_create</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">query</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gor_create.html">gor_create</a></span><span class="op">(</span>
   defs <span class="op">=</span> <span class="st">"def variants = #dbsnp#"</span>,
   mygenes <span class="op">=</span> <span class="va">mygenes</span>, 
   replace <span class="op">=</span> <span class="va">query</span>
@@ -157,7 +163,7 @@
 <span class="va">query</span>
 <span class="co">#&gt; ── GOR Creation Query ──────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; Connection</span>
-<span class="co">#&gt;  Service Root: https://staging.wuxinextcodedev.com/api/query</span>
+<span class="co">#&gt;  Service Root: https://platform.wuxinextcodedev.com/api/query</span>
 <span class="co">#&gt;  Project: ukbb_hg38</span>
 <span class="co">#&gt; Definitions</span>
 <span class="co">#&gt;   def variants = #dbsnp#;</span>
@@ -171,10 +177,10 @@
 <span class="co">#&gt;      chrom gene_start gene_end gene_symbol</span>
 <span class="co">#&gt;      &lt;chr&gt;      &lt;int&gt;    &lt;int&gt; &lt;chr&gt;      </span>
 <span class="co">#&gt;    1 chr13   32315085 32400266 BRCA2      </span>
-<span class="co">#&gt;    2 chr17   43044294 43170245 BRCA1</span></pre></div>
+<span class="co">#&gt;    2 chr17   43044294 43170245 BRCA1</span></code></pre></div>
 <p>Now that we have our updated <code>query</code> function, we can use it to <code>gor</code> our table of genes and join it to the <code>#dbsnp#</code> table we aliased as <code>variants</code> in the definitions part above. The result is a list of all variants within each gene in our table</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="va">brca_variants</span> <span class="op">&lt;-</span> <span class="fu">query</span><span class="op">(</span><span class="st">"
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">brca_variants</span> <span class="op">&lt;-</span> <span class="fu">query</span><span class="op">(</span><span class="st">"
     gor [mygenes] | join -segvar variants        
 "</span><span class="op">)</span>
 
@@ -182,15 +188,14 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">gene_symbol</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>records <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,
             variants <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/n_distinct.html">n_distinct</a></span><span class="op">(</span><span class="va">rsids</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; `summarise()` ungrouping output (override with `.groups` argument)</span>
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt;   gene_symbol records variants</span>
-<span class="co">#&gt;   &lt;chr&gt;         &lt;int&gt;    &lt;int&gt;</span>
+<span class="co">#&gt; * &lt;chr&gt;         &lt;int&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1 BRCA1         37150    32933</span>
-<span class="co">#&gt; 2 BRCA2         28727    25260</span></pre></div>
+<span class="co">#&gt; 2 BRCA2         28727    25260</span></code></pre></div>
 <p>The reason for the difference in <code># records</code>and <code># variants</code> above can be explained by looking into the data:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="va">target_variant</span> <span class="op">&lt;-</span> 
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">target_variant</span> <span class="op">&lt;-</span> 
   <span class="va">brca_variants</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">rsids</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -200,9 +205,9 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">rsids</span><span class="op">)</span>
 
 <span class="va">target_variant</span>
-<span class="co">#&gt; [1] "rs71071031"</span></pre></div>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="va">brca_variants</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">rsids</span> <span class="op">==</span> <span class="va">target_variant</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">distance</span><span class="op">)</span>
+<span class="co">#&gt; [1] "rs71071031"</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">brca_variants</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">rsids</span> <span class="op">==</span> <span class="va">target_variant</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">distance</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 23 x 8</span>
 <span class="co">#&gt;    chrom gene_start gene_end gene_symbol     pos reference        allele rsids  </span>
 <span class="co">#&gt;    &lt;chr&gt;      &lt;int&gt;    &lt;int&gt; &lt;chr&gt;         &lt;int&gt; &lt;chr&gt;            &lt;chr&gt;  &lt;chr&gt;  </span>
@@ -216,7 +221,7 @@
 <span class="co">#&gt;  8 chr13   32315085 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
 <span class="co">#&gt;  9 chr13   32315085 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTT… T      rs7107…</span>
 <span class="co">#&gt; 10 chr13   32315085 32400266 BRCA2        3.24e7 TTTTTTTTTTTTTTTT T      rs7107…</span>
-<span class="co">#&gt; # … with 13 more rows</span></pre></div>
+<span class="co">#&gt; # … with 13 more rows</span></code></pre></div>
 </div>
   </div>
 

@@ -38,14 +38,17 @@ conn <- gor_connect() # uses both GOR_API_KEY and GOR_API_PROJECT
 conn <- gor_connect(project = "test_proj") # uses only GOR_API_KEY 
 ```
 
-If everything goes as planned, we'll have a `conn` object to pass into the `gor_query` function to finally run a query:
+If everything goes as planned, we'll have a `conn` object ready to be passed into the `gor_query` function.
+
+### Gor Query Services
+
+Now `gor_query` can be used to run a gor query:
 
 ```r 
 result <- gor_query("gor #dbsnp# | top 100", conn)
 ```
 
 The results come back as an R `data.frame`:
-
 
 ``` r
 print(result)
@@ -76,5 +79,18 @@ chr21_results <- "
 print(chr21_results)
 ```
 
+### Phenotype Catalog Services
 
+As for the query API, we can start to interact with the phenotype catalog API using `gorr` r-package. Similarly as before, we'll need to establish a connection to our phenotype catalog API by calling  `phenotype_connect`
 
+``` r
+pheno_conn <- phenotype_connect(api_key, project = "test_proj")
+```
+
+or by using `gor_connect` and passing the relevant `api-endpoint` parameter.
+
+``` r
+pheno_conn <- gor_connect(api_key, project = "test_proj", api_endpoint = "api/phenotype-catalog")
+```
+
+For an example on how to interact with the Phenotype Catalog Services, please see articles: `Exploring phenotype services` and `Exploring phenotype matrix services`.

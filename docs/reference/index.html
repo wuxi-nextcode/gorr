@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -87,7 +87,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -110,6 +110,12 @@
     <li>
       <a href="../articles/persistance-of-results.html">Server-side Persistance of Query Results</a>
     </li>
+    <li>
+      <a href="../articles/phenotype-matrix-services.html">Exploring phenotype matrix services</a>
+    </li>
+    <li>
+      <a href="../articles/phenotype-services.html">Exploring phenotype services</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -119,7 +125,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/wuxi-nextcode/gorr/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -162,9 +168,21 @@
       <tr>
         
         <td>
+          <p><code><a href="create_phenotype.html">create_phenotype()</a></code> </p>
+        </td>
+        <td><p>Create a new phenotype in the current project.</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="get_access_token.html">get_access_token()</a></code> </p>
         </td>
         <td><p>Get an access token from a refresh token</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_data.html">get_data()</a></code> </p>
+        </td>
+        <td><p>Retrieve a phenotype matrix from the server.</p></td>
       </tr><tr>
         
         <td>
@@ -177,6 +195,30 @@
           <p><code><a href="get_jwt_token_payload.html">get_jwt_token_payload()</a></code> </p>
         </td>
         <td><p>Decode a JWT token and extract payload</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_phenotype.html">get_phenotype()</a></code> </p>
+        </td>
+        <td><p>Get a specific phenotype in the current project.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_phenotype_matrix.html">get_phenotype_matrix()</a></code> </p>
+        </td>
+        <td><p>Get a phenotype matrix object.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_phenotypes.html">get_phenotypes()</a></code> </p>
+        </td>
+        <td><p>A list of all the phenotypes in the current project.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_tags.html">get_tags()</a></code> </p>
+        </td>
+        <td><p>Get all tags</p></td>
       </tr><tr>
         
         <td>
@@ -256,6 +298,79 @@ server side</p></td>
           <p><code><a href="gorr__reconnect.html">gorr__reconnect()</a></code> </p>
         </td>
         <td><p>Reconnect using a connection object from <code>gor_connect</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="phemat_add_phenotype.html">phemat_add_phenotype()</a></code> </p>
+        </td>
+        <td><p>Add a new phenotype to the matrix request.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="phemat_add_phenotypes.html">phemat_add_phenotypes()</a></code> </p>
+        </td>
+        <td><p>Add a list of phenotypes to the matrix request.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="phemat_remove_phenotype.html">phemat_remove_phenotype()</a></code> </p>
+        </td>
+        <td><p>Remove a phenotype from the matrix request.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="phenotype_add_tag.html">phenotype_add_tag()</a></code> </p>
+        </td>
+        <td><p>Add a new tag/s to this phenotype.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="phenotype_connect.html">phenotype_connect()</a></code> </p>
+        </td>
+        <td><p>Set up a connection object, and call the phenotype-catalog endpoint to make sure everything is up and running on the
+server side</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="phenotype_delete.html">phenotype_delete()</a></code> </p>
+        </td>
+        <td><p>Delete a phenotype, including all data from a project</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="phenotype_delete_tag.html">phenotype_delete_tag()</a></code> </p>
+        </td>
+        <td><p>Delete a tag/s from phenotype.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="phenotype_get_tags.html">phenotype_get_tags()</a></code> </p>
+        </td>
+        <td><p>Retrieve all tags for phenotype</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="phenotype_refresh.html">phenotype_refresh()</a></code> </p>
+        </td>
+        <td><p>Refresh phenotype</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="phenotype_set_tags.html">phenotype_set_tags()</a></code> </p>
+        </td>
+        <td><p>Set the tag list for this phenotype, overriding all previous tags</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="phenotype_update_description.html">phenotype_update_description()</a></code> </p>
+        </td>
+        <td><p>Update the phenotype with a new description</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="phenotype_upload_data.html">phenotype_upload_data()</a></code> </p>
+        </td>
+        <td><p>Upload phenotype data</p></td>
       </tr>
     </tbody>
     </table>
