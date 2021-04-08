@@ -1,3 +1,11 @@
+# gorr 1.0.0
+
+* Phenotype-catalog services
+* Authentication headers for http requests updated
+* Add support for PATCH requests
+* Add support for GET queries
+* Library description updated
+
 # gorr 0.3.5
 
 * Removed usage of deprecated dplyr methods so we don't get warning messages.

@@ -118,9 +118,9 @@ get_phenotype <- function(name, conn) {
 #' @param result_type Type of phenotype (supported types: "SET", "QT" and "CATEGORY")
 #' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}
 #' @param description Optional Phenotype description
-#' @param category: Enter the category for the phenotype (must be defined in the project - see get_categories) (optional)
-#' @param query: NOR query that defines this phenotype (optional)
-#' @param tags: comma seperated string of tags eg. "height,weight" or character vector "c("height", "weight") (optional)
+#' @param category Enter the category for the phenotype (must be defined in the project - see get_categories) (optional)
+#' @param query NOR query that defines this phenotype (optional)
+#' @param tags comma separated string of tags eg. "height,weight" or character vector "c("height", "weight") (optional)
 #'
 #' @return a list with the phenotype object
 #'
