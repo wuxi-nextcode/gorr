@@ -37,6 +37,22 @@ new_phenotype <- function(phenotype) {
 
 
 # Phenotype class constructor
+# A local object representing a phenotype response from the phenotype
+# catalog service.
+#
+# Note that most of the attributes come directly from the phenotype
+# serverside response and are therefore not documented directly here.
+# Please refer to the API Documentation for the phenotype catalog service.
+#
+# In addition to the ones documented here, this object has at least these attributes:
+#
+# * name - Phenotype name
+# * description - Textual description of this phenotype
+# * result_type - Type of result. Cannot be changed. One of SET, QT, CATEGORY
+# * created_at - Timestamp when the phenotype was first created
+# * updated_at - Timestamp when the phenotype was last updated
+# * created_by - Username who created the phenotype
+# * versions - List of data versions available in this phenotype
 phenotype <- function(phenotype) {
     new_phenotype(phenotype) %>%
         validate_phenotype()
@@ -56,7 +72,7 @@ phenotype <- function(phenotype) {
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
 #' conn <- phenotype_connect(api_key, project)
-#' phenotypes <- get_phenotype(name, conn)
+#' phenotypes <- get_phenotypes(conn)
 #' }
 get_phenotypes <- function(conn,
                            tags = list(),
@@ -118,6 +134,7 @@ get_phenotype <- function(name, conn) {
 #' @param result_type Type of phenotype (supported types: "SET", "QT" and "CATEGORY")
 #' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}
 #' @param description Optional Phenotype description
+#' @param url Reference URL for the phenotype (to dataset or other reference)
 #' @param category Enter the category for the phenotype (must be defined in the project - see get_categories) (optional)
 #' @param query NOR query that defines this phenotype (optional)
 #' @param tags comma separated string of tags eg. "height,weight" or character vector "c("height", "weight") (optional)
@@ -138,7 +155,7 @@ get_phenotype <- function(name, conn) {
 #' phenotype <- create_phenotype(name, result_type, conn, description)
 #' }
 create_phenotype <-
-    function(name, result_type, conn, description = NULL, category = NULL, query = NULL, tags = NULL) {
+    function(name, result_type, conn, description = NULL, url=NULL, category = NULL, query = NULL, tags = NULL) {
         assertthat::assert_that(is.string(name))
         assertthat::assert_that(is.string(result_type))
         assertthat::assert_that(class(conn) == "gor_connection")
@@ -147,6 +164,9 @@ create_phenotype <-
 
         if (!is.null(description)) {
             assertthat::assert_that(is.string(description))
+        }
+        if (!is.null(url)) {
+            assertthat::assert_that(is.string(url))
         }
         if (!is.null(query)) {
             assertthat::assert_that(is.string(query))
@@ -169,17 +189,19 @@ create_phenotype <-
             stop('result_tupe should be one of : "SET", "QT" and "CATEGORY"')
         }
 
-        url <- get__url_from_conn(conn, "phenotypes")
+        uri <- get__url_from_conn(conn, "phenotypes")
+
         content <- list(name = name,
                         result_type = result_type,
                         description = description,
+                        url = url,
                         category = category,
                         query = query,
                         tag_list = tags)
 
         resp <-
             gorr__api_request("POST",
-                              url = url,
+                              url = uri,
                               body = content,
                               conn = conn)
 

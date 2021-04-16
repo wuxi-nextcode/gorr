@@ -9,6 +9,7 @@ create_phenotype(
   result_type,
   conn,
   description = NULL,
+  url = NULL,
   category = NULL,
   query = NULL,
   tags = NULL
@@ -22,6 +23,8 @@ create_phenotype(
 \item{conn}{gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}}
 
 \item{description}{Optional Phenotype description}
+
+\item{url}{Reference URL for the phenotype (to dataset or other reference)}
 
 \item{category}{Enter the category for the phenotype (must be defined in the project - see get_categories) (optional)}
 
