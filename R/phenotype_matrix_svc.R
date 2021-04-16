@@ -28,6 +28,13 @@ new_phenotype_matrix <- function(base, phenotypes) {
 
 }
 
+
+# Phenotype matrix class constructor
+# A builder to create a phenotype matrix request.
+#
+# You start by using phemat_add_phenotype() or phemat_add_phenotypes()
+# to add a list of phenotypes and then call get_data()
+# to retrieve the phenotype matrix from the server.
 phenotype_matrix <- function(base, phenotypes = list()) {
     new_phenotype_matrix(base = base, phenotypes = phenotypes) %>%
         validate_phenotype_matrix()
