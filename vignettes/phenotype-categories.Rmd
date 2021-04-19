@@ -1,0 +1,81 @@
+---
+title: "Phenotype categories"
+author: "Andri M. Stefansson <andri@genuitysci.com>"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Phenotype Services}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+requireNamespace("knitr")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+In this example, we're going to explore the capabilities of the phenotype-services using the `gorr` package. 
+
+## Load packages
+
+First load the `gorr` package, the `tidyverse` package is recommended in general, but not required for this example
+
+```{r packages}
+library(gorr)
+library(magrittr) # pipe
+library(tibble)
+```
+
+## Connecting to the phenotype service
+
+First we'll need to establish a connection to our phenotype-catalog API. To do that we'll need to call `phenotype_connect` and provide it with the relevant parameters pointing to the phenotype-catalog-service, i.e. `api_key` and `project`:
+
+
+```{r}
+conn <- phenotype_connect(api_key = Sys.getenv("GOR_API_KEY"),
+                          project = Sys.getenv("GOR_API_PROJECT"))
+conn
+```
+
+alternative way is to use the `gor_connect` and pass the relevant `api-endpoint`
+
+```{r, eval=FALSE}
+## Dont run
+conn <- gor_connect(api_key = Sys.getenv("GOR_API_KEY"),
+                    project = Sys.getenv("GOR_API_PROJECT"),
+                    api_endpoint = "api/phenotype-catalog")
+```
+
+If everything goes as planned, we'll have a `conn` object to pass into subsequent functions.
+
+
+## List categories
+
+All available categories can be listed by passing the `conn` object to the `get_categories` function
+
+```{r}
+categories <- get_categories(conn)
+sample(categories, 5)
+```
+
+The results come back as a `vector` of categories
+
+## Create category
+
+If we want to add a new category to the catalog we can do so using `create_category` along with the name of the category to be added as follows.
+
+NB: Before creating a new category, make sure you have the privileges (admin rights to category management) to do so.
+
+```{r}
+name <- paste0("rtestCat", sample(1:99, 1)) # Name of new category
+new_category <- create_category(name,  conn)
+```
+
+A new category has now been added and assigned to the variable `new_category`:
+
+```{r}
+print(new_category)
+```
