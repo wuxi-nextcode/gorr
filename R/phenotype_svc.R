@@ -17,7 +17,7 @@ validate_phenotype <- function(phenotype) {
 
     if (!all(req_names %in% names(values))) {
         stop("Phenotype must include the following property: ",
-                req_names,
+                paste0(req_names, collapse = ", "),
                 call. = FALSE)
     }
 

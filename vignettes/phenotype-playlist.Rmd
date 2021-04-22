@@ -1,0 +1,119 @@
+---
+title: "Phenotype Playlists"
+author: "Andri M. Stefansson <andri@genuitysci.com>"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Phenotype Playlists}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+requireNamespace("knitr")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+In this example, we're going to demonstrate how to interact with the phenotype playlist API using the `gorr` package.
+
+One or more phenotypes can be grouped into a playlist. A playlist works like an added layer of curation on the phenotypes. For example, it could be a set of heart failure-related phenotypes or a set of principle components. It may just be an easy way to share work between people working on a team. Playlists make it easier to recall work between days. The methods for working with playlists are below:
+
+## Loading required packages
+
+```{r packages}
+library(gorr)
+library(magrittr) # pipe
+```
+
+## Connecting to the phenotype service
+
+First we'll need to establish a connection to our phenotype-catalog API. To do that we'll need to call `phenotype_connect` and provide it with the relevant parameters pointing to the phenotype-catalog-service, i.e. `api_key` and `project`:
+
+
+```{r}
+conn <- phenotype_connect(api_key = Sys.getenv("GOR_API_KEY"),
+                          project = Sys.getenv("GOR_API_PROJECT"))
+conn
+```
+
+alternative way is to use the `gor_connect` and pass the relevant `api-endpoint`
+
+```{r, eval=FALSE}
+## Dont run
+conn <- gor_connect(api_key = Sys.getenv("GOR_API_KEY"),
+                    project = Sys.getenv("GOR_API_PROJECT"),
+                    api_endpoint = "api/phenotype-catalog")
+```
+
+If everything goes as planned, we'll have a `conn` object to pass into subsequent functions.
+
+
+## List available playlists
+
+Playlists available to users can be listed by passing the `conn` object to `get_playlists`.
+
+```{r}
+playlists <- get_playlists(conn)
+playlists
+```
+
+The results come back as a `vector` of playlist names available to the user.
+
+
+## Create playlist
+
+If we want to add a new playlist to the catalog we can do so using `create_playlist` along with the name of the playlist and optionally description and name of phenotypes to be addied to the playlist.
+To add multiple phenotypes when initializing a new playlist you can either do so by providing a comma seperated string, `"pheno1,pheno2"` or character vector `c("pheno1","pheno2")`
+
+NB: Before adding phenotype/s to a playlist, make sure the phenotypes exist in the project, to list all phenotypes see `get_phenotypes`.
+
+```{r}
+name <- "Diabetes" # Name of new playlist
+descr <- "A set of all phenotypes related to diabetes in UKBB"
+new_playlist <- create_playlist(name, conn, description = descr)
+```
+
+A new playlist has now been added to the project. The results come back as a `playlist` object.
+
+```{r, echo=FALSE}
+print(new_playlist)
+```
+
+## Get playlist
+
+We can also get an existing playlist by providing the playlist's id along with the connection obect.
+```{r, eval=FALSE}
+pl <- get_playlist(id = 1, conn)
+```
+
+As before the results come back as a `playlist` object.
+
+If needed, playlists can be refreshed for fetching most recent info on the playlist by calling `playlist_refresh` as follows:
+
+```{r}
+new_playlist <- playlist_refresh(new_playlist, conn)
+```
+
+## Add phenotype to playlist
+
+Once a playlist has been fetched or created we can add phenotypes to it. As for adding phenotypes when createing a new playlist we need to make sure that the phenotype does exist in the catalog and has not been assinged to the playlist alread.
+
+```{r, eval=FALSE}
+phenos <- get_phenotypes(conn, limit = 2) # Fetch two existing phenotypes
+print(phenos)
+new_playlist  <- playlist_add_phenotype(phenos, new_playlist, conn)
+print(new_playlist$phenotypes)
+```
+
+
+## Delete playlist
+
+A playlist can easily be deleted by passing a playlist object to the `playlist_delete` function.
+
+```{r}
+playlist_delete(new_playlist, conn)
+```

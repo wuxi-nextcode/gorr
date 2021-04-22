@@ -29,6 +29,6 @@ get__project <- function(conn) {
 }
 
 
-get__link <- function(phenotype, type) {
-    phenotype$links[[type]]
+get__link <- function(object, type) {
+    object$links[[type]]
 }
