@@ -1,10 +1,10 @@
 ---
-title: "Phenotype categories"
+title: "Phenotype Categories"
 author: "Andri M. Stefansson <andri@genuitysci.com>"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Phenotype Services}
+  %\VignetteIndexEntry{Phenotype Categories}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -12,7 +12,7 @@ validate_phenotype_matrix <- function(phenotype_matrix) {
 
     if (!all(req_names %in%  names(values))) {
           stop(
-              "phenotype_matrix must include the following properties: ", req_names,
+              "phenotype_matrix must include the following properties: ", paste0(req_names, collapse = ", "),
               call. = FALSE
               )
         }
