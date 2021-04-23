@@ -70,7 +70,7 @@ If we want to add a new category to the catalog we can do so using `create_categ
 NB: Before creating a new category, make sure you have the privileges (admin rights to category management) to do so.
 
 ```{r}
-name <- paste0("rtestCat", sample(1:99, 1)) # Name of new category
+name <- paste0("rtestcat", sample(1:99, 1)) # Name of new category
 new_category <- create_category(name,  conn)
 ```
 
@@ -79,3 +79,15 @@ A new category has now been added and assigned to the variable `new_category`:
 ```{r}
 print(new_category)
 ```
+
+## Delete category
+
+Categories can be removed from project by passing the name of the category to `category_delete` along with the connector object.
+
+```{r}
+get_categories(conn)
+print(name) # Category to be deleted
+category_delete(name, conn)
+get_categories(conn)
+```
+

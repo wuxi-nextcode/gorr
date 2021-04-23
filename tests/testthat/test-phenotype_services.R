@@ -1,6 +1,6 @@
 library(dplyr)
 
-context("test-phenotype_svc.R")
+context("test-phenotype_services.R")
 
 conn <- NULL
 test_name <- NULL
