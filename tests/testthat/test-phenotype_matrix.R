@@ -1,6 +1,6 @@
 library(dplyr)
 
-context("test-phenotype_matrix_svc.R")
+context("test-phenotype_matrix.R")
 
 initialize_phemat_tests <- function(){
     conn <<- phenotype_connect(

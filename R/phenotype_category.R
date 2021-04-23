@@ -57,3 +57,27 @@ create_category <- function(name, conn) {
                               conn = conn)
     resp$category
 }
+
+#' Delete a phenotype category
+#'
+#' @param name phenotype category name in the project
+#' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' api_key <- Sys.getenv("GOR_API_KEY")
+#' project <- Sys.getenv("GOR_PROJECT")
+#' conn <- phenotype_connect(api_key, project)
+#' name <- "testCat"
+#' category_delete(name, conn)
+#' }
+category_delete <- function(name, conn) {
+    url <- paste(get__url_from_conn(conn, "projects"), get__project(conn), "categories", name, sep="/")
+
+    gorr__api_request("DELETE",
+                      url = url,
+                      conn = conn,
+                      parse.body = F)
+}

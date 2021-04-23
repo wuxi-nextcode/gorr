@@ -23,8 +23,14 @@ test_that("get_categories works", {
 })
 
 test_that("create_category works", {
-    name <- paste0("rPacktestCat", sample(1:1000, 1))
+    name <<- paste0("rpacktestcat", sample(1:1000, 1))
     test_cat <- create_category(name, conn)
 
     expect_equal(test_cat$name, name)
+})
+
+#### Test delete / clean up ####
+
+test_that("category_delete works", {
+    expect_error(category_delete(name, conn), NA) # Expect no error
 })
