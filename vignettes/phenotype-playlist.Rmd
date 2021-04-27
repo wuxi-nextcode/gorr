@@ -1,10 +1,10 @@
 ---
-title: "Phenotype Playlists"
+title: "Phenotype playlists"
 author: "Andri M. Stefansson <andri@genuitysci.com>"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Phenotype Playlists}
+  %\VignetteIndexEntry{Phenotype playlists}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -72,7 +72,7 @@ To add multiple phenotypes when initializing a new playlist you can either do so
 NB: Before adding phenotype/s to a playlist, make sure the phenotypes exist in the project, to list all phenotypes see `get_phenotypes`.
 
 ```{r}
-name <- "Diabetes" # Name of new playlist
+name <- paste0("Diabetes", sample(1:99,1)) # Name of new playlist
 descr <- "A set of all phenotypes related to diabetes in UKBB"
 new_playlist <- create_playlist(name, conn, description = descr)
 ```
@@ -100,13 +100,15 @@ new_playlist <- playlist_refresh(new_playlist, conn)
 
 ## Add phenotype to playlist
 
-Once a playlist has been fetched or created we can add phenotypes to it. As for adding phenotypes when createing a new playlist we need to make sure that the phenotype does exist in the catalog and has not been assinged to the playlist alread.
+Once a playlist has been fetched or created we can add phenotypes to it. As for adding phenotypes when creating a new playlist we need to make sure that the phenotype does exist in the catalog and has not been assigned to the playlist already.
 
-```{r, eval=FALSE}
-phenos <- get_phenotypes(conn, limit = 2) # Fetch two existing phenotypes
-print(phenos)
-new_playlist  <- playlist_add_phenotype(phenos, new_playlist, conn)
-print(new_playlist$phenotypes)
+```{r}
+# Create a test phenotype 
+pheno_name <- paste0("rtest_pheno", sample(1:99,1)) # Name of new phenotype
+result_type <- "CATEGORY" # Type of phenotype (either "QT", "SET" or "CATEGORY")
+tmp_phenotype <- create_phenotype(pheno_name, result_type, conn)
+new_playlist  <- playlist_add_phenotype(pheno_name, new_playlist, conn)
+print(new_playlist$phenotypes[1:4])
 ```
 
 
@@ -116,4 +118,6 @@ A playlist can easily be deleted by passing a playlist object to the `playlist_d
 
 ```{r}
 playlist_delete(new_playlist, conn)
+#Clean up phenotype
+phenotype_delete(tmp_phenotype, conn)
 ```

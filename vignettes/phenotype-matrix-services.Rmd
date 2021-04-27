@@ -1,10 +1,10 @@
 ---
-title: "Exploring phenotype matrix services"
+title: "Phenotype matrix services"
 author: "Andri M. Stefansson <andri@genuitysci.com>"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Phenotaype Matrix Services}
+  %\VignetteIndexEntry{Phenotype matrix services}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

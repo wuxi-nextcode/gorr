@@ -1,10 +1,10 @@
 ---
-title: "Exploring phenotype services"
+title: "Phenotype services"
 author: "Andri M. Stefansson <andri@genuitysci.com>"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Phenotype Services}
+  %\VignetteIndexEntry{Phenotype services}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -58,7 +58,7 @@ Let's start by listing available phenotypes in project
 
 ```{r}
 phenotypes <- get_phenotypes(conn)
-sample(phenotypes, 5)
+print(phenotypes[1:4])
 ```
 
 The results come back as a `vector` of phenotypes
@@ -120,7 +120,7 @@ query2 <- gor_query
 tags2 <- "dietary,nutrition"
 
 new_phenotype2 <- create_phenotype(name2, result_type2, conn, description2, query = query2, tags = tags2)
-new_phenotype2
+print(new_phenotype2[1:4])
 phenotype_delete(new_phenotype2, conn)
 ```
 
@@ -129,7 +129,7 @@ we can refresh the phenotype using the `phenotype_refresh` method
 
 ```{r}
 new_phenotype <- phenotype_refresh(new_phenotype, conn)
-new_phenotype
+new_phenotype[1:4]
 ```
 
 ## Update phenotype description
@@ -175,7 +175,7 @@ get_data(new_phenotype, conn)
 We can list all available tags in the catalog using `get_tags` and passing the `gor_connection` object.
 
 ```{r}
-get_tags(conn)
+get_tags(conn)[1:4]
 ```
 
 ## Get phenotype tags
