@@ -93,4 +93,4 @@ or by using `gor_connect` and passing the relevant `api-endpoint` parameter.
 pheno_conn <- gor_connect(api_key, project = "test_proj", api_endpoint = "api/phenotype-catalog")
 ```
 
-For an example on how to interact with the Phenotype Catalog Services, please see articles: `Exploring phenotype services` and `Exploring phenotype matrix services`.
+For an example on how to interact with the Phenotype Catalog Services, please see articles: `Phenotype services`, `Phenotype matrix services`, `Phenotype categories` and `Phenotype playlists`.

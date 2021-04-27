@@ -1,3 +1,9 @@
+# gorr 1.1.0
+
+* Phenotype playlists support
+* Phenotype category support
+* Add get_data support for Phenotypes
+
 # gorr 1.0.0
 
 * Phenotype-catalog services

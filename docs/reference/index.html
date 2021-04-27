@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -111,10 +111,16 @@
       <a href="../articles/persistance-of-results.html">Server-side Persistance of Query Results</a>
     </li>
     <li>
-      <a href="../articles/phenotype-matrix-services.html">Exploring phenotype matrix services</a>
+      <a href="../articles/phenotype-categories.html">Phenotype categories</a>
     </li>
     <li>
-      <a href="../articles/phenotype-services.html">Exploring phenotype services</a>
+      <a href="../articles/phenotype-matrix-services.html">Phenotype matrix services</a>
+    </li>
+    <li>
+      <a href="../articles/phenotype-playlist.html">Phenotype playlists</a>
+    </li>
+    <li>
+      <a href="../articles/phenotype-services.html">Phenotype services</a>
     </li>
   </ul>
 </li>
@@ -168,9 +174,27 @@
       <tr>
         
         <td>
+          <p><code><a href="category_delete.html">category_delete()</a></code> </p>
+        </td>
+        <td><p>Delete a phenotype category</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="create_category.html">create_category()</a></code> </p>
+        </td>
+        <td><p>Add a new category to this project.</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="create_phenotype.html">create_phenotype()</a></code> </p>
         </td>
         <td><p>Create a new phenotype in the current project.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="create_playlist.html">create_playlist()</a></code> </p>
+        </td>
+        <td><p>Create a new playlist in the current project.</p></td>
       </tr><tr>
         
         <td>
@@ -180,9 +204,15 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="get_categories.html">get_categories()</a></code> </p>
+        </td>
+        <td><p>A list of all categories available in the system.</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="get_data.html">get_data()</a></code> </p>
         </td>
-        <td><p>Retrieve a phenotype matrix from the server.</p></td>
+        <td><p>Retrieve phenotype data or phenotype matrix data from the server.</p></td>
       </tr><tr>
         
         <td>
@@ -213,6 +243,18 @@
           <p><code><a href="get_phenotypes.html">get_phenotypes()</a></code> </p>
         </td>
         <td><p>A list of all the phenotypes in the current project.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_playlist.html">get_playlist()</a></code> </p>
+        </td>
+        <td><p>Get playlist in the current project based on the playlist id.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_playlists.html">get_playlists()</a></code> </p>
+        </td>
+        <td><p>A list of all the playlists in the current project.</p></td>
       </tr><tr>
         
         <td>
@@ -309,7 +351,7 @@ server side</p></td>
         <td>
           <p><code><a href="phemat_add_phenotypes.html">phemat_add_phenotypes()</a></code> </p>
         </td>
-        <td><p>Add a list of phenotypes to the matrix request.</p></td>
+        <td><p>Add multiple phenotypes to a phenotype matrix request.</p></td>
       </tr><tr>
         
         <td>
@@ -371,6 +413,24 @@ server side</p></td>
           <p><code><a href="phenotype_upload_data.html">phenotype_upload_data()</a></code> </p>
         </td>
         <td><p>Upload phenotype data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="playlist_add_phenotype.html">playlist_add_phenotype()</a></code> </p>
+        </td>
+        <td><p>Add phenotype/s to a playlist.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="playlist_delete.html">playlist_delete()</a></code> </p>
+        </td>
+        <td><p>Delete a playlist from a project.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="playlist_refresh.html">playlist_refresh()</a></code> </p>
+        </td>
+        <td><p>Refresh playlist</p></td>
       </tr>
     </tbody>
     </table>
@@ -386,7 +446,7 @@ server side</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Genuity Science, Edvald Gislason.</p>
+  <p>Developed by <a href='https://genuitysci.com'>Genuity Science</a>, Edvald Gislason.</p>
 </div>
 
 <div class="pkgdown">

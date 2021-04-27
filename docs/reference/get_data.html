@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Retrieve a phenotype matrix from the server. — get_data • gorr</title>
+<title>Retrieve phenotype data or phenotype matrix data from the server. — get_data • gorr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Retrieve a phenotype matrix from the server. — get_data" />
-<meta property="og:description" content="Can be called after phenotypes have been added to the request. Create it
+<meta property="og:title" content="Retrieve phenotype data or phenotype matrix data from the server. — get_data" />
+<meta property="og:description" content="If input is phenotype matrix object then phenotypes need te have been added to the phenotype matrix object. Create it
 using get_phenotype_matrix and add to it
 using phemat_add_phenotype or phemat_add_phenotypes" />
 <meta property="og:image" content="/logo.svg" />
@@ -82,7 +82,7 @@ using phemat_add_phenotype or phemat_add_phenotypes" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -114,10 +114,16 @@ using phemat_add_phenotype or phemat_add_phenotypes" />
       <a href="../articles/persistance-of-results.html">Server-side Persistance of Query Results</a>
     </li>
     <li>
-      <a href="../articles/phenotype-matrix-services.html">Exploring phenotype matrix services</a>
+      <a href="../articles/phenotype-categories.html">Phenotype categories</a>
     </li>
     <li>
-      <a href="../articles/phenotype-services.html">Exploring phenotype services</a>
+      <a href="../articles/phenotype-matrix-services.html">Phenotype matrix services</a>
+    </li>
+    <li>
+      <a href="../articles/phenotype-playlist.html">Phenotype playlists</a>
+    </li>
+    <li>
+      <a href="../articles/phenotype-services.html">Phenotype services</a>
     </li>
   </ul>
 </li>
@@ -145,43 +151,42 @@ using phemat_add_phenotype or phemat_add_phenotypes" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Retrieve a phenotype matrix from the server.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_matrix_svc.R'><code>R/phenotype_matrix_svc.R</code></a></small>
+    <h1>Retrieve phenotype data or phenotype matrix data from the server.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_matrix.R'><code>R/phenotype_matrix.R</code></a></small>
     <div class="hidden name"><code>get_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Can be called after phenotypes have been added to the request. Create it
+    <p>If input is phenotype matrix object then phenotypes need te have been added to the phenotype matrix object. Create it
 using <code><a href='get_phenotype_matrix.html'>get_phenotype_matrix</a></code> and add to it
 using <code><a href='phemat_add_phenotype.html'>phemat_add_phenotype</a></code> or <code><a href='phemat_add_phenotypes.html'>phemat_add_phenotypes</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_data</span><span class='op'>(</span><span class='va'>phenotype_matrix</span>, <span class='va'>conn</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_data</span><span class='op'>(</span><span class='va'>phenotype_obj</span>, <span class='va'>conn</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>phenotype_matrix</th>
-      <td><p>phenotype_matrix structure.</p></td>
+      <th>phenotype_obj</th>
+      <td><p>phenotype or phenotype_matrix structure.</p></td>
     </tr>
     <tr>
       <th>conn</th>
-      <td><p>gor connection structure, create it using
-<code><a href='phenotype_connect.html'>phenotype_connect</a></code> or <code><a href='gor_connect.html'>gor_connect</a></code></p></td>
+      <td><p>gor connection structure, create it using <code><a href='phenotype_connect.html'>phenotype_connect</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>phenotype matrix tibble from server</p>
+    <p>tibble from server</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>api_key</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GOR_API_KEY"</span><span class='op'>)</span>
 <span class='va'>project</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GOR_PROJECT"</span><span class='op'>)</span>
 <span class='va'>conn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='phenotype_connect.html'>phenotype_connect</a></span><span class='op'>(</span><span class='va'>api_key</span>, <span class='va'>project</span><span class='op'>)</span>
-<span class='va'>phenotype_mat</span> <span class='op'>&lt;-</span> <span class='fu'>get_phenotype_mat</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>phenotype_mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_phenotype_matrix.html'>get_phenotype_matrix</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>phenotype_mat</span> <span class='op'>&lt;-</span>  <span class='fu'><a href='phemat_add_phenotypes.html'>phemat_add_phenotypes</a></span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 <span class='va'>phenotype_data</span> <span class='op'>&lt;-</span> <span class='fu'>get_data</span><span class='op'>(</span><span class='va'>phenotype_mat</span>, <span class='va'>conn</span><span class='op'>)</span>
 <span class='op'>}</span>
@@ -197,7 +202,7 @@ using <code><a href='phemat_add_phenotype.html'>phemat_add_phenotype</a></code> 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Genuity Science, Edvald Gislason.</p>
+  <p>Developed by <a href='https://genuitysci.com'>Genuity Science</a>, Edvald Gislason.</p>
 </div>
 
 <div class="pkgdown">

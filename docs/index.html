@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -70,10 +70,16 @@
       <a href="articles/persistance-of-results.html">Server-side Persistance of Query Results</a>
     </li>
     <li>
-      <a href="articles/phenotype-matrix-services.html">Exploring phenotype matrix services</a>
+      <a href="articles/phenotype-categories.html">Phenotype categories</a>
     </li>
     <li>
-      <a href="articles/phenotype-services.html">Exploring phenotype services</a>
+      <a href="articles/phenotype-matrix-services.html">Phenotype matrix services</a>
+    </li>
+    <li>
+      <a href="articles/phenotype-playlist.html">Phenotype playlists</a>
+    </li>
+    <li>
+      <a href="articles/phenotype-services.html">Phenotype services</a>
     </li>
   </ul>
 </li>
@@ -174,7 +180,7 @@
 <p>or by using <code>gor_connect</code> and passing the relevant <code>api-endpoint</code> parameter.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pheno_conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gor_connect.html">gor_connect</a></span><span class="op">(</span><span class="va">api_key</span>, project <span class="op">=</span> <span class="st">"test_proj"</span>, api_endpoint <span class="op">=</span> <span class="st">"api/phenotype-catalog"</span><span class="op">)</span></code></pre></div>
-<p>For an example on how to interact with the Phenotype Catalog Services, please see articles: <code>Exploring phenotype services</code> and <code>Exploring phenotype matrix services</code>.</p>
+<p>For an example on how to interact with the Phenotype Catalog Services, please see articles: <code>Phenotype services</code>, <code>Phenotype matrix services</code>, <code>Phenotype categories</code> and <code>Phenotype playlists</code>.</p>
 </div>
 </div>
 
@@ -200,7 +206,8 @@
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Genuity Science <br><small class="roles"> Author, maintainer, copyright holder </small>  </li>
+<li>
+<a href="https://genuitysci.com">Genuity Science</a> <br><small class="roles"> Author, maintainer, copyright holder </small>  </li>
 <li>Edvald Gislason <br><small class="roles"> Author </small>  </li>
 <li><a href="authors.html">All authors...</a></li>
 </ul>
@@ -211,7 +218,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Genuity Science, Edvald Gislason.</p>
+  <p>Developed by <a href="https://genuitysci.com">Genuity Science</a>, Edvald Gislason.</p>
 </div>
 
 <div class="pkgdown">

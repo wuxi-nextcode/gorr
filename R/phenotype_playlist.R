@@ -243,7 +243,7 @@ playlist_refresh <- function(playlist, conn) {
 #' project <- Sys.getenv("GOR_PROJECT")
 #' conn <- phenotype_connect(api_key, project)
 #' playlist <- get_playlist(conn, id=1)
-#' playlist_delete(playlist. conn)
+#' playlist_delete(playlist, conn)
 #' }
 playlist_delete <- function(playlist, conn) {
     assertthat::assert_that(class(playlist) == "playlist")

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add a list of phenotypes to the matrix request. — phemat_add_phenotypes • gorr</title>
+<title>Add multiple phenotypes to a phenotype matrix request. — phemat_add_phenotypes • gorr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Add a list of phenotypes to the matrix request. — phemat_add_phenotypes" />
-<meta property="og:description" content="Add a list of phenotypes to the matrix request." />
+<meta property="og:title" content="Add multiple phenotypes to a phenotype matrix request. — phemat_add_phenotypes" />
+<meta property="og:description" content="Add multiple phenotypes to a phenotype matrix request." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -112,10 +112,16 @@
       <a href="../articles/persistance-of-results.html">Server-side Persistance of Query Results</a>
     </li>
     <li>
-      <a href="../articles/phenotype-matrix-services.html">Exploring phenotype matrix services</a>
+      <a href="../articles/phenotype-categories.html">Phenotype categories</a>
     </li>
     <li>
-      <a href="../articles/phenotype-services.html">Exploring phenotype services</a>
+      <a href="../articles/phenotype-matrix-services.html">Phenotype matrix services</a>
+    </li>
+    <li>
+      <a href="../articles/phenotype-playlist.html">Phenotype playlists</a>
+    </li>
+    <li>
+      <a href="../articles/phenotype-services.html">Phenotype services</a>
     </li>
   </ul>
 </li>
@@ -143,13 +149,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add a list of phenotypes to the matrix request.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_matrix_svc.R'><code>R/phenotype_matrix_svc.R</code></a></small>
+    <h1>Add multiple phenotypes to a phenotype matrix request.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_matrix.R'><code>R/phenotype_matrix.R</code></a></small>
     <div class="hidden name"><code>phemat_add_phenotypes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Add a list of phenotypes to the matrix request.</p>
+    <p>Add multiple phenotypes to a phenotype matrix request.</p>
     </div>
 
     <pre class="usage"><span class='fu'>phemat_add_phenotypes</span><span class='op'>(</span><span class='va'>names</span>, <span class='va'>phenotype_matrix</span>, missing_value <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
@@ -159,7 +165,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>names</th>
-      <td><p>List of phenotype names</p></td>
+      <td><p>a comma seperated string or character vector of phenotype/s to be added. E.g. "height,weight" or c("height", "weight")</p></td>
     </tr>
     <tr>
       <th>phenotype_matrix</th>
@@ -167,7 +173,7 @@
     </tr>
     <tr>
       <th>missing_value</th>
-      <td><p>The string to substitute for a missing value in the data</p></td>
+      <td><p>The string to substitute for missing values in the data</p></td>
     </tr>
     </table>
 
@@ -178,7 +184,7 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>phenotype_mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_phenotype_matrix.html'>get_phenotype_matrix</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>phenotype_mat</span> <span class='op'>&lt;-</span> <span class='fu'>phemat_add_phenotypes</span><span class='op'>(</span>name<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"PT1"</span>, <span class='st'>"PT2"</span><span class='op'>)</span>, phenotype_matrix <span class='op'>=</span> <span class='va'>phenotype_mat</span><span class='op'>)</span>
+<span class='va'>phenotype_mat</span> <span class='op'>&lt;-</span> <span class='fu'>phemat_add_phenotypes</span><span class='op'>(</span>names<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"PT1"</span>, <span class='st'>"PT2"</span><span class='op'>)</span>, phenotype_matrix <span class='op'>=</span> <span class='va'>phenotype_mat</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
@@ -192,7 +198,7 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Genuity Science, Edvald Gislason.</p>
+  <p>Developed by <a href='https://genuitysci.com'>Genuity Science</a>, Edvald Gislason.</p>
 </div>
 
 <div class="pkgdown">

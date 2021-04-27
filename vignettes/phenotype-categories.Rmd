@@ -1,10 +1,10 @@
 ---
-title: "Phenotype Categories"
+title: "Phenotype categories"
 author: "Andri M. Stefansson <andri@genuitysci.com>"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Phenotype Categories}
+  %\VignetteIndexEntry{Phenotype categories}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -56,9 +56,13 @@ If everything goes as planned, we'll have a `conn` object to pass into subsequen
 
 All available categories can be listed by passing the `conn` object to the `get_categories` function
 
-```{r}
+```{r, eval=FALSE}
 categories <- get_categories(conn)
-sample(categories, 5)
+categories
+```
+```{r, echo=FALSE}
+categories <- get_categories(conn)
+tail(categories, 4)
 ```
 
 The results come back as a `vector` of categories
@@ -84,10 +88,15 @@ print(new_category)
 
 Categories can be removed from project by passing the name of the category to `category_delete` along with the connector object.
 
-```{r}
+```{r, eval=FALSE}
 get_categories(conn)
 print(name) # Category to be deleted
 category_delete(name, conn)
 get_categories(conn)
 ```
-
+```{r, echo=FALSE}
+tail(get_categories(conn), 5)
+print(name) # Category to be deleted
+category_delete(name, conn)
+tail(get_categories(conn), 4)
+```
