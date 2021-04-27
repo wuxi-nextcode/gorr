@@ -67,6 +67,12 @@ test_that("phenotype_upload_data works", {
     expect_error(phenotype_upload_data(data=input, test_phenotype, conn), NA) # Expect no error
 })
 
+test_that("phenotype_upload_data works", {
+    input <- list(list("20001", "obese"), list("20002", "lean"))
+    data <- get_data(test_phenotype, conn) # Expect no error
+    expect_equal(names(data), c('pn',test_name))
+})
+
 #### Test phenotype tag services ####
 
 

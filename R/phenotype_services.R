@@ -352,7 +352,7 @@ phenotype_get_tags <- function(phenotype) {
 
 #' Add a new tag/s to this phenotype.
 #'
-#' @param tag string of tag/s to be added. Multiple tags should be seperated by comma e.g. "height,weight" or character vector "c("height", "weight")
+#' @param tag string or character vector of tag/s to be added. Tags should be seperated by comma e.g. "height,weight" or as vector "c("height", "weight")
 #' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
 #' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}
 #'

@@ -80,7 +80,7 @@ We can add a new phenotype to the project using the `create_phenotype` function 
 
 ```{r}
 name <- paste0("rtest_pheno", sample(1:99,1)) # Name of new phenotype
-result_type <- "QT" # Type of phenotype (either "QT", "SET" or "CATEGORY")
+result_type <- "CATEGORY" # Type of phenotype (either "QT", "SET" or "CATEGORY")
 description <- "This is a test phenotype" # Optional phenotype description
 new_phenotype <- create_phenotype(name, result_type, conn, description)
 print(new_phenotype[1:4])
@@ -161,6 +161,13 @@ print(data[1:2])
 
 phenotype_upload_data(new_phenotype, data, conn)
 
+```
+## Get phenotype data
+
+Phenotype data can then be fetched using `get_data`:
+
+```{r}
+get_data(new_phenotype, conn)
 ```
 
 ## Get all tags available in the phenotype catalog
