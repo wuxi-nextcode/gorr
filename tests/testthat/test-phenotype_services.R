@@ -7,10 +7,10 @@ test_name <- NULL
 test_phenotype <- NULL
 
 test_that("phenotype_connect works", {
-    conn <<- phenotype_connect(
+    conn <<- platform_connect(
         api_key = Sys.getenv("GOR_API_KEY"),
         project = Sys.getenv("GOR_API_PROJECT"))
-    expect_is(conn, "gor_connection")
+    expect_is(conn, "platform_connection")
     expect_true(!is.null(conn$header))
     expect_true(!is.null(conn$header$headers[["Authorization"]]))
 
@@ -19,7 +19,7 @@ test_that("phenotype_connect works", {
 
 test_that("phenotype_connect works without parameters", {
     conn <- phenotype_connect()
-    expect_is(conn, "gor_connection")
+    expect_is(conn, "platform_connection")
     expect_true(!is.null(conn$header))
     expect_true(!is.null(conn$header$headers[["Authorization"]]))
 

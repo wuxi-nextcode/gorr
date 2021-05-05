@@ -1,6 +1,6 @@
 #' A list of all categories available in the system.
 #'
-#' @param conn gor connection structure, create it using \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #'
 #' @return List of categories
 #' @export
@@ -9,13 +9,13 @@
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' phenotypes <- get_categories(conn)
 #' }
 get_categories <- function(conn) {
-    assertthat::assert_that(class(conn) == "gor_connection")
+    assertthat::assert_that(class(conn) == "platform_connection")
 
-    url <- paste(get__url_from_conn(conn, "projects"), get__project(conn), "categories", sep="/")
+    url <- paste(gorr__get_endpoint(conn, "phenotype-catalog", "projects"), conn$project, "categories", sep="/")
 
     resp <- gorr__api_request("GET",
                               url = url,
@@ -28,7 +28,7 @@ get_categories <- function(conn) {
 #' Add a new category to this project.
 #'
 #' @param name Unique (lowercase) category name in the project
-#' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using  \code{\link{platform_connect}}
 #'
 #' @return a list of category attrbues
 #'
@@ -39,15 +39,15 @@ get_categories <- function(conn) {
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' name <- "testCat1"
 #' category <- create_category(name, conn)
 #' }
 create_category <- function(name, conn) {
     assertthat::assert_that(is.string(name))
-    assertthat::assert_that(class(conn) == "gor_connection")
+    assertthat::assert_that(class(conn) == "platform_connection")
 
-    url <- paste(get__url_from_conn(conn, "projects"), get__project(conn), "categories", sep="/")
+    url <- paste(gorr__get_endpoint(conn, "phenotype-catalog", "projects"), conn$project, "categories", sep="/")
 
     content <- list(name = name)
 
@@ -61,7 +61,7 @@ create_category <- function(name, conn) {
 #' Delete a phenotype category
 #'
 #' @param name phenotype category name in the project
-#' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #'
 #' @export
 #'
@@ -69,12 +69,12 @@ create_category <- function(name, conn) {
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' name <- "testCat"
 #' category_delete(name, conn)
 #' }
 category_delete <- function(name, conn) {
-    url <- paste(get__url_from_conn(conn, "projects"), get__project(conn), "categories", name, sep="/")
+    url <- paste(gorr__get_endpoint(conn, "phenotype-catalog", "projects"), conn$project, "categories", name, sep="/")
 
     gorr__api_request("DELETE",
                       url = url,

@@ -60,7 +60,7 @@ phenotype <- function(phenotype) {
 
 #' A list of all the phenotypes in the current project.
 #'
-#' @param conn gor connection structure, create it using \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #' @param tags Optional character, character vector or list of tags to filter for.
 #' @param limit Maximum number of results (default: 100)
 #'
@@ -71,20 +71,20 @@ phenotype <- function(phenotype) {
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' phenotypes <- get_phenotypes(conn)
 #' }
 get_phenotypes <- function(conn,
                            tags = list(),
                            limit = 100) {
-    assertthat::assert_that(class(conn) == "gor_connection")
+    assertthat::assert_that(class(conn) == "platform_connection")
     assertthat::assert_that(is.numeric(limit))
     if (!is.null(tags)) {
         assertthat::assert_that(is.list(tags) | is.character(tags))
     }
 
 
-    url <- get__url_from_conn(conn, "phenotypes")
+    url <- gorr__get_endpoint(conn, "phenotype-catalog", "phenotypes")
 
     content <- list(with_all_tags = as.list(tags),
                     limit = limit)
@@ -101,7 +101,7 @@ get_phenotypes <- function(conn,
 #' Get a specific phenotype in the current project.
 #'
 #' @param name Unique (lowercase) phenotype name in the project
-#' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or  \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #'
 #' @return a list with the phenotype object
 #'
@@ -112,16 +112,16 @@ get_phenotypes <- function(conn,
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' name <- "height"
 #' phenotype <- get_phenotype(name, conn)
 #' }
 get_phenotype <- function(name, conn) {
     assertthat::assert_that(is.character(name))
-    assertthat::assert_that(class(conn) == "gor_connection")
+    assertthat::assert_that(class(conn) == "platform_connection")
 
     url <-
-        paste(get__url_from_conn(conn, "phenotypes"), name, sep = "/")
+        paste(gorr__get_endpoint(conn, "phenotype-catalog", "phenotypes"), name, sep = "/")
 
     resp <- gorr__api_request("GET", url = url, conn = conn)
 
@@ -132,7 +132,7 @@ get_phenotype <- function(name, conn) {
 #'
 #' @param name Unique (lowercase) phenotype name in the project
 #' @param result_type Type of phenotype (supported types: "SET", "QT" and "CATEGORY")
-#' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #' @param description Optional Phenotype description
 #' @param url Reference URL for the phenotype (to dataset or other reference)
 #' @param category Enter the category for the phenotype (must be defined in the project - see get_categories) (optional)
@@ -148,7 +148,7 @@ get_phenotype <- function(name, conn) {
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' name <- "height"
 #' result_type <- "QT"
 #' description <- "Height of individuals"
@@ -158,7 +158,7 @@ create_phenotype <-
     function(name, result_type, conn, description = NULL, url=NULL, category = NULL, query = NULL, tags = NULL) {
         assertthat::assert_that(is.string(name))
         assertthat::assert_that(is.string(result_type))
-        assertthat::assert_that(class(conn) == "gor_connection")
+        assertthat::assert_that(class(conn) == "platform_connection")
 
         SUPPORTED_RESULT_TYPES <- c("SET", "QT", "CATEGORY")
 
@@ -189,7 +189,7 @@ create_phenotype <-
             stop('result_tupe should be one of : "SET", "QT" and "CATEGORY"')
         }
 
-        uri <- get__url_from_conn(conn, "phenotypes")
+        uri <- gorr__get_endpoint(conn, "phenotype-catalog", "phenotypes")
 
         content <- list(name = name,
                         result_type = result_type,
@@ -211,8 +211,8 @@ create_phenotype <-
 #' Update the phenotype with a new description
 #'
 #' @param description phenotype description
-#' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
-#' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}
+#' @param phenotype phenotype structure, create or get it using \code{\link{get_phenotype}}
+#' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{platform_connect}}
 #'
 #' @return an updated list with the phenotype object
 #' @export
@@ -221,7 +221,7 @@ create_phenotype <-
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' name <- "height"
 #' phenotype <- get_phenotype(name, conn)
 #' description <- "individual height"
@@ -231,7 +231,7 @@ phenotype_update_description <-
     function(description, phenotype, conn) {
         assertthat::assert_that(is.character(description))
         assertthat::assert_that(class(phenotype) == "phenotype")
-        assertthat::assert_that(class(conn) == "gor_connection")
+        assertthat::assert_that(class(conn) == "platform_connection")
 
         #  Update the phenotype with a new description
         url <- get__link(phenotype, "self")
@@ -255,13 +255,13 @@ phenotype_update_description <-
 #'
 #' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
 #' @param data a list of lists to be uploaded
-#' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #'
 #' @export
 phenotype_upload_data <- function(phenotype, data, conn) {
     assertthat::assert_that(class(phenotype) == "phenotype")
     assertthat::assert_that(is.list(data))
-    assertthat::assert_that(class(conn) == "gor_connection")
+    assertthat::assert_that(class(conn) == "platform_connection")
 
     url <- get__link(phenotype, "upload")
     content <- list(data = data)
@@ -277,7 +277,7 @@ phenotype_upload_data <- function(phenotype, data, conn) {
 #' Delete a phenotype, including all data from a project
 #'
 #' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
-#' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #'
 #' @export
 #'
@@ -285,7 +285,7 @@ phenotype_upload_data <- function(phenotype, data, conn) {
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' name <- "height"
 #' phenotype <- get_phenotype(name, conn)
 #' phenotype_delete(phenotype, conn)
@@ -302,7 +302,7 @@ phenotype_delete <- function(phenotype, conn) {
 #' Refresh phenotype
 #'
 #' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
-#' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #'
 #' @return a list with the phenotype object
 #' @export
@@ -311,7 +311,7 @@ phenotype_delete <- function(phenotype, conn) {
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' name <- "height"
 #' result_type <- "QT"
 #' description <- "Height of individuals"
@@ -320,7 +320,7 @@ phenotype_delete <- function(phenotype, conn) {
 #' }
 phenotype_refresh <- function(phenotype, conn) {
     assertthat::assert_that(class(phenotype) == "phenotype")
-    assertthat::assert_that(class(conn) == "gor_connection")
+    assertthat::assert_that(class(conn) == "platform_connection")
 
     url <- get__link(phenotype, "self")
 
@@ -340,9 +340,9 @@ phenotype_refresh <- function(phenotype, conn) {
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
-#' name <- "height"
-#' tags <- phenotype_get_tags(phenotype, conn)
+#' conn <- platform_connect(api_key, project)
+#' phenotype <- get_phenotype(name="height", conn)
+#' tags <- phenotype_get_tags(phenotype)
 #' }
 phenotype_get_tags <- function(phenotype) {
     assertthat::assert_that(class(phenotype) == "phenotype")
@@ -354,14 +354,14 @@ phenotype_get_tags <- function(phenotype) {
 #'
 #' @param tag string or character vector of tag/s to be added. Tags should be seperated by comma e.g. "height,weight" or as vector "c("height", "weight")
 #' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
-#' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #'
 #' @return an updated phenotype object
 #' @export
 phenotype_add_tag <- function(tag, phenotype, conn) {
     assertthat::assert_that(is.character(tag))
     assertthat::assert_that(class(phenotype) == "phenotype")
-    assertthat::assert_that(class(conn) == "gor_connection")
+    assertthat::assert_that(class(conn) == "platform_connection")
 
     tags <- phenotype_get_tags(phenotype)
 
@@ -392,14 +392,14 @@ phenotype_add_tag <- function(tag, phenotype, conn) {
 #'
 #' @param tags string of tags to be added seperated by comma eg. "height,weight"  or character vector "c("height", "weight")
 #' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
-#' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #'
 #' @return an updated list with the phenotype object
 #' @export
 phenotype_set_tags <- function(tags, phenotype, conn) {
     assertthat::assert_that(is.character(tags))
     assertthat::assert_that(class(phenotype) == "phenotype")
-    assertthat::assert_that(class(conn) == "gor_connection")
+    assertthat::assert_that(class(conn) == "platform_connection")
 
     tags <- purrr::map(tags, ~base::strsplit(.x, ",", fixed = TRUE)) %>% unlist()
 
@@ -421,14 +421,14 @@ phenotype_set_tags <- function(tags, phenotype, conn) {
 #'
 #' @param tag string of tag/s to be added seperated by comma eg. "height,weight"  or character vector "c("height", "weight")
 #' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
-#' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #'
 #' @return an updated list with the phenotype object
 #' @export
 phenotype_delete_tag <- function(tag, phenotype, conn) {
     assertthat::assert_that(is.string(tag))
     assertthat::assert_that(class(phenotype) == "phenotype")
-    assertthat::assert_that(class(conn) == "gor_connection")
+    assertthat::assert_that(class(conn) == "platform_connection")
 
     tags <- phenotype_get_tags(phenotype)
 

@@ -25,12 +25,12 @@
 
 #'   GOR-R
 #'
-#' @description R library for remote execution of GOR queries and authorization with Genuity Science gateway API.
+#' @description R library for interfacing with Genuity Science services.
 #' @docType package
 #' @name gorr
 #' @section GOR-R functions:
 #' The main functions you'll be using are:
-#' * \code{\link{gor_connect}} to establish a connection to your GOR API, and
+#' * \code{\link{platform_connect}} to establish a connection to your Genuity Science APIs, and
 #' * \code{\link{gor_query}} to run your queries
 #' @examples
 #' \dontrun{
@@ -44,7 +44,7 @@
 #' api_key <- ""
 #'
 #' # Make connection object
-#' conn <- gor_connect(api_key, "your_project")
+#' conn <- platform_connect(api_key, "your_project")
 #'
 #' # Print the connection details
 #' print(conn)

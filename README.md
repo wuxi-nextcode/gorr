@@ -22,23 +22,23 @@ library(gorr)
 library(tidyverse)
 ```
 
-### Connecting to a GOR Query API
+### Connect to a Genuity Science APIs
 
-First we'll need to establish a connection to our query API. To do that we'll need to call `gor_connect` and provide it with the relevant parameters pointing to the direct-query-service, i.e. `api_key` and `project`. You get the API Key from the `/api-key-service/token` endpoint on your CSA instance, and you can find a list of projects available to you in CSA as well, remember to use the internal project name. Once you have those two things, you have everything you need to make a connection object:
+First we'll need to establish a connection to our APIs. To do that we'll need to call `platform_connect` and provide it with the relevant parameters pointing to the api-services, i.e. `api_key` and `project`. You get the API Key from the `/api-key-service/token` endpoint on your CSA instance, and you can find a list of projects available to you in CSA as well, remember to use the internal project name. Once you have those two things, you have everything you need to make a connection object:
 
 ``` r
 api_key <- "your_api_key_here"
-conn <- gor_connect(api_key, project = "test_proj")
+conn <- platform_connect(api_key, project = "test_proj")
 ```
 
-Alternatively, one can define the environment variables `GOR_API_KEY` and (optionally) `GOR_API_PROJECT`. This can also be done for your R session exclusively by including those lines in a `.Renviron` file in your working directory. When these variables are set you can call gor_connect without specifying `api_key` or `project`:
+Alternatively, one can define the environment variables `GOR_API_KEY` and (optionally) `GOR_API_PROJECT`. This can also be done for your R session exclusively by including those lines in a `.Renviron` file in your working directory. When these variables are set you can call platform_connect without specifying `api_key` or `project`:
 
 ```r
-conn <- gor_connect() # uses both GOR_API_KEY and GOR_API_PROJECT
-conn <- gor_connect(project = "test_proj") # uses only GOR_API_KEY 
+conn <- platform_connect() # uses both GOR_API_KEY and GOR_API_PROJECT
+conn <- platform_connect(project = "test_proj") # uses only GOR_API_KEY 
 ```
 
-If everything goes as planned, we'll have a `conn` object ready to be passed into the `gor_query` function.
+If everything goes as planned, we'll have a `conn` object ready to be passed into the `gor_query` and other functions interacting with the APIs.
 
 ### Gor Query Services
 
@@ -81,16 +81,16 @@ print(chr21_results)
 
 ### Phenotype Catalog Services
 
-As for the query API, we can start to interact with the phenotype catalog API using `gorr` r-package. Similarly as before, we'll need to establish a connection to our phenotype catalog API by calling  `phenotype_connect`
+We can list available phenotypes in the phenotype-catalog using `get_phenotypes` and pass the connection object as before:
 
 ``` r
-pheno_conn <- phenotype_connect(api_key, project = "test_proj")
+get_phenotypes(conn)
 ```
 
-or by using `gor_connect` and passing the relevant `api-endpoint` parameter.
+If the goal is to work with a single phenotype we can either fetch an existing phenotype from the catalog by passing the name of the phenotype and the connection object to the  `get_phenotype` function or by creating a new phenotype using `create_phenotype` method. In both cases a `phenotype` object is returned containing the phenotype's attributes.
 
 ``` r
-pheno_conn <- gor_connect(api_key, project = "test_proj", api_endpoint = "api/phenotype-catalog")
+phenotype <- create_phenotype(name, conn)
 ```
 
-For an example on how to interact with the Phenotype Catalog Services, please see articles: `Phenotype services`, `Phenotype matrix services`, `Phenotype categories` and `Phenotype playlists`.
+For more details on how to interact with the Phenotype Catalog Services, please see articles: `Phenotype services`, `Phenotype matrix services`, `Phenotype categories` and `Phenotype playlists`.

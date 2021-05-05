@@ -56,7 +56,7 @@ playlist <- function(playlist) {
 
 #' A list of all the playlists in the current project.
 #'
-#' @param conn gor connection structure, create it using \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #' @param limit Maximum number of results (default: 100)
 #'
 #' @return List of playlists
@@ -66,14 +66,14 @@ playlist <- function(playlist) {
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' playlists <- get_playlists(conn)
 #' }
 get_playlists <- function(conn, limit = 100) {
-    assertthat::assert_that(class(conn) == "gor_connection")
+    assertthat::assert_that(class(conn) == "platform_connection")
     assertthat::assert_that(is.numeric(limit))
 
-    url <- paste(get__url_from_conn(conn, "projects"), get__project(conn), "playlists", sep="/")
+    url <- paste(gorr__get_endpoint(conn, "phenotype-catalog", "projects"), conn$project, "playlists", sep="/")
 
     content <- list(limit = limit)
 
@@ -88,7 +88,7 @@ get_playlists <- function(conn, limit = 100) {
 #' Get playlist in the current project based on the playlist id.
 #'
 #' @param id Playlist id
-#' @param conn gor connection structure, create it using \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #'
 #' @return A playlist object
 #' @export
@@ -97,14 +97,14 @@ get_playlists <- function(conn, limit = 100) {
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' playlist <- get_playlist(id=1, conn)
 #' }
 get_playlist <- function(id, conn) {
-    assertthat::assert_that(class(conn) == "gor_connection")
+    assertthat::assert_that(class(conn) == "platform_connection")
     assertthat::assert_that(is.numeric(id))
 
-    url <- paste(get__url_from_conn(conn, "projects"), get__project(conn), "playlists", id, sep="/")
+    url <- paste(gorr__get_endpoint(conn, "phenotype-catalog", "projects"), conn$project, "playlists", id, sep="/")
 
     resp <- gorr__api_request("GET",
                               url = url,
@@ -116,7 +116,7 @@ get_playlist <- function(id, conn) {
 #' Create a new playlist in the current project.
 #'
 #' @param name Unique (lowercase) playlist name in the project
-#' @param conn gor connection structure, create it using \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #' @param description Free text description of the playlist (optional)
 #' @param phenotypes comma seperated string of phenotypes to  add (optional) eg. "pheno1,pheno2"  or character vector c("pheno1", "pheno2")
 #'
@@ -127,13 +127,13 @@ get_playlist <- function(id, conn) {
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' name <- "testpl"
 #' playlist <- create_playlist(name = name, conn)
 #' }
 create_playlist <- function(name, conn, description=NULL, phenotypes=NULL) {
     assertthat::assert_that(is.string(name))
-    assertthat::assert_that(class(conn) == "gor_connection")
+    assertthat::assert_that(class(conn) == "platform_connection")
 
     if (!is.null(description)) {
         assertthat::assert_that(is.string(description))
@@ -145,7 +145,7 @@ create_playlist <- function(name, conn, description=NULL, phenotypes=NULL) {
             as.list()
     }
 
-    url <- paste(get__url_from_conn(conn, "projects"), get__project(conn), "playlists", sep="/")
+    url <- paste(gorr__get_endpoint(conn, "phenotype-catalog", "projects"), conn$project, "playlists", sep="/")
     payload <- list(name = name,
                    description = description,
                    phenotypes = phenotypes)
@@ -165,7 +165,7 @@ create_playlist <- function(name, conn, description=NULL, phenotypes=NULL) {
 #'
 #' @param name comma seperated string of phenotypes existing in project to add eg. "pheno1,pheno2"  or character vector c("pheno1", "pheno2")
 #' @param playlist playlist structure, create or get it using \code{\link{create_playlist}} or \code{\link{get_playlist}}
-#' @param conn gor connection structure, create it using \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #'
 #' @return A playlist object
 #' @export
@@ -174,7 +174,7 @@ create_playlist <- function(name, conn, description=NULL, phenotypes=NULL) {
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' name <- "testpl"
 #' playlist <- create_playlist(name = name, conn)
 #' playlist <- playlist_add_phenotype("pheno1", playlist, conn)
@@ -182,7 +182,7 @@ create_playlist <- function(name, conn, description=NULL, phenotypes=NULL) {
 playlist_add_phenotype <- function(name, playlist, conn) {
     assertthat::assert_that(is.character(name))
     assertthat::assert_that(class(playlist) == "playlist")
-    assertthat::assert_that(class(conn) == "gor_connection")
+    assertthat::assert_that(class(conn) == "platform_connection")
 
     name <- purrr::map(name, ~base::strsplit(.x, ",", fixed = TRUE)) %>%
             unlist() %>%
@@ -204,7 +204,7 @@ playlist_add_phenotype <- function(name, playlist, conn) {
 #' Refresh playlist
 #'
 #' @param playlist structure, create or get it using \code{\link{create_playlist}} or \code{\link{get_playlist}}
-#' @param conn gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using  \code{\link{platform_connect}}
 #'
 #' @return a list with the playlist object
 #' @export
@@ -213,14 +213,14 @@ playlist_add_phenotype <- function(name, playlist, conn) {
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' name <- "testPL"
 #' pl <- create_playlist(name, conn)
 #' pl <- playlist_refresh(pl, conn)
 #' }
 playlist_refresh <- function(playlist, conn) {
     assertthat::assert_that(class(playlist) == "playlist")
-    assertthat::assert_that(class(conn) == "gor_connection")
+    assertthat::assert_that(class(conn) == "platform_connection")
 
     url <- get__link(playlist, "self")
 
@@ -232,7 +232,7 @@ playlist_refresh <- function(playlist, conn) {
 #' Delete a playlist from a project.
 #'
 #' @param playlist playlist structure, create or get it using \code{\link{create_playlist}} or \code{\link{get_playlist}}
-#' @param conn gor connection structure, create it using \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #'
 #' @return A playlist object
 #' @export
@@ -241,7 +241,7 @@ playlist_refresh <- function(playlist, conn) {
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' playlist <- get_playlist(conn, id=1)
 #' playlist_delete(playlist, conn)
 #' }

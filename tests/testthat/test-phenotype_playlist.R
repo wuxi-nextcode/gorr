@@ -5,7 +5,7 @@ conn <- NULL
 context("test-phenotype_playlist.R")
 
 init_phenotype_playlist_tests <- function() {
-    conn <<- phenotype_connect(
+    conn <<- platform_connect(
         api_key = Sys.getenv("GOR_API_KEY"),
         project = Sys.getenv("GOR_API_PROJECT"))
 

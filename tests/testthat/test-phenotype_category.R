@@ -5,7 +5,7 @@ conn <- NULL
 context("test-phenotype_category.R")
 
 init_phenotype_category_tests <- function() {
-    conn <<- phenotype_connect(
+    conn <<- platform_connect(
         api_key = Sys.getenv("GOR_API_KEY"),
         project = Sys.getenv("GOR_API_PROJECT"))
 

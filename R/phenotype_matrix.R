@@ -162,7 +162,7 @@ phemat_remove_phenotype <- function(name, phenotype_matrix) {
 #' using \code{\link{phemat_add_phenotype}} or \code{\link{phemat_add_phenotypes}}
 #'
 #' @param phenotype_obj phenotype or phenotype_matrix structure.
-#' @param conn gor connection structure, create it using \code{\link{phenotype_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #'
 #' @return tibble from server
 #' @export
@@ -171,7 +171,7 @@ phemat_remove_phenotype <- function(name, phenotype_matrix) {
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- phenotype_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' phenotype_mat <- get_phenotype_matrix()
 #' phenotype_mat <-  phemat_add_phenotypes(...)
 #' phenotype_data <- get_data(phenotype_mat, conn)
@@ -194,7 +194,7 @@ get_data <- function(phenotype_obj, conn) {
             phenotypes = phenotypes
     )
 
-    url <-  get__url_from_conn(conn, "get_phenotype_matrix")
+    url <-  gorr__get_endpoint(conn, "phenotype-catalog", "get_phenotype_matrix")
 
     gorr__api_request("POST", url = url, body = content, conn = conn)
 }
