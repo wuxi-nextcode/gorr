@@ -9,7 +9,7 @@ get_playlist(id, conn)
 \arguments{
 \item{id}{Playlist id}
 
-\item{conn}{gor connection structure, create it using \code{\link{gor_connect}}}
+\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \value{
 A playlist object
@@ -21,7 +21,7 @@ Get playlist in the current project based on the playlist id.
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- phenotype_connect(api_key, project)
+conn <- platform_connect(api_key, project)
 playlist <- get_playlist(id=1, conn)
 }
 }

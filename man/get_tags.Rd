@@ -7,7 +7,7 @@
 get_tags(conn)
 }
 \arguments{
-\item{conn}{gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}}
+\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \value{
 A list of phenotype tags
@@ -19,7 +19,7 @@ Get all tags available in the catalog
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- phenotype_connect(api_key, project)
+conn <- platform_connect(api_key, project)
 tags <- get_tags(conn)
 }
 }

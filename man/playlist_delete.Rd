@@ -9,7 +9,7 @@ playlist_delete(playlist, conn)
 \arguments{
 \item{playlist}{playlist structure, create or get it using \code{\link{create_playlist}} or \code{\link{get_playlist}}}
 
-\item{conn}{gor connection structure, create it using \code{\link{gor_connect}}}
+\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \value{
 A playlist object
@@ -21,7 +21,7 @@ Delete a playlist from a project.
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- phenotype_connect(api_key, project)
+conn <- platform_connect(api_key, project)
 playlist <- get_playlist(conn, id=1)
 playlist_delete(playlist, conn)
 }

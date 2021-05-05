@@ -2,16 +2,16 @@
 % Please edit documentation in R/gor_connect.R
 \name{gorr__reconnect}
 \alias{gorr__reconnect}
-\title{Reconnect using a connection object from \code{\link{gor_connect}}}
+\title{Reconnect using a connection object from \code{\link{platform_connect}}}
 \usage{
 gorr__reconnect(conn)
 }
 \arguments{
-\item{conn}{connection object from \code{\link{gor_connect}}}
+\item{conn}{connection object from \code{\link{platform_connect}}}
 }
 \value{
 a new gor connection object (list)
 }
 \description{
-Reconnect using a connection object from \code{\link{gor_connect}}
+Reconnect using a connection object from \code{\link{platform_connect}}
 }

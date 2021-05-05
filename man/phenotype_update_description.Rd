@@ -9,9 +9,9 @@ phenotype_update_description(description, phenotype, conn)
 \arguments{
 \item{description}{phenotype description}
 
-\item{phenotype}{phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}}
+\item{phenotype}{phenotype structure, create or get it using \code{\link{get_phenotype}}}
 
-\item{conn}{gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}}
+\item{conn}{gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{platform_connect}}}
 }
 \value{
 an updated list with the phenotype object
@@ -23,7 +23,7 @@ Update the phenotype with a new description
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- phenotype_connect(api_key, project)
+conn <- platform_connect(api_key, project)
 name <- "height"
 phenotype <- get_phenotype(name, conn)
 description <- "individual height"

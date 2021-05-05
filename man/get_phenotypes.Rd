@@ -7,7 +7,7 @@
 get_phenotypes(conn, tags = list(), limit = 100)
 }
 \arguments{
-\item{conn}{gor connection structure, create it using \code{\link{gor_connect}}}
+\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 
 \item{tags}{Optional character, character vector or list of tags to filter for.}
 
@@ -23,7 +23,7 @@ A list of all the phenotypes in the current project.
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- phenotype_connect(api_key, project)
+conn <- platform_connect(api_key, project)
 phenotypes <- get_phenotypes(conn)
 }
 }

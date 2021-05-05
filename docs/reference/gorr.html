@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="GOR-R — gorr" />
-<meta property="og:description" content="R library for remote execution of GOR queries and authorization with Genuity Science gateway API." />
+<meta property="og:description" content="R library for interfacing with Genuity Science services." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
       </span>
     </div>
 
@@ -155,7 +155,7 @@
     </div>
 
     <div class="ref-description">
-    <p>R library for remote execution of GOR queries and authorization with Genuity Science gateway API.</p>
+    <p>R library for interfacing with Genuity Science services.</p>
     </div>
 
 
@@ -165,7 +165,7 @@
     
 
 <p>The main functions you'll be using are:</p><ul>
-<li><p><code><a href='gor_connect.html'>gor_connect</a></code> to establish a connection to your GOR API, and</p></li>
+<li><p><code><a href='platform_connect.html'>platform_connect</a></code> to establish a connection to your Genuity Science APIs, and</p></li>
 <li><p><code><a href='gor_query.html'>gor_query</a></code> to run your queries</p></li>
 </ul>
 
@@ -182,7 +182,7 @@
 <span class='va'>api_key</span> <span class='op'>&lt;-</span> <span class='st'>""</span>
 
 <span class='co'># Make connection object</span>
-<span class='va'>conn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='gor_connect.html'>gor_connect</a></span><span class='op'>(</span><span class='va'>api_key</span>, <span class='st'>"your_project"</span><span class='op'>)</span>
+<span class='va'>conn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='platform_connect.html'>platform_connect</a></span><span class='op'>(</span><span class='va'>api_key</span>, <span class='st'>"your_project"</span><span class='op'>)</span>
 
 <span class='co'># Print the connection details</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>conn</span><span class='op'>)</span>

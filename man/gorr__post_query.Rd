@@ -9,7 +9,7 @@ gorr__post_query(query, conn, relations = NULL, persist = NULL)
 \arguments{
 \item{query}{GOR query}
 
-\item{conn}{connection object, see \code{\link{gor_connect}}}
+\item{conn}{connection object, see \code{\link{platform_connect}}}
 
 \item{relations}{data.frames to include with the query in the format \code{list(list(table_name = data.frame() ))}}
 

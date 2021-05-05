@@ -20,7 +20,7 @@ create_phenotype(
 
 \item{result_type}{Type of phenotype (supported types: "SET", "QT" and "CATEGORY")}
 
-\item{conn}{gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}}
+\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 
 \item{description}{Optional Phenotype description}
 
@@ -42,7 +42,7 @@ Create a new phenotype in the current project.
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- phenotype_connect(api_key, project)
+conn <- platform_connect(api_key, project)
 name <- "height"
 result_type <- "QT"
 description <- "Height of individuals"

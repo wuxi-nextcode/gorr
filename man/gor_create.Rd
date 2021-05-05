@@ -11,7 +11,7 @@ gor_create(..., defs = NULL, conn = NULL, replace = NULL)
 
 \item{defs}{definitions string}
 
-\item{conn}{connection object from \code{\link{gor_connect}}}
+\item{conn}{connection object from \code{\link{platform_connect}}}
 
 \item{replace}{replace a previously created \code{gor_create} closure. When supplied, the two will be merged, overwriting existing values with the current values if they have been previously defined}
 }

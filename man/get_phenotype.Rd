@@ -9,7 +9,7 @@ get_phenotype(name, conn)
 \arguments{
 \item{name}{Unique (lowercase) phenotype name in the project}
 
-\item{conn}{gor connection structure, create it using \code{\link{phenotype_connect}} or  \code{\link{gor_connect}}}
+\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \value{
 a list with the phenotype object
@@ -21,7 +21,7 @@ Get a specific phenotype in the current project.
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- phenotype_connect(api_key, project)
+conn <- platform_connect(api_key, project)
 name <- "height"
 phenotype <- get_phenotype(name, conn)
 }

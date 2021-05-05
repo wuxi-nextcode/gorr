@@ -18,8 +18,7 @@ phenotype_connect(api_key = NULL, project = NULL, root_url = NULL)
 returns a list with the connection data
 }
 \description{
-Set up a connection object, and call the phenotype-catalog endpoint to make sure everything is up and running on the
-server side
+This method is depricated and will be removed in future versions
 }
 \examples{
 \dontrun{

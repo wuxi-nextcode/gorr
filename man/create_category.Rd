@@ -9,7 +9,7 @@ create_category(name, conn)
 \arguments{
 \item{name}{Unique (lowercase) category name in the project}
 
-\item{conn}{gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}}
+\item{conn}{gor connection structure, create it using  \code{\link{platform_connect}}}
 }
 \value{
 a list of category attrbues
@@ -21,7 +21,7 @@ Add a new category to this project.
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- phenotype_connect(api_key, project)
+conn <- platform_connect(api_key, project)
 name <- "testCat1"
 category <- create_category(name, conn)
 }

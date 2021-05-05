@@ -19,8 +19,8 @@ Retrieve all tags for phenotype
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- phenotype_connect(api_key, project)
-name <- "height"
-tags <- phenotype_get_tags(phenotype, conn)
+conn <- platform_connect(api_key, project)
+phenotype <- get_phenotype(name="height", conn)
+tags <- phenotype_get_tags(phenotype)
 }
 }

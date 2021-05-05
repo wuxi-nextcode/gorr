@@ -11,7 +11,7 @@ playlist_add_phenotype(name, playlist, conn)
 
 \item{playlist}{playlist structure, create or get it using \code{\link{create_playlist}} or \code{\link{get_playlist}}}
 
-\item{conn}{gor connection structure, create it using \code{\link{gor_connect}}}
+\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \value{
 A playlist object
@@ -23,7 +23,7 @@ Add phenotype/s to a playlist.
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- phenotype_connect(api_key, project)
+conn <- platform_connect(api_key, project)
 name <- "testpl"
 playlist <- create_playlist(name = name, conn)
 playlist <- playlist_add_phenotype("pheno1", playlist, conn)

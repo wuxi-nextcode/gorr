@@ -9,7 +9,7 @@ gorr__kill_query(query_url, conn)
 \arguments{
 \item{query_url}{query url}
 
-\item{conn}{connection object, see \code{\link{gor_connect}}}
+\item{conn}{connection object, see \code{\link{platform_connect}}}
 }
 \description{
 Kill remote query

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
       </span>
     </div>
 
@@ -132,18 +132,18 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/wuxi-nextcode/gorr">gorr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
 </div>
-<div id="connecting-to-a-gor-query-api" class="section level3">
+<div id="connect-to-a-genuity-science-apis" class="section level3">
 <h3 class="hasAnchor">
-<a href="#connecting-to-a-gor-query-api" class="anchor"></a>Connecting to a GOR Query API</h3>
-<p>First we’ll need to establish a connection to our query API. To do that we’ll need to call <code>gor_connect</code> and provide it with the relevant parameters pointing to the direct-query-service, i.e. <code>api_key</code> and <code>project</code>. You get the API Key from the <code>/api-key-service/token</code> endpoint on your CSA instance, and you can find a list of projects available to you in CSA as well, remember to use the internal project name. Once you have those two things, you have everything you need to make a connection object:</p>
+<a href="#connect-to-a-genuity-science-apis" class="anchor"></a>Connect to a Genuity Science APIs</h3>
+<p>First we’ll need to establish a connection to our APIs. To do that we’ll need to call <code>platform_connect</code> and provide it with the relevant parameters pointing to the api-services, i.e. <code>api_key</code> and <code>project</code>. You get the API Key from the <code>/api-key-service/token</code> endpoint on your CSA instance, and you can find a list of projects available to you in CSA as well, remember to use the internal project name. Once you have those two things, you have everything you need to make a connection object:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">api_key</span> <span class="op">&lt;-</span> <span class="st">"your_api_key_here"</span>
-<span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gor_connect.html">gor_connect</a></span><span class="op">(</span><span class="va">api_key</span>, project <span class="op">=</span> <span class="st">"test_proj"</span><span class="op">)</span></code></pre></div>
-<p>Alternatively, one can define the environment variables <code>GOR_API_KEY</code> and (optionally) <code>GOR_API_PROJECT</code>. This can also be done for your R session exclusively by including those lines in a <code>.Renviron</code> file in your working directory. When these variables are set you can call gor_connect without specifying <code>api_key</code> or <code>project</code>:</p>
+<span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/platform_connect.html">platform_connect</a></span><span class="op">(</span><span class="va">api_key</span>, project <span class="op">=</span> <span class="st">"test_proj"</span><span class="op">)</span></code></pre></div>
+<p>Alternatively, one can define the environment variables <code>GOR_API_KEY</code> and (optionally) <code>GOR_API_PROJECT</code>. This can also be done for your R session exclusively by including those lines in a <code>.Renviron</code> file in your working directory. When these variables are set you can call platform_connect without specifying <code>api_key</code> or <code>project</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gor_connect.html">gor_connect</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># uses both GOR_API_KEY and GOR_API_PROJECT</span>
-<span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gor_connect.html">gor_connect</a></span><span class="op">(</span>project <span class="op">=</span> <span class="st">"test_proj"</span><span class="op">)</span> <span class="co"># uses only GOR_API_KEY </span></code></pre></div>
-<p>If everything goes as planned, we’ll have a <code>conn</code> object ready to be passed into the <code>gor_query</code> function.</p>
+<code class="sourceCode R"><span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/platform_connect.html">platform_connect</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># uses both GOR_API_KEY and GOR_API_PROJECT</span>
+<span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/platform_connect.html">platform_connect</a></span><span class="op">(</span>project <span class="op">=</span> <span class="st">"test_proj"</span><span class="op">)</span> <span class="co"># uses only GOR_API_KEY </span></code></pre></div>
+<p>If everything goes as planned, we’ll have a <code>conn</code> object ready to be passed into the <code>gor_query</code> and other functions interacting with the APIs.</p>
 </div>
 <div id="gor-query-services" class="section level3">
 <h3 class="hasAnchor">
@@ -174,13 +174,13 @@
 <div id="phenotype-catalog-services" class="section level3">
 <h3 class="hasAnchor">
 <a href="#phenotype-catalog-services" class="anchor"></a>Phenotype Catalog Services</h3>
-<p>As for the query API, we can start to interact with the phenotype catalog API using <code>gorr</code> r-package. Similarly as before, we’ll need to establish a connection to our phenotype catalog API by calling <code>phenotype_connect</code></p>
+<p>We can list available phenotypes in the phenotype-catalog using <code>get_phenotypes</code> and pass the connection object as before:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pheno_conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/phenotype_connect.html">phenotype_connect</a></span><span class="op">(</span><span class="va">api_key</span>, project <span class="op">=</span> <span class="st">"test_proj"</span><span class="op">)</span></code></pre></div>
-<p>or by using <code>gor_connect</code> and passing the relevant <code>api-endpoint</code> parameter.</p>
+<code class="sourceCode R"><span class="fu"><a href="reference/get_phenotypes.html">get_phenotypes</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span></code></pre></div>
+<p>If the goal is to work with a single phenotype we can either fetch an existing phenotype from the catalog by passing the name of the phenotype and the connection object to the <code>get_phenotype</code> function or by creating a new phenotype using <code>create_phenotype</code> method. In both cases a <code>phenotype</code> object is returned containing the phenotype’s attributes.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pheno_conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gor_connect.html">gor_connect</a></span><span class="op">(</span><span class="va">api_key</span>, project <span class="op">=</span> <span class="st">"test_proj"</span>, api_endpoint <span class="op">=</span> <span class="st">"api/phenotype-catalog"</span><span class="op">)</span></code></pre></div>
-<p>For an example on how to interact with the Phenotype Catalog Services, please see articles: <code>Phenotype services</code>, <code>Phenotype matrix services</code>, <code>Phenotype categories</code> and <code>Phenotype playlists</code>.</p>
+<code class="sourceCode R"><span class="va">phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_phenotype.html">create_phenotype</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">conn</span><span class="op">)</span></code></pre></div>
+<p>For more details on how to interact with the Phenotype Catalog Services, please see articles: <code>Phenotype services</code>, <code>Phenotype matrix services</code>, <code>Phenotype categories</code> and <code>Phenotype playlists</code>.</p>
 </div>
 </div>
 
