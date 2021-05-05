@@ -1,3 +1,7 @@
+# gorr 1.2.0
+
+* phenotype_connect added to replace gor_connect and phenotype_connect - these functions will be removed in later releases
+
 # gorr 1.1.0
 
 * Phenotype playlists support

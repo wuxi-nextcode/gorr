@@ -17,23 +17,23 @@ test_that("fetch__from_lst works", {
 })
 
 
-test_that("get__url_from_conn works", {
+test_that("gorr__get_endpoint works", {
     conn <- list(project="test",
-                 endpoints=list(one = "www.is/{project_name}",
-                                two = "www.com"))
-    result <- get__url_from_conn(conn, "one")
+                 bla = list(endpoints=list(one = "www.is/{project_name}",
+                                           two = "www.com")))
+    result <- gorr__get_endpoint(conn, "bla", "one")
     expect_equal(result, "www.is/test")
 })
 
 
 
-test_that("get__project works", {
-    conn <- list(project="test",
-                 endpoints=list(one = "www.is/{project_name}",
-                                two = "www.com"))
-    result <- get__project(conn)
-    expect_equal(result, "test")
-})
+# test_that("get__project works", {
+#     conn <- list(project="test",
+#                  endpoints=list(one = "www.is/{project_name}",
+#                                 two = "www.com"))
+#     result <- get__project(conn)
+#     expect_equal(result, "test")
+# })
 
 test_that("get__link works", {
     phenotype <- list(project="test",

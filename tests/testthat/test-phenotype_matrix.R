@@ -3,7 +3,7 @@ library(dplyr)
 context("test-phenotype_matrix.R")
 
 initialize_phemat_tests <- function(){
-    conn <<- phenotype_connect(
+    conn <<- platform_connect(
         api_key = Sys.getenv("GOR_API_KEY"),
         project = Sys.getenv("GOR_API_PROJECT"))
     test_name <<- paste0("test_pheno", sample(1:100,1))

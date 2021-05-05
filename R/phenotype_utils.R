@@ -19,13 +19,8 @@ fetch__from_lst <- function(lst, item) {
 
 
 
-get__url_from_conn <- function(conn, endpoint) {
-    stringr::str_glue(conn$endpoints[[endpoint]], project_name = get__project(conn))
-}
-
-
-get__project <- function(conn) {
-    conn$project
+gorr__get_endpoint <- function(conn, api, endpoint) {
+    stringr::str_glue(conn[[api]]$endpoints[[endpoint]], project_name = conn$project)
 }
 
 

@@ -7,7 +7,7 @@
 #'
 #' @param ... ellipse for the relations to include
 #' @param defs definitions string
-#' @param conn connection object from \code{\link{gor_connect}}
+#' @param conn connection object from \code{\link{platform_connect}}
 #' @param replace replace a previously created \code{gor_create} closure. When supplied, the two will be merged, overwriting existing values with the current values if they have been previously defined
 #'
 #' @return partial-application of function \code{\link{gor_query}} with the `conn` and `relations` parameters set.
@@ -83,7 +83,7 @@ print.gor_creation <- function(x, ...) {
     cli::cat_rule(left = ("GOR Creation Query"))
 
     cli::cat_line(crayon::green("Connection"))
-    bullet(crayon::blue("Service Root: "), x$conn$service_root)
+    bullet(crayon::blue("Service Root: "), x$conn[["gor-query-api"]]$service_root)
     bullet(crayon::blue("Project: "), x$conn$project)
 
     cli::cat_line(crayon::green("Definitions"))

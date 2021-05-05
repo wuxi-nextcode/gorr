@@ -23,7 +23,7 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE", "PATCH"),
 #' Run a GOR query
 #'
 #' @param query gor query string
-#' @param conn gor connection structure, create it using \code{\link{gor_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #' @param timeout timeout in seconds, default to 0 (none), uses \code{\link[base]{setTimeLimit}} to interrupt, note that setting any limit has a small overhead – well under 1% on the systems measured.
 #' @param page_size large results are returned in paged responses, this parameter controls the page size (e.g. 1000 lines at a time), default is 100k. A value of 0 means everything is fetched in one request
 #' @param parse should the TSV output be parsed into a dataframe? False will make the function return the results as text object
@@ -37,13 +37,13 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE", "PATCH"),
 #' \dontrun{
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- gor_connect(api_key, project)
+#' conn <- platform_connect(api_key, project)
 #' "gor #dbsnp# | top 100" %>%
 #'     gor_query(conn)
 #' }
 gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, relations = NULL, persist = NULL) {
     assertthat::assert_that(is.string(query))
-    assertthat::assert_that(class(conn) == "gor_connection")
+    assertthat::assert_that(class(conn) == "platform_connection")
 
     if (page_size == 0)
         warning("Setting page_size to 0 could crash the API server for very large results")
@@ -117,7 +117,7 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, re
 #' Post query to api. This is not a public function, but is called from \code{\link{gor_query}}
 #'
 #' @param query GOR query
-#' @param conn connection object, see \code{\link{gor_connect}}
+#' @param conn connection object, see \code{\link{platform_connect}}
 #' @param relations data.frames to include with the query in the format \code{list(list(table_name = data.frame() ))}
 #' @param persist remote path to file for saving results of the query into. Query results will not be fetched if this parameter is set.
 #'
@@ -151,7 +151,7 @@ gorr__post_query <- function(query, conn, relations = NULL, persist = NULL) {
     }
 
     gorr__api_request("POST",
-        url = conn$endpoints$query,
+        url = gorr__get_endpoint(conn, "gor-query-api", "query"),
         body = body,
         conn)
 }
@@ -160,7 +160,7 @@ gorr__post_query <- function(query, conn, relations = NULL, persist = NULL) {
 #' Get query status from api. This is not a public function, but is called from \code{\link{gor_query}}
 #'
 #' @param query_url query url
-#' @param conn connection object, see \code{\link{gor_connect}}
+#' @param conn connection object, see \code{\link{platform_connect}}
 #'
 #' @return response content object, see \code{\link[httr]{content}}
 gorr__get_query_status <- function(query_url, conn) {
@@ -174,7 +174,7 @@ gorr__get_query_status <- function(query_url, conn) {
 #' Get server query results
 #'
 #' @param query_result_url query result url
-#' @param conn connection object, see \code{\link{gor_connect}}
+#' @param conn connection object, see \code{\link{platform_connect}}
 #' @param spinner spinner function (e.g. some ascii animation for long running queries)
 #' @param query_limit limit to how many rows to fetch in each page
 #' @param offset query offset (skip rows)
@@ -233,7 +233,7 @@ gorr__get_query_results <- function(query_result_url, conn, spinner = invisible,
 
 #' Kill remote query
 #' @param query_url query url
-#' @param conn connection object, see \code{\link{gor_connect}}
+#' @param conn connection object, see \code{\link{platform_connect}}
 gorr__kill_query <- function(query_url, conn) {
     if (interactive()) {
         cli::cat_line("")
