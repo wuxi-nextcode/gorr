@@ -31,11 +31,11 @@ library(magrittr) # pipe
 
 ## Connect to Genuity Science's services.
 
-First we'll need to establish a connection to our API services. To do that we'll need to call `gor_connect` and provide it with the relevant parameters pointing to the phenotype-catalog-service, i.e. `api_key` and `project`:
+First we'll need to establish a connection to our API services. To do that we'll need to call `platform_connect` and provide it with the relevant parameters pointing to the phenotype-catalog-service, i.e. `api_key` and `project`:
 
 
 ```{r}
-conn <- gor_connect(api_key = Sys.getenv("GOR_API_KEY"),
+conn <- platform_connect(api_key = Sys.getenv("GOR_API_KEY"),
                           project = Sys.getenv("GOR_API_PROJECT"))
 conn
 ```
@@ -78,7 +78,7 @@ print(new_playlist)
 
 We can also get an existing playlist by providing the playlist's id along with the connection obect.
 ```{r, eval=FALSE}
-pl <- get_playlist(id = 1, conn)
+pl <- get_playlist(id = 15, conn)
 ```
 
 As before the results come back as a `playlist` object.

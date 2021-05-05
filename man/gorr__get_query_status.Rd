@@ -9,7 +9,7 @@ gorr__get_query_status(query_url, conn)
 \arguments{
 \item{query_url}{query url}
 
-\item{conn}{connection object, see \code{\link{gor_connect}}}
+\item{conn}{connection object, see \code{\link{platform_connect}}}
 }
 \value{
 response content object, see \code{\link[httr]{content}}

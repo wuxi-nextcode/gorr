@@ -9,7 +9,7 @@ phenotype_refresh(phenotype, conn)
 \arguments{
 \item{phenotype}{phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}}
 
-\item{conn}{gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}}
+\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \value{
 a list with the phenotype object
@@ -21,7 +21,7 @@ Refresh phenotype
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- phenotype_connect(api_key, project)
+conn <- platform_connect(api_key, project)
 name <- "height"
 result_type <- "QT"
 description <- "Height of individuals"

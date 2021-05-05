@@ -9,7 +9,7 @@ category_delete(name, conn)
 \arguments{
 \item{name}{phenotype category name in the project}
 
-\item{conn}{gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}}
+\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \description{
 Delete a phenotype category
@@ -18,7 +18,7 @@ Delete a phenotype category
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- phenotype_connect(api_key, project)
+conn <- platform_connect(api_key, project)
 name <- "testCat"
 category_delete(name, conn)
 }

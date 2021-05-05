@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
       </span>
     </div>
 
@@ -111,7 +111,7 @@
                         <h4 class="author">Andri M. Stefansson <a href="mailto:andri@genuitysci.com" class="email">andri@genuitysci.com</a>
 </h4>
             
-            <h4 class="date">2021-04-27</h4>
+            <h4 class="date">2021-05-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/master/vignettes/phenotype-categories.Rmd"><code>vignettes/phenotype-categories.Rmd</code></a></small>
       <div class="hidden name"><code>phenotype-categories.Rmd</code></div>
@@ -130,40 +130,31 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span> <span class="co"># pipe</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></code></pre></div>
 </div>
-<div id="connecting-to-the-phenotype-service" class="section level2">
+<div id="connect-to-genuity-sciences-services-" class="section level2">
 <h2 class="hasAnchor">
-<a href="#connecting-to-the-phenotype-service" class="anchor"></a>Connecting to the phenotype service</h2>
-<p>First we’ll need to establish a connection to our phenotype-catalog API. To do that we’ll need to call <code>phenotype_connect</code> and provide it with the relevant parameters pointing to the phenotype-catalog-service, i.e. <code>api_key</code> and <code>project</code>:</p>
+<a href="#connect-to-genuity-sciences-services-" class="anchor"></a>Connect to Genuity Science’s services.</h2>
+<p>First we’ll need to establish a connection to our API services. To do that we’ll need to call <code>platform_connect</code> and provide it with the relevant parameters pointing to the phenotype-catalog-service, i.e. <code>api_key</code> and <code>project</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phenotype_connect.html">phenotype_connect</a></span><span class="op">(</span>api_key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"GOR_API_KEY"</span><span class="op">)</span>,
+<code class="sourceCode R"><span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/platform_connect.html">platform_connect</a></span><span class="op">(</span>api_key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"GOR_API_KEY"</span><span class="op">)</span>,
                           project <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"GOR_API_PROJECT"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">conn</span>
-<span class="co">#&gt; ── GOR query service connection ────────────────────────────── Version: 3.4.0 ──</span>
-<span class="co">#&gt; ● Service Root: https://platform.wuxinextcodedev.com/api/phenotype-catalog</span>
-<span class="co">#&gt; ● Build Date: 2021-04-21 09:36:19 +0000</span>
-<span class="co">#&gt; ● Commit: 29456d27</span>
+<span class="co">#&gt; ── GOR API service connection ──────────────────────────────────────────────────</span>
+<span class="co">#&gt; ● Service Root/s: https://platform.wuxinextcodedev.com/api/query, https://platform.wuxinextcodedev.com/api/phenotype-catalog</span>
 <span class="co">#&gt; ● Project: ukbb_hg38</span>
 <span class="co">#&gt; ● API key issued at: 2021-03-25 18:42:08</span>
 <span class="co">#&gt; ● API key expires at: Never</span>
-<span class="co">#&gt; ● Access token issued at: 2021-04-27 12:33:28</span>
-<span class="co">#&gt; ● Access token expires at: 2021-04-27 13:33:28</span></code></pre></div>
-<p>alternative way is to use the <code>gor_connect</code> and pass the relevant <code>api-endpoint</code></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">## Dont run</span>
-<span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gor_connect.html">gor_connect</a></span><span class="op">(</span>api_key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"GOR_API_KEY"</span><span class="op">)</span>,
-                    project <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"GOR_API_PROJECT"</span><span class="op">)</span>,
-                    api_endpoint <span class="op">=</span> <span class="st">"api/phenotype-catalog"</span><span class="op">)</span></code></pre></div>
+<span class="co">#&gt; ● Access token issued at: 2021-05-05 14:43:00</span>
+<span class="co">#&gt; ● Access token expires at: 2021-05-05 15:43:00</span></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object to pass into subsequent functions.</p>
 </div>
 <div id="list-categories" class="section level2">
 <h2 class="hasAnchor">
 <a href="#list-categories" class="anchor"></a>List categories</h2>
 <p>All available categories can be listed by passing the <code>conn</code> object to the <code>get_categories</code> function</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">categories</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_categories.html">get_categories</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span>
 <span class="va">categories</span></code></pre></div>
-<pre><code>#&gt; [1] "congenital anomalies"    "infectious diseases"    
-#&gt; [3] "pregnancy complications" "rtestcat19"</code></pre>
+<pre><code>#&gt; [1] "covariates"      "test"            "eye diseases"    "medical history"</code></pre>
 <p>The results come back as a <code>vector</code> of categories</p>
 </div>
 <div id="create-category" class="section level2">
@@ -171,35 +162,33 @@
 <a href="#create-category" class="anchor"></a>Create category</h2>
 <p>If we want to add a new category to the catalog we can do so using <code>create_category</code> along with the name of the category to be added as follows.</p>
 <p>NB: Before creating a new category, make sure you have the privileges (admin rights to category management) to do so.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"rtestcat"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">99</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="co"># Name of new category</span>
 <span class="va">new_category</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_category.html">create_category</a></span><span class="op">(</span><span class="va">name</span>,  <span class="va">conn</span><span class="op">)</span></code></pre></div>
 <p>A new category has now been added and assigned to the variable <code>new_category</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">new_category</span><span class="op">)</span>
 <span class="co">#&gt; $name</span>
-<span class="co">#&gt; [1] "rtestcat46"</span></code></pre></div>
+<span class="co">#&gt; [1] "rtestcat39"</span></code></pre></div>
 </div>
 <div id="delete-category" class="section level2">
 <h2 class="hasAnchor">
 <a href="#delete-category" class="anchor"></a>Delete category</h2>
 <p>Categories can be removed from project by passing the name of the category to <code>category_delete</code> along with the connector object.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_categories.html">get_categories</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span> <span class="co"># Category to be deleted</span>
 <span class="fu"><a href="../reference/category_delete.html">category_delete</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">conn</span><span class="op">)</span>
 <span class="fu"><a href="../reference/get_categories.html">get_categories</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; [1] "congenital anomalies"    "infectious diseases"    
-#&gt; [3] "pregnancy complications" "rtestcat19"             
-#&gt; [5] "rtestcat46"
-#&gt; [1] "rtestcat46"
-#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/categories/rtestcat46]
-#&gt;   Date: 2021-04-27 12:33
+<pre><code>#&gt; [1] "covariates"      "test"            "eye diseases"    "medical history"
+#&gt; [5] "rtestcat39"
+#&gt; [1] "rtestcat39"
+#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/categories/rtestcat39]
+#&gt;   Date: 2021-05-05 14:43
 #&gt;   Status: 204
 #&gt;   Content-Type: &lt;unknown&gt;
 #&gt; &lt;EMPTY BODY&gt;
-#&gt; [1] "congenital anomalies"    "infectious diseases"    
-#&gt; [3] "pregnancy complications" "rtestcat19"</code></pre>
+#&gt; [1] "covariates"      "test"            "eye diseases"    "medical history"</code></pre>
 </div>
   </div>
 

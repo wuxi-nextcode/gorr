@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
       </span>
     </div>
 
@@ -169,7 +169,7 @@
     </tr>
     <tr>
       <th>conn</th>
-      <td><p>gor connection structure, create it using <code><a href='gor_connect.html'>gor_connect</a></code></p></td>
+      <td><p>gor connection structure, create it using <code><a href='platform_connect.html'>platform_connect</a></code></p></td>
     </tr>
     </table>
 
@@ -181,7 +181,7 @@
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>api_key</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GOR_API_KEY"</span><span class='op'>)</span>
 <span class='va'>project</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GOR_PROJECT"</span><span class='op'>)</span>
-<span class='va'>conn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='phenotype_connect.html'>phenotype_connect</a></span><span class='op'>(</span><span class='va'>api_key</span>, <span class='va'>project</span><span class='op'>)</span>
+<span class='va'>conn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='platform_connect.html'>platform_connect</a></span><span class='op'>(</span><span class='va'>api_key</span>, <span class='va'>project</span><span class='op'>)</span>
 <span class='va'>playlist</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_playlist.html'>get_playlist</a></span><span class='op'>(</span><span class='va'>conn</span>, id<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
 <span class='fu'>playlist_delete</span><span class='op'>(</span><span class='va'>playlist</span>, <span class='va'>conn</span><span class='op'>)</span>
 <span class='op'>}</span>

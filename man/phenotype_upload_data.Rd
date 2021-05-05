@@ -11,7 +11,7 @@ phenotype_upload_data(phenotype, data, conn)
 
 \item{data}{a list of lists to be uploaded}
 
-\item{conn}{gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{gor_connect}}}
+\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \description{
 The data is expected to be a list of lists.

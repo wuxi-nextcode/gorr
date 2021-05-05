@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add multiple phenotypes to a phenotype matrix request. — phemat_add_phenotypes • gorr</title>
+<title>Set up a connection object, and call the health endpoint to make sure everything is up and running on the
+server side — platform_connect • gorr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +47,10 @@
 
 
 
-<meta property="og:title" content="Add multiple phenotypes to a phenotype matrix request. — phemat_add_phenotypes" />
-<meta property="og:description" content="Add multiple phenotypes to a phenotype matrix request." />
+<meta property="og:title" content="Set up a connection object, and call the health endpoint to make sure everything is up and running on the
+server side — platform_connect" />
+<meta property="og:description" content="Set up a connection object, and call the health endpoint to make sure everything is up and running on the
+server side" />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -149,42 +152,57 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add multiple phenotypes to a phenotype matrix request.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_matrix.R'><code>R/phenotype_matrix.R</code></a></small>
-    <div class="hidden name"><code>phemat_add_phenotypes.Rd</code></div>
+    <h1>Set up a connection object, and call the health endpoint to make sure everything is up and running on the
+server side</h1>
+    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/platform_connect.R'><code>R/platform_connect.R</code></a></small>
+    <div class="hidden name"><code>platform_connect.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Add multiple phenotypes to a phenotype matrix request.</p>
+    <p>Set up a connection object, and call the health endpoint to make sure everything is up and running on the
+server side</p>
     </div>
 
-    <pre class="usage"><span class='fu'>phemat_add_phenotypes</span><span class='op'>(</span><span class='va'>names</span>, <span class='va'>phenotype_matrix</span>, missing_value <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>platform_connect</span><span class='op'>(</span>
+  api_key <span class='op'>=</span> <span class='cn'>NULL</span>,
+  project <span class='op'>=</span> <span class='cn'>NULL</span>,
+  root_url <span class='op'>=</span> <span class='cn'>NULL</span>,
+  api_endpoint <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>names</th>
-      <td><p>a comma seperated string or character vector of phenotype/s to be added. E.g. "height,weight" or c("height", "weight")</p></td>
+      <th>api_key</th>
+      <td><p>the api key from the /api-key-service endpoint of your CSA host through a browser</p></td>
     </tr>
     <tr>
-      <th>phenotype_matrix</th>
-      <td><p>A phenotype matrix structure</p></td>
+      <th>project</th>
+      <td><p>project name</p></td>
     </tr>
     <tr>
-      <th>missing_value</th>
-      <td><p>The string to substitute for missing values in the data</p></td>
+      <th>root_url</th>
+      <td><p>root_url of the Query API to use, e.g. "http://localhost:1337". If left as NULL the function will try to get it from the environment variable GOR_API_ROOT_URL, otherwise it will take it from the iss part of the decoded JWT (api_key)</p></td>
+    </tr>
+    <tr>
+      <th>api_endpoint</th>
+      <td><p>the api endpoint path on the server. If left as NULL the function will try to get it from the environment variable GOR_API_ENDPOINT, otherwise defaults to set up connection to /api/query and /api/phenotype-catalog</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a phenotype matrix object</p>
+    <p>returns a list with the connection data</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>phenotype_mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_phenotype_matrix.html'>get_phenotype_matrix</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>phenotype_mat</span> <span class='op'>&lt;-</span> <span class='fu'>phemat_add_phenotypes</span><span class='op'>(</span>names<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"PT1"</span>, <span class='st'>"PT2"</span><span class='op'>)</span>, phenotype_matrix <span class='op'>=</span> <span class='va'>phenotype_mat</span><span class='op'>)</span>
+<span class='va'>api_key</span> <span class='op'>&lt;-</span> <span class='st'>"...paste from your /api-key-service/token endpoint..."</span>
+<span class='va'>conn</span> <span class='op'>&lt;-</span> <span class='fu'>platform_connect</span><span class='op'>(</span><span class='va'>api_key</span>, <span class='st'>"test_project"</span><span class='op'>)</span>
+
+<span class='co'># or have platform_connect take the api_key from the environment variable GOR_API_KEY:</span>
+<span class='va'>conn</span> <span class='op'>&lt;-</span> <span class='fu'>platform_connect</span><span class='op'>(</span>project <span class='op'>=</span> <span class='st'>"test_project"</span><span class='op'>)</span>
+
 <span class='op'>}</span>
 </div></pre>
   </div>

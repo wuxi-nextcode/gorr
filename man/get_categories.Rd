@@ -7,7 +7,7 @@
 get_categories(conn)
 }
 \arguments{
-\item{conn}{gor connection structure, create it using \code{\link{gor_connect}}}
+\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \value{
 List of categories
@@ -19,7 +19,7 @@ A list of all categories available in the system.
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- phenotype_connect(api_key, project)
+conn <- platform_connect(api_key, project)
 phenotypes <- get_categories(conn)
 }
 }

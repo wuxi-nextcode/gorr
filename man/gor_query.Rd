@@ -17,7 +17,7 @@ gor_query(
 \arguments{
 \item{query}{gor query string}
 
-\item{conn}{gor connection structure, create it using \code{\link{gor_connect}}}
+\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 
 \item{timeout}{timeout in seconds, default to 0 (none), uses \code{\link[base]{setTimeLimit}} to interrupt, note that setting any limit has a small overhead – well under 1\% on the systems measured.}
 
@@ -39,7 +39,7 @@ Run a GOR query
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- gor_connect(api_key, project)
+conn <- platform_connect(api_key, project)
 "gor #dbsnp# | top 100" \%>\%
     gor_query(conn)
 }

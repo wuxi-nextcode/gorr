@@ -9,7 +9,7 @@ get_data(phenotype_obj, conn)
 \arguments{
 \item{phenotype_obj}{phenotype or phenotype_matrix structure.}
 
-\item{conn}{gor connection structure, create it using \code{\link{phenotype_connect}}}
+\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \value{
 tibble from server
@@ -23,7 +23,7 @@ using \code{\link{phemat_add_phenotype}} or \code{\link{phemat_add_phenotypes}}
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- phenotype_connect(api_key, project)
+conn <- platform_connect(api_key, project)
 phenotype_mat <- get_phenotype_matrix()
 phenotype_mat <-  phemat_add_phenotypes(...)
 phenotype_data <- get_data(phenotype_mat, conn)

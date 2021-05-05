@@ -16,7 +16,7 @@ gorr__get_query_results(
 \arguments{
 \item{query_result_url}{query result url}
 
-\item{conn}{connection object, see \code{\link{gor_connect}}}
+\item{conn}{connection object, see \code{\link{platform_connect}}}
 
 \item{spinner}{spinner function (e.g. some ascii animation for long running queries)}
 

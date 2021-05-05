@@ -9,7 +9,7 @@ create_playlist(name, conn, description = NULL, phenotypes = NULL)
 \arguments{
 \item{name}{Unique (lowercase) playlist name in the project}
 
-\item{conn}{gor connection structure, create it using \code{\link{gor_connect}}}
+\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 
 \item{description}{Free text description of the playlist (optional)}
 
@@ -25,7 +25,7 @@ Create a new playlist in the current project.
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
-conn <- phenotype_connect(api_key, project)
+conn <- platform_connect(api_key, project)
 name <- "testpl"
 playlist <- create_playlist(name = name, conn)
 }
