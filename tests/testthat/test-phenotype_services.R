@@ -62,13 +62,20 @@ test_that("phenotype_update_description works", {
 })
 
 
-test_that("phenotype_upload_data works", {
+test_that("phenotype_upload_data (list of lists) works", {
     input <- list(list("20001", "obese"), list("20002", "lean"))
     expect_error(phenotype_upload_data(data=input, test_phenotype, conn), NA) # Expect no error
 })
 
-test_that("phenotype_upload_data works", {
-    input <- list(list("20001", "obese"), list("20002", "lean"))
+test_that("phenotype_upload_data (data.frame) works", {
+    input <- list(list("20001", "obese"), list("20002", "lean")) %>%
+        do.call(rbind, . ) %>%
+        as.data.frame()
+    expect_error(phenotype_upload_data(data=input, test_phenotype, conn), NA) # Expect no error
+})
+
+
+test_that("phenotype_get_data works", {
     data <- get_data(test_phenotype, conn) # Expect no error
     expect_equal(names(data), c('pn',test_name))
 })
