@@ -85,8 +85,9 @@ get_playlists <- function(conn, limit = 100) {
     fetch__from_lst(resp$playlists, "name")
 }
 
-#' Get playlist in the current project based on the playlist id.
+#' Get playlist in the current project based on the playlist's name OR id.
 #'
+#' @param name Playlist name
 #' @param id Playlist id
 #' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #'
@@ -100,17 +101,32 @@ get_playlists <- function(conn, limit = 100) {
 #' conn <- platform_connect(api_key, project)
 #' playlist <- get_playlist(id=1, conn)
 #' }
-get_playlist <- function(id, conn) {
+get_playlist <- function(name = NULL, id = NULL, conn) {
     assertthat::assert_that(class(conn) == "platform_connection")
-    assertthat::assert_that(is.numeric(id))
 
-    url <- paste(gorr__get_endpoint(conn, "phenotype-catalog", "projects"), conn$project, "playlists", id, sep="/")
+    if (is.null(name) && is.null(id)) {
+        stop("Name OR id must be supplied")
+    } else if (!is.null(name) && !is.null(id)) {
+        stop("Name and id cannot both be supplied")
+    }
+
+
+    url <- paste(gorr__get_endpoint(conn, "phenotype-catalog", "projects"), conn$project, "playlists", sep="/")
+
+    if (!is.null(id)) {
+        url <- paste(url, id, sep = "/")
+    }
 
     resp <- gorr__api_request("GET",
                               url = url,
+                              query = list(name = name),
                               conn = conn)
 
-    playlist(resp$playlist)
+    if (!is.null(id)) {
+        return(playlist(resp$playlist))
+    }
+
+    playlist(resp$playlist[[1]])
 }
 
 #' Create a new playlist in the current project.

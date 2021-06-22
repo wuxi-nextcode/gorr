@@ -196,5 +196,13 @@ get_data <- function(phenotype_obj, conn) {
 
     url <-  gorr__get_endpoint(conn, "phenotype-catalog", "get_phenotype_matrix")
 
-    gorr__api_request("POST", url = url, body = content, conn = conn)
+    withCallingHandlers({
+        resp <- gorr__api_request("POST", url = url, body = content, conn = conn)
+    }, warning = function(w) {
+        if (startsWith(conditionMessage(w), "Unknown or uninitialised column: `status`"))
+            invokeRestart("muffleWarning")
+
+    })
+
+    resp
 }
