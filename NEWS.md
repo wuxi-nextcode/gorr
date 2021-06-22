@@ -1,3 +1,8 @@
+# gorr 1.3.0
+
+* Added support for fetching playlists by name in `get_playlist`
+* Added support for data.frames and tibbles in `phenotype_upload_data`
+
 # gorr 1.2.0
 
 * phenotype_connect added to replace gor_connect and phenotype_connect - these functions will be removed in later releases
