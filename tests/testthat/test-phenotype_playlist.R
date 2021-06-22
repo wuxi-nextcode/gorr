@@ -35,10 +35,9 @@ test_that("get_playlists works", {
 
 
 test_that("get_playlist works", {
-    # IF TEST FAILS PICK ANOTHER ID (try 1 first)
-    playlist <- get_playlist(id = 6, conn)
+    playlist <- get_playlist(name = test_pl_name, conn = conn)
     expect_is(playlist, "playlist")
-    expect_true(!is.null(playlist$name))
+    expect_equal(test_pl_name, playlist$name)
 })
 
 

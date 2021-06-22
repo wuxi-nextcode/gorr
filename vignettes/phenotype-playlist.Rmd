@@ -76,9 +76,9 @@ print(new_playlist)
 
 ## Get playlist
 
-We can also get an existing playlist by providing the playlist's id along with the connection obect.
+We can also get an existing playlist by providing the playlist's name (or id) along with the connection obect.
 ```{r, eval=FALSE}
-pl <- get_playlist(id = 15, conn)
+pl <- get_playlist(name = name, conn = conn)
 ```
 
 As before the results come back as a `playlist` object.
