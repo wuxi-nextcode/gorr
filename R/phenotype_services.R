@@ -249,7 +249,7 @@ phenotype_update_description <-
 #' Upload phenotype data
 #'
 #' The data is expected to be a data.frame, tibble or list of lists. If data.frame or tibble is provided it should contain 2 columns.
-#' and list of lists should be of the form `list(list(pn1, attr1),list(pn2, attr2))`.
+#' and list of lists should be of the form `list(list(pn1, value1),list(pn2,value2))` or `list(list(pn1),list(pn2))` For phenotypes of result_type SET.
 #' The `result_type` of the phenotype dictates if each sublist should contain one or two items.
 #'
 #' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
@@ -264,9 +264,11 @@ phenotype_upload_data <- function(phenotype, data, conn) {
 
     # If input is data.frame convert to list of lists
     if (is.data.frame(data)) {
-        assertthat::assert_that(ncol(data)==2, msg = "data.frame/tibble should only contain 2 cols, pn and phenotype")
+        assertthat::assert_that(ncol(data) <= 2, msg = "data.frame/tibble should only contain 1 (if pheno is SET) or 2 columns, pn and value")
         data <- apply(data, 1, as.list) %>%
             lapply(unname)
+    } else {
+
     }
 
     url <- get__link(phenotype, "upload")
