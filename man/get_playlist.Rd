@@ -2,11 +2,13 @@
 % Please edit documentation in R/phenotype_playlist.R
 \name{get_playlist}
 \alias{get_playlist}
-\title{Get playlist in the current project based on the playlist id.}
+\title{Get playlist in the current project based on the playlist's name OR id.}
 \usage{
-get_playlist(id, conn)
+get_playlist(name = NULL, id = NULL, conn)
 }
 \arguments{
+\item{name}{Playlist name}
+
 \item{id}{Playlist id}
 
 \item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
@@ -15,7 +17,7 @@ get_playlist(id, conn)
 A playlist object
 }
 \description{
-Get playlist in the current project based on the playlist id.
+Get playlist in the current project based on the playlist's name OR id.
 }
 \examples{
 \dontrun{

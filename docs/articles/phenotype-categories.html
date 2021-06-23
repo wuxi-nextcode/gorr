@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -111,7 +111,7 @@
                         <h4 class="author">Andri M. Stefansson <a href="mailto:andri@genuitysci.com" class="email">andri@genuitysci.com</a>
 </h4>
             
-            <h4 class="date">2021-05-05</h4>
+            <h4 class="date">2021-06-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/master/vignettes/phenotype-categories.Rmd"><code>vignettes/phenotype-categories.Rmd</code></a></small>
       <div class="hidden name"><code>phenotype-categories.Rmd</code></div>
@@ -139,12 +139,12 @@
                           project <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"GOR_API_PROJECT"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">conn</span>
 <span class="co">#&gt; ── GOR API service connection ──────────────────────────────────────────────────</span>
-<span class="co">#&gt; ● Service Root/s: https://platform.wuxinextcodedev.com/api/query, https://platform.wuxinextcodedev.com/api/phenotype-catalog</span>
-<span class="co">#&gt; ● Project: ukbb_hg38</span>
-<span class="co">#&gt; ● API key issued at: 2021-03-25 18:42:08</span>
-<span class="co">#&gt; ● API key expires at: Never</span>
-<span class="co">#&gt; ● Access token issued at: 2021-05-05 14:43:00</span>
-<span class="co">#&gt; ● Access token expires at: 2021-05-05 15:43:00</span></code></pre></div>
+<span class="co">#&gt; • Service Root/s: https://platform.wuxinextcodedev.com/api/query, https://platform.wuxinextcodedev.com/api/phenotype-catalog</span>
+<span class="co">#&gt; • Project: ukbb_hg38</span>
+<span class="co">#&gt; • API key issued at: 2021-03-25 18:42:08</span>
+<span class="co">#&gt; • API key expires at: Never</span>
+<span class="co">#&gt; • Access token issued at: 2021-06-23 09:35:04</span>
+<span class="co">#&gt; • Access token expires at: 2021-06-23 10:35:04</span></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object to pass into subsequent functions.</p>
 </div>
 <div id="list-categories" class="section level2">
@@ -154,7 +154,8 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">categories</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_categories.html">get_categories</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span>
 <span class="va">categories</span></code></pre></div>
-<pre><code>#&gt; [1] "covariates"      "test"            "eye diseases"    "medical history"</code></pre>
+<pre><code>#&gt; [1] "medical history"             "dolore consectetur ea Lorem"
+#&gt; [3] "statistics"                  "cardiovascular"</code></pre>
 <p>The results come back as a <code>vector</code> of categories</p>
 </div>
 <div id="create-category" class="section level2">
@@ -169,7 +170,7 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">new_category</span><span class="op">)</span>
 <span class="co">#&gt; $name</span>
-<span class="co">#&gt; [1] "rtestcat39"</span></code></pre></div>
+<span class="co">#&gt; [1] "rtestcat38"</span></code></pre></div>
 </div>
 <div id="delete-category" class="section level2">
 <h2 class="hasAnchor">
@@ -180,15 +181,17 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span> <span class="co"># Category to be deleted</span>
 <span class="fu"><a href="../reference/category_delete.html">category_delete</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">conn</span><span class="op">)</span>
 <span class="fu"><a href="../reference/get_categories.html">get_categories</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; [1] "covariates"      "test"            "eye diseases"    "medical history"
-#&gt; [5] "rtestcat39"
-#&gt; [1] "rtestcat39"
-#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/categories/rtestcat39]
-#&gt;   Date: 2021-05-05 14:43
+<pre><code>#&gt; [1] "medical history"             "dolore consectetur ea Lorem"
+#&gt; [3] "statistics"                  "cardiovascular"             
+#&gt; [5] "rtestcat38"
+#&gt; [1] "rtestcat38"
+#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/categories/rtestcat38]
+#&gt;   Date: 2021-06-23 09:35
 #&gt;   Status: 204
 #&gt;   Content-Type: &lt;unknown&gt;
 #&gt; &lt;EMPTY BODY&gt;
-#&gt; [1] "covariates"      "test"            "eye diseases"    "medical history"</code></pre>
+#&gt; [1] "medical history"             "dolore consectetur ea Lorem"
+#&gt; [3] "statistics"                  "cardiovascular"</code></pre>
 </div>
   </div>
 

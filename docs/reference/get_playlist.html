@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get playlist in the current project based on the playlist id. — get_playlist • gorr</title>
+<title>Get playlist in the current project based on the playlist's name OR id. — get_playlist • gorr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Get playlist in the current project based on the playlist id. — get_playlist" />
-<meta property="og:description" content="Get playlist in the current project based on the playlist id." />
+<meta property="og:title" content="Get playlist in the current project based on the playlist's name OR id. — get_playlist" />
+<meta property="og:description" content="Get playlist in the current project based on the playlist's name OR id." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -149,20 +149,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get playlist in the current project based on the playlist id.</h1>
+    <h1>Get playlist in the current project based on the playlist's name OR id.</h1>
     <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_playlist.R'><code>R/phenotype_playlist.R</code></a></small>
     <div class="hidden name"><code>get_playlist.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get playlist in the current project based on the playlist id.</p>
+    <p>Get playlist in the current project based on the playlist's name OR id.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_playlist</span><span class='op'>(</span><span class='va'>id</span>, <span class='va'>conn</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_playlist</span><span class='op'>(</span>name <span class='op'>=</span> <span class='cn'>NULL</span>, id <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>conn</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>name</th>
+      <td><p>Playlist name</p></td>
+    </tr>
     <tr>
       <th>id</th>
       <td><p>Playlist id</p></td>

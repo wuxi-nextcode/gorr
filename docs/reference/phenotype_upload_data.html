@@ -47,10 +47,9 @@
 
 
 <meta property="og:title" content="Upload phenotype data — phenotype_upload_data" />
-<meta property="og:description" content="The data is expected to be a list of lists.
-e.g. data &amp;lt;- list(list('a'), list('b')).
-The result_type of the phenotype dictates
-if each sublist should contain one or two items." />
+<meta property="og:description" content="The data is expected to be a data.frame, tibble or list of lists. If data.frame or tibble is provided it should contain 2 columns.
+and list of lists should be of the form list(list(pn1, value1),list(pn2,value2)) or list(list(pn1),list(pn2)) For phenotypes of result_type SET.
+The result_type of the phenotype dictates if each sublist should contain one or two items." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -83,7 +82,7 @@ if each sublist should contain one or two items." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -158,10 +157,9 @@ if each sublist should contain one or two items." />
     </div>
 
     <div class="ref-description">
-    <p>The data is expected to be a list of lists.
-e.g. <code>data &lt;- list(list('a'), list('b'))</code>.
-The <code>result_type</code> of the phenotype dictates
-if each sublist should contain one or two items.</p>
+    <p>The data is expected to be a data.frame, tibble or list of lists. If data.frame or tibble is provided it should contain 2 columns.
+and list of lists should be of the form <code><a href='https://rdrr.io/r/base/list.html'>list(list(pn1, value1),list(pn2,value2))</a></code> or <code><a href='https://rdrr.io/r/base/list.html'>list(list(pn1),list(pn2))</a></code> For phenotypes of result_type SET.
+The <code>result_type</code> of the phenotype dictates if each sublist should contain one or two items.</p>
     </div>
 
     <pre class="usage"><span class='fu'>phenotype_upload_data</span><span class='op'>(</span><span class='va'>phenotype</span>, <span class='va'>data</span>, <span class='va'>conn</span><span class='op'>)</span></pre>

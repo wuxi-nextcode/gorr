@@ -14,8 +14,7 @@ phenotype_upload_data(phenotype, data, conn)
 \item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \description{
-The data is expected to be a list of lists.
-e.g. \code{data <- list(list('a'), list('b'))}.
-The \code{result_type} of the phenotype dictates
-if each sublist should contain one or two items.
+The data is expected to be a data.frame, tibble or list of lists. If data.frame or tibble is provided it should contain 2 columns.
+and list of lists should be of the form \code{list(list(pn1, value1),list(pn2,value2))} or \code{list(list(pn1),list(pn2))} For phenotypes of result_type SET.
+The \code{result_type} of the phenotype dictates if each sublist should contain one or two items.
 }
