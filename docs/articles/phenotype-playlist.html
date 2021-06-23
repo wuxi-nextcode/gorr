@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -111,7 +111,7 @@
                         <h4 class="author">Andri M. Stefansson <a href="mailto:andri@genuitysci.com" class="email">andri@genuitysci.com</a>
 </h4>
             
-            <h4 class="date">2021-05-05</h4>
+            <h4 class="date">2021-06-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/master/vignettes/phenotype-playlist.Rmd"><code>vignettes/phenotype-playlist.Rmd</code></a></small>
       <div class="hidden name"><code>phenotype-playlist.Rmd</code></div>
@@ -138,12 +138,12 @@
                           project <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"GOR_API_PROJECT"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">conn</span>
 <span class="co">#&gt; ── GOR API service connection ──────────────────────────────────────────────────</span>
-<span class="co">#&gt; ● Service Root/s: https://platform.wuxinextcodedev.com/api/query, https://platform.wuxinextcodedev.com/api/phenotype-catalog</span>
-<span class="co">#&gt; ● Project: ukbb_hg38</span>
-<span class="co">#&gt; ● API key issued at: 2021-03-25 18:42:08</span>
-<span class="co">#&gt; ● API key expires at: Never</span>
-<span class="co">#&gt; ● Access token issued at: 2021-05-05 14:43:12</span>
-<span class="co">#&gt; ● Access token expires at: 2021-05-05 15:43:12</span></code></pre></div>
+<span class="co">#&gt; • Service Root/s: https://platform.wuxinextcodedev.com/api/query, https://platform.wuxinextcodedev.com/api/phenotype-catalog</span>
+<span class="co">#&gt; • Project: ukbb_hg38</span>
+<span class="co">#&gt; • API key issued at: 2021-03-25 18:42:08</span>
+<span class="co">#&gt; • API key expires at: Never</span>
+<span class="co">#&gt; • Access token issued at: 2021-06-23 09:35:19</span>
+<span class="co">#&gt; • Access token expires at: 2021-06-23 10:35:19</span></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object to pass into subsequent functions.</p>
 </div>
 <div id="list-available-playlists" class="section level2">
@@ -153,10 +153,9 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">playlists</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_playlists.html">get_playlists</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span>
 <span class="va">playlists</span>
-<span class="co">#&gt;  [1] "Diabetes"        "andri_test1"     "rPacktestPL79"   "rPacktestPL26"  </span>
-<span class="co">#&gt;  [5] "rtest_pl"        "rPacktestPL1"    "rtestpack_pl60"  "Diabetes30"     </span>
-<span class="co">#&gt;  [9] "Diabetes14"      "Diabetes36"      "rtestpack_pl790" "rtestpack_pl291"</span>
-<span class="co">#&gt; [13] "Diabetes4"</span></code></pre></div>
+<span class="co">#&gt;  [1] "Basic statistics" "Pulmonology"      "Diabetes"         "Cancers"         </span>
+<span class="co">#&gt;  [5] "Eye diseases"     "Age of diagnoses" "Anna's playlist"  "Anna's playlist2"</span>
+<span class="co">#&gt;  [9] "Asthma"           "Demo Playlist"    "andri tests"</span></code></pre></div>
 <p>The results come back as a <code>vector</code> of playlist names available to the user.</p>
 </div>
 <div id="create-playlist" class="section level2">
@@ -170,29 +169,29 @@
 <span class="va">new_playlist</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_playlist.html">create_playlist</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">conn</span>, description <span class="op">=</span> <span class="va">descr</span><span class="op">)</span></code></pre></div>
 <p>A new playlist has now been added to the project. The results come back as a <code>playlist</code> object.</p>
 <pre><code>#&gt; $id
-#&gt; [1] 193
+#&gt; [1] 241
 #&gt; 
 #&gt; $project_key
 #&gt; [1] "ukbb_hg38"
 #&gt; 
 #&gt; $name
-#&gt; [1] "Diabetes13"
+#&gt; [1] "Diabetes22"
 #&gt; 
 #&gt; $description
 #&gt; [1] "A set of all phenotypes related to diabetes in UKBB"
 #&gt; 
 #&gt; $created_at
-#&gt; [1] "2021-05-05T14:43:13.182Z"
+#&gt; [1] "2021-06-23T09:35:21.124Z"
 #&gt; 
 #&gt; $updated_at
-#&gt; [1] "2021-05-05T14:43:13.182Z"
+#&gt; [1] "2021-06-23T09:35:21.124Z"
 #&gt; 
 #&gt; $created_by
 #&gt; [1] "andri@genuitysci.com"
 #&gt; 
 #&gt; $links
 #&gt; $links$self
-#&gt; [1] "https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/playlists/193"
+#&gt; [1] "https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/playlists/241"
 #&gt; 
 #&gt; 
 #&gt; $phenotypes
@@ -204,9 +203,9 @@
 <div id="get-playlist" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-playlist" class="anchor"></a>Get playlist</h2>
-<p>We can also get an existing playlist by providing the playlist’s id along with the connection obect.</p>
+<p>We can also get an existing playlist by providing the playlist’s name (or id) along with the connection obect.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_playlist.html">get_playlist</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">15</span>, <span class="va">conn</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_playlist.html">get_playlist</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">name</span>, conn <span class="op">=</span> <span class="va">conn</span><span class="op">)</span></code></pre></div>
 <p>As before the results come back as a <code>playlist</code> object.</p>
 <p>If needed, playlists can be refreshed for fetching most recent info on the playlist by calling <code>playlist_refresh</code> as follows:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -228,7 +227,7 @@
 <span class="co">#&gt; [1] "ukbb_hg38"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]]$name</span>
-<span class="co">#&gt; [1] "rtest_pheno69"</span>
+<span class="co">#&gt; [1] "rtest_pheno19"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]]$description</span>
 <span class="co">#&gt; NULL</span>
@@ -243,10 +242,10 @@
 <span class="co">#&gt; NULL</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]]$created_at</span>
-<span class="co">#&gt; [1] "2021-05-05T14:43:13.753Z"</span>
+<span class="co">#&gt; [1] "2021-06-23T09:35:21.719Z"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]]$updated_at</span>
-<span class="co">#&gt; [1] "2021-05-05T14:43:13.753Z"</span>
+<span class="co">#&gt; [1] "2021-06-23T09:35:21.719Z"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]]$created_by</span>
 <span class="co">#&gt; [1] "andri@genuitysci.com"</span>
@@ -259,10 +258,10 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]]$links</span>
 <span class="co">#&gt; [[1]]$links$self</span>
-<span class="co">#&gt; [1] "https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/phenotypes/rtest_pheno69"</span>
+<span class="co">#&gt; [1] "https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/phenotypes/rtest_pheno19"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]]$links$upload</span>
-<span class="co">#&gt; [1] "https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/phenotypes/rtest_pheno69/upload"</span>
+<span class="co">#&gt; [1] "https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/phenotypes/rtest_pheno19/upload"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]]$state</span>
@@ -290,15 +289,15 @@
 <p>A playlist can easily be deleted by passing a playlist object to the <code>playlist_delete</code> function.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/playlist_delete.html">playlist_delete</a></span><span class="op">(</span><span class="va">new_playlist</span>, <span class="va">conn</span><span class="op">)</span>
-<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/playlists/193]</span>
-<span class="co">#&gt;   Date: 2021-05-05 14:43</span>
+<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/playlists/241]</span>
+<span class="co">#&gt;   Date: 2021-06-23 09:35</span>
 <span class="co">#&gt;   Status: 204</span>
 <span class="co">#&gt;   Content-Type: &lt;unknown&gt;</span>
 <span class="co">#&gt; &lt;EMPTY BODY&gt;</span>
 <span class="co">#Clean up phenotype</span>
 <span class="fu"><a href="../reference/phenotype_delete.html">phenotype_delete</a></span><span class="op">(</span><span class="va">tmp_phenotype</span>, <span class="va">conn</span><span class="op">)</span>
-<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/phenotypes/rtest_pheno69]</span>
-<span class="co">#&gt;   Date: 2021-05-05 14:43</span>
+<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/phenotypes/rtest_pheno19]</span>
+<span class="co">#&gt;   Date: 2021-06-23 09:35</span>
 <span class="co">#&gt;   Status: 204</span>
 <span class="co">#&gt;   Content-Type: &lt;unknown&gt;</span>
 <span class="co">#&gt; &lt;EMPTY BODY&gt;</span></code></pre></div>
