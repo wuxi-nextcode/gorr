@@ -267,8 +267,6 @@ phenotype_upload_data <- function(phenotype, data, conn) {
         assertthat::assert_that(ncol(data) <= 2, msg = "data.frame/tibble should only contain 1 (if pheno is SET) or 2 columns, pn and value")
         data <- apply(data, 1, as.list) %>%
             lapply(unname)
-    } else {
-
     }
 
     url <- get__link(phenotype, "upload")
