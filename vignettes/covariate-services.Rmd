@@ -1,0 +1,62 @@
+---
+title: "Covariate services"
+author: "Andri M. Stefansson <andri@genuitysci.com>"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Covariate services}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+requireNamespace("knitr")
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+In this example, we're going to demonstrate how to interact with the covariate services API using the `gorr` package.
+
+## Loading required packages
+
+```{r packages}
+library(gorr)
+library(magrittr) # pipe
+```
+
+## Connect to Genuity Science's services.
+
+First we'll need to establish a connection to our API services. To do that we'll need to call `platform_connect` and provide it with the relevant parameters pointing to the phenotype-catalog-service, i.e. `api_key` and `project`:
+
+
+```{r}
+conn <- platform_connect(api_key = Sys.getenv("GOR_API_KEY"),
+                          project = Sys.getenv("GOR_API_PROJECT"))
+conn
+```
+
+If everything goes as planned, we'll have a `conn` object to pass into subsequent functions.
+
+## List available covariates
+
+Covariates available to users can be listed by passing the `conn` object to `get_covariates`.
+
+```{r, eval=FALSE}
+covariates <- get_covariates(conn)
+covariates
+```
+
+The results come back as a `list` of covariates available to the user.
+
+
+## Get phenotype
+
+Now can fetch a covariate from the project `get_covariate` and passing the covariate's unique `id` along with the `conn` object .
+
+```{r, eval=FALSE}
+covariate <- get_covariate(id = 1, conn)
+covariate
+```
