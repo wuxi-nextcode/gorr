@@ -99,6 +99,12 @@ platform_connect <- function(api_key = NULL, project = NULL, root_url = NULL, ap
                                                    endpoints = response$endpoints,
                                                    build_info = response$build_info,
                                                    service_name = response$service_name)
+
+        # Create and add 'self' enpoint if not exist
+        if (!"self" %in% names(conn_data[[response$service_name]]$endpoints)) {
+            conn_data[[response$service_name]]$endpoints$self <- generate_self_link(response)
+        }
+
         if (!assertthat::has_name(response, "endpoints"))
             gorr__failure("Unexpected response from host", "Is this a valid API?")
 
@@ -106,4 +112,9 @@ platform_connect <- function(api_key = NULL, project = NULL, root_url = NULL, ap
     }
 
     structure(conn_data, class = "platform_connection")
+}
+
+generate_self_link <- function(response) {
+    root <- response$endpoints$root
+    paste0(root, "projects/{project_name}")
 }

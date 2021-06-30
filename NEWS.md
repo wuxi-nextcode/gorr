@@ -1,3 +1,8 @@
+# gorr 1.4.0
+
+* Added *self* link to service root endpoints if not exist
+* Added covariate service. See `get_covariates` and `get_covariate`
+
 # gorr 1.3.0
 
 * Added support for fetching playlists by name in `get_playlist`
