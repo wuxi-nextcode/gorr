@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
       </span>
     </div>
 
@@ -62,6 +62,9 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/basic-query.html">Executing a Basic GOR Query</a>
+    </li>
+    <li>
+      <a href="../articles/covariate-services.html">Covariate services</a>
     </li>
     <li>
       <a href="../articles/gor-create.html">Using create statements and referencing local data frames</a>
@@ -111,7 +114,7 @@
                         <h4 class="author">Andri M. Stefansson <a href="mailto:andri@genuitysci.com" class="email">andri@genuitysci.com</a>
 </h4>
             
-            <h4 class="date">2021-06-23</h4>
+            <h4 class="date">2021-06-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/master/vignettes/phenotype-services.Rmd"><code>vignettes/phenotype-services.Rmd</code></a></small>
       <div class="hidden name"><code>phenotype-services.Rmd</code></div>
@@ -143,8 +146,8 @@
 <span class="co">#&gt; • Project: ukbb_hg38</span>
 <span class="co">#&gt; • API key issued at: 2021-03-25 18:42:08</span>
 <span class="co">#&gt; • API key expires at: Never</span>
-<span class="co">#&gt; • Access token issued at: 2021-06-23 09:35:25</span>
-<span class="co">#&gt; • Access token expires at: 2021-06-23 10:35:25</span></code></pre></div>
+<span class="co">#&gt; • Access token issued at: 2021-06-30 14:20:18</span>
+<span class="co">#&gt; • Access token expires at: 2021-06-30 15:20:18</span></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object to pass into subsequent functions.</p>
 </div>
 <div id="list-project-phenotypes" class="section level2">
@@ -191,7 +194,7 @@
 <span class="co">#&gt; [1] "ukbb_hg38"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $name</span>
-<span class="co">#&gt; [1] "rtest_pheno23"</span>
+<span class="co">#&gt; [1] "rtest_pheno75"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $description</span>
 <span class="co">#&gt; [1] "This is a test phenotype"</span>
@@ -200,7 +203,7 @@
 <span class="co">#&gt; [1] "CATEGORY"</span></code></pre></div>
 <p>A new phenotype has now been added to the project’s phenotype-catalog as well as been assigned to the variable <code>new_phenotype</code>.</p>
 <pre><code>#&gt; [1] "Penotype class: phenotype"
-#&gt; [1] "Penotype name: rtest_pheno23"
+#&gt; [1] "Penotype name: rtest_pheno75"
 #&gt; [1] "Penotype description: This is a test phenotype"
 #&gt; [1] "Penotype State: pending"</code></pre>
 <p>Phenotypes can also be created using the full set of metadata in a single call and with a GOR/NOR query.</p>
@@ -238,7 +241,7 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <span class="co">#&gt; [1] "ukbb_hg38"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $name</span>
-<span class="co">#&gt; [1] "rtest_pheno23"</span>
+<span class="co">#&gt; [1] "rtest_pheno75"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $description</span>
 <span class="co">#&gt; [1] "This is a test phenotype"</span>
@@ -254,7 +257,7 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <code class="sourceCode R"><span class="va">new_description</span> <span class="op">&lt;-</span> <span class="st">"An updated description"</span>
 <span class="va">new_phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phenotype_update_description.html">phenotype_update_description</a></span><span class="op">(</span><span class="va">new_description</span>, <span class="va">new_phenotype</span>, <span class="va">conn</span><span class="op">)</span></code></pre></div>
 <pre><code>#&gt; [1] "Penotype class: phenotype"
-#&gt; [1] "Penotype name: rtest_pheno23"
+#&gt; [1] "Penotype name: rtest_pheno75"
 #&gt; [1] "Penotype description: An updated description"</code></pre>
 </div>
 <div id="upload-phenotype-data" class="section level2">
@@ -271,7 +274,7 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <span class="co">#&gt; [1] "2000"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]][[2]]</span>
-<span class="co">#&gt; [1] "lean"</span>
+<span class="co">#&gt; [1] "obease"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[2]]</span>
@@ -279,7 +282,7 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <span class="co">#&gt; [1] "2001"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[2]][[2]]</span>
-<span class="co">#&gt; [1] "obease"</span>
+<span class="co">#&gt; [1] "lean"</span>
 
 <span class="fu"><a href="../reference/phenotype_upload_data.html">phenotype_upload_data</a></span><span class="op">(</span><span class="va">new_phenotype</span>, <span class="va">data</span>, <span class="va">conn</span><span class="op">)</span></code></pre></div>
 </div>
@@ -293,21 +296,21 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; cols(</span>
 <span class="co">#&gt;   pn = col_double(),</span>
-<span class="co">#&gt;   rtest_pheno23 = col_character()</span>
+<span class="co">#&gt;   rtest_pheno75 = col_character()</span>
 <span class="co">#&gt; )</span>
 <span class="co">#&gt; # A tibble: 1,001 x 2</span>
-<span class="co">#&gt;       pn rtest_pheno23</span>
+<span class="co">#&gt;       pn rtest_pheno75</span>
 <span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;        </span>
-<span class="co">#&gt;  1  2000 lean         </span>
-<span class="co">#&gt;  2  2001 obease       </span>
+<span class="co">#&gt;  1  2000 obease       </span>
+<span class="co">#&gt;  2  2001 lean         </span>
 <span class="co">#&gt;  3  2002 obease       </span>
 <span class="co">#&gt;  4  2003 obease       </span>
 <span class="co">#&gt;  5  2004 lean         </span>
 <span class="co">#&gt;  6  2005 lean         </span>
-<span class="co">#&gt;  7  2006 lean         </span>
+<span class="co">#&gt;  7  2006 obease       </span>
 <span class="co">#&gt;  8  2007 obease       </span>
 <span class="co">#&gt;  9  2008 obease       </span>
-<span class="co">#&gt; 10  2009 lean         </span>
+<span class="co">#&gt; 10  2009 obease       </span>
 <span class="co">#&gt; # … with 991 more rows</span></code></pre></div>
 </div>
 <div id="get-all-tags-available-in-the-phenotype-catalog" class="section level2">
@@ -369,8 +372,8 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <p>A phenotype can easily be removed from a project using the <code>phenotype_delete</code> function. <code>phenotype_delete</code> expects a <code>phenotype</code> object. Therefore the phenotype needs to be fetched using the <code>get_phenotype</code> function if it has not been assigned to a variable already.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/phenotype_delete.html">phenotype_delete</a></span><span class="op">(</span><span class="va">new_phenotype</span>, <span class="va">conn</span><span class="op">)</span>
-<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/phenotypes/rtest_pheno23]</span>
-<span class="co">#&gt;   Date: 2021-06-23 09:35</span>
+<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/phenotypes/rtest_pheno75]</span>
+<span class="co">#&gt;   Date: 2021-06-30 14:20</span>
 <span class="co">#&gt;   Status: 204</span>
 <span class="co">#&gt;   Content-Type: &lt;unknown&gt;</span>
 <span class="co">#&gt; &lt;EMPTY BODY&gt;</span></code></pre></div>
