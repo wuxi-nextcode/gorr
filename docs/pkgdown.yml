@@ -3,11 +3,12 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   basic-query: basic-query.html
+  covariate-services: covariate-services.html
   gor-create: gor-create.html
   persistance-of-results: persistance-of-results.html
   phenotype-categories: phenotype-categories.html
   phenotype-matrix-services: phenotype-matrix-services.html
   phenotype-playlist: phenotype-playlist.html
   phenotype-services: phenotype-services.html
-last_built: 2021-06-23T09:34Z
+last_built: 2021-06-30T14:19Z
 

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
       </span>
     </div>
 
@@ -62,6 +62,9 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/basic-query.html">Executing a Basic GOR Query</a>
+    </li>
+    <li>
+      <a href="../articles/covariate-services.html">Covariate services</a>
     </li>
     <li>
       <a href="../articles/gor-create.html">Using create statements and referencing local data frames</a>
@@ -111,7 +114,7 @@
                         <h4 class="author">Edvald Gislason <a href="mailto:edvald@wuxinextcode.com" class="email">edvald@wuxinextcode.com</a>
 </h4>
             
-            <h4 class="date">2021-06-23</h4>
+            <h4 class="date">2021-06-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/master/vignettes/basic-query.Rmd"><code>vignettes/basic-query.Rmd</code></a></small>
       <div class="hidden name"><code>basic-query.Rmd</code></div>
@@ -146,8 +149,8 @@
 <span class="co">#&gt; • Project: ukbb_hg38</span>
 <span class="co">#&gt; • API key issued at: 2021-03-25 18:42:08</span>
 <span class="co">#&gt; • API key expires at: Never</span>
-<span class="co">#&gt; • Access token issued at: 2021-06-23 09:34:28</span>
-<span class="co">#&gt; • Access token expires at: 2021-06-23 10:34:28</span></code></pre></div>
+<span class="co">#&gt; • Access token issued at: 2021-06-30 14:19:16</span>
+<span class="co">#&gt; • Access token expires at: 2021-06-30 15:19:16</span></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object to pass into the <code>gor_query</code> function to finally run a query:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gor_query.html">gor_query</a></span><span class="op">(</span><span class="st">"gor #dbsnp# | top 100"</span>, <span class="va">conn</span><span class="op">)</span></code></pre></div>

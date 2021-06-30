@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Phenotype categories • gorr</title>
+<title>Covariate services • gorr</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Phenotype categories">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Covariate services">
 <meta property="og:description" content="gorr">
 <meta property="og:image" content="/logo.svg">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -107,31 +107,29 @@
 
       
 
-      </header><script src="phenotype-categories_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><script src="covariate-services_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Phenotype categories</h1>
+      <h1 data-toc-skip>Covariate services</h1>
                         <h4 class="author">Andri M. Stefansson <a href="mailto:andri@genuitysci.com" class="email">andri@genuitysci.com</a>
 </h4>
             
             <h4 class="date">2021-06-30</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/master/vignettes/phenotype-categories.Rmd"><code>vignettes/phenotype-categories.Rmd</code></a></small>
-      <div class="hidden name"><code>phenotype-categories.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/master/vignettes/covariate-services.Rmd"><code>vignettes/covariate-services.Rmd</code></a></small>
+      <div class="hidden name"><code>covariate-services.Rmd</code></div>
 
     </div>
 
     
     
-<p>In this example, we’re going to explore the capabilities of the phenotype-services using the <code>gorr</code> package.</p>
-<div id="load-packages" class="section level2">
+<p>In this example, we’re going to demonstrate how to interact with the covariate services API using the <code>gorr</code> package.</p>
+<div id="loading-required-packages" class="section level2">
 <h2 class="hasAnchor">
-<a href="#load-packages" class="anchor"></a>Load packages</h2>
-<p>First load the <code>gorr</code> package, the <code>tidyverse</code> package is recommended in general, but not required for this example</p>
+<a href="#loading-required-packages" class="anchor"></a>Loading required packages</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/wuxi-nextcode/gorr">gorr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span> <span class="co"># pipe</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org">magrittr</a></span><span class="op">)</span> <span class="co"># pipe</span></code></pre></div>
 </div>
 <div id="connect-to-genuity-sciences-services-" class="section level2">
 <h2 class="hasAnchor">
@@ -146,55 +144,26 @@
 <span class="co">#&gt; • Project: ukbb_hg38</span>
 <span class="co">#&gt; • API key issued at: 2021-03-25 18:42:08</span>
 <span class="co">#&gt; • API key expires at: Never</span>
-<span class="co">#&gt; • Access token issued at: 2021-06-30 14:19:56</span>
-<span class="co">#&gt; • Access token expires at: 2021-06-30 15:19:56</span></code></pre></div>
+<span class="co">#&gt; • Access token issued at: 2021-06-30 14:19:24</span>
+<span class="co">#&gt; • Access token expires at: 2021-06-30 15:19:24</span></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object to pass into subsequent functions.</p>
 </div>
-<div id="list-categories" class="section level2">
+<div id="list-available-covariates" class="section level2">
 <h2 class="hasAnchor">
-<a href="#list-categories" class="anchor"></a>List categories</h2>
-<p>All available categories can be listed by passing the <code>conn</code> object to the <code>get_categories</code> function</p>
+<a href="#list-available-covariates" class="anchor"></a>List available covariates</h2>
+<p>Covariates available to users can be listed by passing the <code>conn</code> object to <code>get_covariates</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">categories</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_categories.html">get_categories</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span>
-<span class="va">categories</span></code></pre></div>
-<pre><code>#&gt; [1] "medical history"             "dolore consectetur ea Lorem"
-#&gt; [3] "statistics"                  "cardiovascular"</code></pre>
-<p>The results come back as a <code>vector</code> of categories</p>
+<code class="sourceCode R"><span class="va">covariates</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_covariates.html">get_covariates</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span>
+<span class="va">covariates</span></code></pre></div>
+<p>The results come back as a <code>list</code> of covariates available to the user.</p>
 </div>
-<div id="create-category" class="section level2">
+<div id="get-phenotype" class="section level2">
 <h2 class="hasAnchor">
-<a href="#create-category" class="anchor"></a>Create category</h2>
-<p>If we want to add a new category to the catalog we can do so using <code>create_category</code> along with the name of the category to be added as follows.</p>
-<p>NB: Before creating a new category, make sure you have the privileges (admin rights to category management) to do so.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"rtestcat"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">99</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="co"># Name of new category</span>
-<span class="va">new_category</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_category.html">create_category</a></span><span class="op">(</span><span class="va">name</span>,  <span class="va">conn</span><span class="op">)</span></code></pre></div>
-<p>A new category has now been added and assigned to the variable <code>new_category</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">new_category</span><span class="op">)</span>
-<span class="co">#&gt; $name</span>
-<span class="co">#&gt; [1] "rtestcat44"</span></code></pre></div>
-</div>
-<div id="delete-category" class="section level2">
-<h2 class="hasAnchor">
-<a href="#delete-category" class="anchor"></a>Delete category</h2>
-<p>Categories can be removed from project by passing the name of the category to <code>category_delete</code> along with the connector object.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/get_categories.html">get_categories</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span> <span class="co"># Category to be deleted</span>
-<span class="fu"><a href="../reference/category_delete.html">category_delete</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">conn</span><span class="op">)</span>
-<span class="fu"><a href="../reference/get_categories.html">get_categories</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; [1] "medical history"             "dolore consectetur ea Lorem"
-#&gt; [3] "statistics"                  "cardiovascular"             
-#&gt; [5] "rtestcat44"
-#&gt; [1] "rtestcat44"
-#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/categories/rtestcat44]
-#&gt;   Date: 2021-06-30 14:19
-#&gt;   Status: 204
-#&gt;   Content-Type: &lt;unknown&gt;
-#&gt; &lt;EMPTY BODY&gt;
-#&gt; [1] "medical history"             "dolore consectetur ea Lorem"
-#&gt; [3] "statistics"                  "cardiovascular"</code></pre>
+<a href="#get-phenotype" class="anchor"></a>Get phenotype</h2>
+<p>Now can fetch a covariate from the project <code>get_covariate</code> and passing the covariate’s unique <code>id</code> along with the <code>conn</code> object .</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">covariate</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_covariate.html">get_covariate</a></span><span class="op">(</span>id <span class="op">=</span> <span class="fl">1</span>, <span class="va">conn</span><span class="op">)</span>
+<span class="va">covariate</span></code></pre></div>
 </div>
   </div>
 
