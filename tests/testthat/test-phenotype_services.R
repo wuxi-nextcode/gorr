@@ -25,15 +25,6 @@ test_that("phenotype_connect works without parameters", {
 
 })
 
-test_that("get_phenotypes works", {
-    lim = 10
-    result <- get_phenotypes(conn, limit=lim)
-
-    expect_is(result, "character")
-    expect_equal(length(result), lim)
-})
-
-
 test_that("create_phenotype works", {
     test_name <<- paste0("test_pheno", sample(1:100,1))
     test_type <- "QT"
@@ -44,6 +35,14 @@ test_that("create_phenotype works", {
                                         conn=conn)
 
     expect_is(test_phenotype, "phenotype")
+})
+
+test_that("get_phenotypes works", {
+    lim = 10
+    result <- get_phenotypes(conn, limit=lim)
+
+    expect_is(class(result), "phenotype_list")
+    expect_equal(length(result), lim)
 })
 
 

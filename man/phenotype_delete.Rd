@@ -4,12 +4,12 @@
 \alias{phenotype_delete}
 \title{Delete a phenotype, including all data from a project}
 \usage{
-phenotype_delete(phenotype, conn)
+phenotype_delete(phenotype, conn = NULL)
 }
 \arguments{
 \item{phenotype}{phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}}
 
-\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
+\item{conn}{Deprecated : gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \description{
 Delete a phenotype, including all data from a project

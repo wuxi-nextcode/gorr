@@ -4,14 +4,14 @@
 \alias{phenotype_add_tag}
 \title{Add a new tag/s to this phenotype.}
 \usage{
-phenotype_add_tag(tag, phenotype, conn)
+phenotype_add_tag(tag, phenotype, conn = NULL)
 }
 \arguments{
 \item{tag}{string or character vector of tag/s to be added. Tags should be seperated by comma e.g. "height,weight" or as vector "c("height", "weight")}
 
 \item{phenotype}{phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}}
 
-\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
+\item{conn}{Deprecated : gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \value{
 an updated phenotype object

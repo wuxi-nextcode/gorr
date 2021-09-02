@@ -2,22 +2,53 @@
 % Please edit documentation in R/phenotype_services.R
 \name{get_phenotypes}
 \alias{get_phenotypes}
-\title{A list of all the phenotypes in the current project.}
+\title{A list of all/subset of phenotypes in the current project.}
 \usage{
-get_phenotypes(conn, tags = list(), limit = 100)
+get_phenotypes(
+  conn,
+  tags = list(),
+  limit = 100,
+  all_tags = list(),
+  any_tags = list(),
+  pn_count = NULL,
+  categories = list(),
+  states = list(),
+  search = NULL,
+  playlist = NULL,
+  updated_at = NULL,
+  result_types = list()
+)
 }
 \arguments{
 \item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 
-\item{tags}{Optional character, character vector or list of tags to filter for.}
+\item{tags}{Deprecated : Optional character, character vector or list of tags to filter for.}
 
 \item{limit}{Maximum number of results (default: 100)}
+
+\item{all_tags}{Only fetch phenotypes that have all tags in the given list of tags}
+
+\item{any_tags}{Fetch phenotypes that have any of the tags in the given list of tags}
+
+\item{pn_count}{Inly list phenotypes that match the given pn counts. (>pn_count)}
+
+\item{categories}{Only fetch phenotypes in the given list of categories}
+
+\item{states}{Only fetch phenotypes in the given list of states}
+
+\item{search}{String of keywords to search for in phenotypes, such as name, categories and tags}
+
+\item{playlist}{Fetch a specific playlist of phenotypes by the playlist id}
+
+\item{updated_at}{Only fetch phenotypes that match the given dates. Example: >=2017-04-01 ┃ <=2012-07-04 ┃ 2016-04-30..2016-07-04}
+
+\item{result_types}{Only fetch phenotypes in the given list of result types}
 }
 \value{
 List of phenotypes
 }
 \description{
-A list of all the phenotypes in the current project.
+A list of all/subset of phenotypes in the current project.
 }
 \examples{
 \dontrun{

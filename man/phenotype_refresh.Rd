@@ -4,12 +4,12 @@
 \alias{phenotype_refresh}
 \title{Refresh phenotype}
 \usage{
-phenotype_refresh(phenotype, conn)
+phenotype_refresh(phenotype, conn = NULL)
 }
 \arguments{
 \item{phenotype}{phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}}
 
-\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
+\item{conn}{Deprecated : gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \value{
 a list with the phenotype object
