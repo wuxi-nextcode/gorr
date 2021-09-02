@@ -4,14 +4,14 @@
 \alias{phenotype_upload_data}
 \title{Upload phenotype data}
 \usage{
-phenotype_upload_data(phenotype, data, conn)
+phenotype_upload_data(phenotype, data, conn = NULL)
 }
 \arguments{
 \item{phenotype}{phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}}
 
 \item{data}{a list of lists to be uploaded}
 
-\item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
+\item{conn}{Deprecated : gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \description{
 The data is expected to be a data.frame, tibble or list of lists. If data.frame or tibble is provided it should contain 2 columns.

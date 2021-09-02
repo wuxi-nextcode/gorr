@@ -4,14 +4,14 @@
 \alias{phenotype_update_description}
 \title{Update the phenotype with a new description}
 \usage{
-phenotype_update_description(description, phenotype, conn)
+phenotype_update_description(description, phenotype, conn = NULL)
 }
 \arguments{
 \item{description}{phenotype description}
 
 \item{phenotype}{phenotype structure, create or get it using \code{\link{get_phenotype}}}
 
-\item{conn}{gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{platform_connect}}}
+\item{conn}{Deprecated : gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{platform_connect}}}
 }
 \value{
 an updated list with the phenotype object
