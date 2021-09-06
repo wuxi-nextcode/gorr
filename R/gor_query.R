@@ -10,10 +10,7 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE", "PATCH"),
     response <- request.fun(url = url, body = body, query=query, conn$header, encode = "json", if (debug) httr::verbose() )
 
     if (parse.body) {
-        tryCatch({
             response <- gorr__get_response_body(response)
-        },
-        error = function(e) gorr__failure(paste("Failure while querying", url), e$message))
     }
 
     response
@@ -259,7 +256,7 @@ gorr__get_response_body <- function(response, content.fun = purrr::partial(httr:
     response_body <- content.fun(response)
 
     # Conveniently converts HTTP errors to R errors
-    httr::stop_for_status(response$status_code)
+   #  httr::stop_for_status(response$status_code) # Isn't this unnecessary because of the chunk that follows
 
     # Check to see if the query response has an error in it
     if (response$status_code != 200 && !is.null(response_body$error)) {
@@ -276,7 +273,7 @@ gorr__get_response_body <- function(response, content.fun = purrr::partial(httr:
             details <- paste0(details, "\n",  virtual_relations)
         }
 
-        gorr__failure(message, details)
+        gorr__failure(message, details, url = response$url)
     }
 
     if (!is.character(response_body) && !is.null(response_body$status) && response_body$status == "FAILED" ) {
@@ -310,7 +307,8 @@ gorr__spinner <- function(msg) {
 #'
 #' @param msg exception message
 #' @param detail exception details (chr or chr vector)
-gorr__failure <- function(msg, detail = NULL) {
+#' @param url query url
+gorr__failure <- function(msg, detail = NULL, url=NULL) {
     cli::cat_line()
     cli::cat_rule(col = "red")
     if (length(detail) > 0) {
@@ -319,7 +317,9 @@ gorr__failure <- function(msg, detail = NULL) {
         else
             detail <- paste(names(detail), detail, sep = ": ", collapse = "\n    ")
 
-        stop(paste(crayon::red(msg), "\nDetails: \n    ", detail), call. = F)
+        url_msg <- paste(crayon::red(paste("Failure while querying", url)), "\nInfo: \n    ")
+
+        stop(paste(if (!is.null(url)) url_msg, crayon::red(msg), "\nDetails: \n    ", crayon::red(detail)), call. = F)
     } else {
         stop(crayon::red(msg), call. = F)
     }
