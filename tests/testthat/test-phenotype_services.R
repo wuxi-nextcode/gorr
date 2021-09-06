@@ -37,10 +37,11 @@ test_that("create_phenotype works", {
     expect_is(test_phenotype, "phenotype")
 })
 
-test_that("get_phenotypes works", {
-    lim = 10
-    result <- get_phenotypes(conn, limit=lim)
 
+test_that("get_phenotypes works", {
+    lim <- 10
+    result <- get_phenotypes(conn, limit=lim)
+    ### ERROR here stems from naming clash - phenotype() function and `phenotype` structure - tobe fixed
     expect_is(class(result), "phenotype_list")
     expect_equal(length(result), lim)
 })
