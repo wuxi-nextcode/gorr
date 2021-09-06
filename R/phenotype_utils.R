@@ -27,3 +27,9 @@ gorr__get_endpoint <- function(conn, api, endpoint) {
 get__link <- function(object, type) {
     object$links[[type]]
 }
+
+
+# Convert tags to character vector of tags
+parse__tags <- function(tags) {
+    purrr::map(tags, ~base::strsplit(.x, ",", fixed = TRUE)) %>% unlist()
+}
