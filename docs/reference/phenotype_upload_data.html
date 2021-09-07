@@ -82,7 +82,7 @@ The result_type of the phenotype dictates if each sublist should contain one or 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.1</span>
       </span>
     </div>
 
@@ -155,7 +155,7 @@ The result_type of the phenotype dictates if each sublist should contain one or 
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Upload phenotype data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_services.R'><code>R/phenotype_services.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_upload_data.R'><code>R/phenotype_upload_data.R</code></a></small>
     <div class="hidden name"><code>phenotype_upload_data.Rd</code></div>
     </div>
 
@@ -165,7 +165,7 @@ and list of lists should be of the form <code><a href='https://rdrr.io/r/base/li
 The <code>result_type</code> of the phenotype dictates if each sublist should contain one or two items.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>phenotype_upload_data</span><span class='op'>(</span><span class='va'>phenotype</span>, <span class='va'>data</span>, <span class='va'>conn</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>phenotype_upload_data</span><span class='op'>(</span><span class='va'>phenotype</span>, <span class='va'>data</span>, conn <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,7 +180,7 @@ The <code>result_type</code> of the phenotype dictates if each sublist should co
     </tr>
     <tr>
       <th>conn</th>
-      <td><p>gor connection structure, create it using <code><a href='platform_connect.html'>platform_connect</a></code></p></td>
+      <td><p>Deprecated : gor connection structure, create it using <code><a href='platform_connect.html'>platform_connect</a></code></p></td>
     </tr>
     </table>
 

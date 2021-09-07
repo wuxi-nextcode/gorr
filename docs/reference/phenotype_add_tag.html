@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="Add a new tag/s to this phenotype. — phenotype_add_tag" />
-<meta property="og:description" content="Add a new tag/s to this phenotype." />
+<meta property="og:description" content="This method is depricated and will be removed in future versions. use phenotype_add_tags instead." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.1</span>
       </span>
     </div>
 
@@ -153,15 +153,15 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Add a new tag/s to this phenotype.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_services.R'><code>R/phenotype_services.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_deprecated.R'><code>R/phenotype_deprecated.R</code></a></small>
     <div class="hidden name"><code>phenotype_add_tag.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Add a new tag/s to this phenotype.</p>
+    <p>This method is depricated and will be removed in future versions. use <code><a href='phenotype_add_tags.html'>phenotype_add_tags</a></code> instead.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>phenotype_add_tag</span><span class='op'>(</span><span class='va'>tag</span>, <span class='va'>phenotype</span>, <span class='va'>conn</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>phenotype_add_tag</span><span class='op'>(</span><span class='va'>tag</span>, <span class='va'>phenotype</span>, conn <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -176,7 +176,7 @@
     </tr>
     <tr>
       <th>conn</th>
-      <td><p>gor connection structure, create it using <code><a href='platform_connect.html'>platform_connect</a></code></p></td>
+      <td><p>Deprecated : gor connection structure, create it using <code><a href='platform_connect.html'>platform_connect</a></code></p></td>
     </tr>
     </table>
 

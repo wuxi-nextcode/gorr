@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A list of all the phenotypes in the current project. — get_phenotypes • gorr</title>
+<title>A list of all/subset of phenotypes in the current project. — get_phenotypes • gorr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="A list of all the phenotypes in the current project. — get_phenotypes" />
-<meta property="og:description" content="A list of all the phenotypes in the current project." />
+<meta property="og:title" content="A list of all/subset of phenotypes in the current project. — get_phenotypes" />
+<meta property="og:description" content="A list of all/subset of phenotypes in the current project." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.1</span>
       </span>
     </div>
 
@@ -152,16 +152,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A list of all the phenotypes in the current project.</h1>
+    <h1>A list of all/subset of phenotypes in the current project.</h1>
     <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_services.R'><code>R/phenotype_services.R</code></a></small>
     <div class="hidden name"><code>get_phenotypes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A list of all the phenotypes in the current project.</p>
+    <p>A list of all/subset of phenotypes in the current project.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_phenotypes</span><span class='op'>(</span><span class='va'>conn</span>, tags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, limit <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_phenotypes</span><span class='op'>(</span>
+  <span class='va'>conn</span>,
+  tags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  limit <span class='op'>=</span> <span class='fl'>100</span>,
+  pheno_names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  all_tags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  any_tags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  pn_count <span class='op'>=</span> <span class='cn'>NULL</span>,
+  categories <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  states <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  search <span class='op'>=</span> <span class='cn'>NULL</span>,
+  playlist <span class='op'>=</span> <span class='cn'>NULL</span>,
+  updated_at <span class='op'>=</span> <span class='cn'>NULL</span>,
+  result_types <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,11 +186,51 @@
     </tr>
     <tr>
       <th>tags</th>
-      <td><p>Optional character, character vector or list of tags to filter for.</p></td>
+      <td><p>Deprecated : Optional character, character vector or list of tags to filter for.</p></td>
     </tr>
     <tr>
       <th>limit</th>
-      <td><p>Maximum number of results (default: 100)</p></td>
+      <td><p>Maximum number of results fetched (default: 100)</p></td>
+    </tr>
+    <tr>
+      <th>pheno_names</th>
+      <td><p>Only fetch phenotypes that are in a given list of phenotype names</p></td>
+    </tr>
+    <tr>
+      <th>all_tags</th>
+      <td><p>Only fetch phenotypes that have all tags in the given list of tags</p></td>
+    </tr>
+    <tr>
+      <th>any_tags</th>
+      <td><p>Fetch phenotypes that have any of the tags in the given list of tags</p></td>
+    </tr>
+    <tr>
+      <th>pn_count</th>
+      <td><p>Only list phenotypes that match the given pn counts. (include greater or less symbol in string eg "&gt;10")</p></td>
+    </tr>
+    <tr>
+      <th>categories</th>
+      <td><p>Only fetch phenotypes in the given list of categories</p></td>
+    </tr>
+    <tr>
+      <th>states</th>
+      <td><p>Only fetch phenotypes in the given list of states</p></td>
+    </tr>
+    <tr>
+      <th>search</th>
+      <td><p>String of keywords to search for in phenotypes, such as name, categories and tags</p></td>
+    </tr>
+    <tr>
+      <th>playlist</th>
+      <td><p>Fetch a specific playlist of phenotypes by the playlist id</p></td>
+    </tr>
+    <tr>
+      <th>updated_at</th>
+      <td><p>Only fetch phenotypes that match the given dates. Example: &gt;=2017-04-01 ┃ &lt;=2012-07-04 ┃ 2016-04-30..2016-07-04</p></td>
+    </tr>
+    <tr>
+      <th>result_types</th>
+      <td><p>Only fetch phenotypes in the given list of result types</p></td>
     </tr>
     </table>
 

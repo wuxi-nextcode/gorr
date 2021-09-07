@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.1</span>
       </span>
     </div>
 
@@ -161,7 +161,7 @@
     <p>Custom wrapper for stop() with formated error messages</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gorr__failure</span><span class='op'>(</span><span class='va'>msg</span>, detail <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>gorr__failure</span><span class='op'>(</span><span class='va'>msg</span>, detail <span class='op'>=</span> <span class='cn'>NULL</span>, url <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,6 +173,10 @@
     <tr>
       <th>detail</th>
       <td><p>exception details (chr or chr vector)</p></td>
+    </tr>
+    <tr>
+      <th>url</th>
+      <td><p>query url</p></td>
     </tr>
     </table>
 

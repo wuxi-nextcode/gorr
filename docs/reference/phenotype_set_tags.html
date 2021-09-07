@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set the tag list for this phenotype, overriding all previous tags — phenotype_set_tags • gorr</title>
+<title>Set the tag/s for this phenotype, overriding previous tags — phenotype_set_tags • gorr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Set the tag list for this phenotype, overriding all previous tags — phenotype_set_tags" />
-<meta property="og:description" content="Set the tag list for this phenotype, overriding all previous tags" />
+<meta property="og:title" content="Set the tag/s for this phenotype, overriding previous tags — phenotype_set_tags" />
+<meta property="og:description" content="Set the tag/s for this phenotype, overriding previous tags" />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.1</span>
       </span>
     </div>
 
@@ -152,23 +152,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set the tag list for this phenotype, overriding all previous tags</h1>
-    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_services.R'><code>R/phenotype_services.R</code></a></small>
+    <h1>Set the tag/s for this phenotype, overriding previous tags</h1>
+    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_update.R'><code>R/phenotype_update.R</code></a></small>
     <div class="hidden name"><code>phenotype_set_tags.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Set the tag list for this phenotype, overriding all previous tags</p>
+    <p>Set the tag/s for this phenotype, overriding previous tags</p>
     </div>
 
-    <pre class="usage"><span class='fu'>phenotype_set_tags</span><span class='op'>(</span><span class='va'>tags</span>, <span class='va'>phenotype</span>, <span class='va'>conn</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>phenotype_set_tags</span><span class='op'>(</span><span class='va'>tags</span>, <span class='va'>phenotype</span>, conn <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>tags</th>
-      <td><p>string of tags to be added seperated by comma eg. "height,weight"  or character vector "c("height", "weight")</p></td>
+      <td><p>string or character vector of tag/s to be added. Tags should be seperated by comma e.g. "height,weight" or as vector "c("height", "weight")</p></td>
     </tr>
     <tr>
       <th>phenotype</th>
@@ -176,13 +176,13 @@
     </tr>
     <tr>
       <th>conn</th>
-      <td><p>gor connection structure, create it using <code><a href='platform_connect.html'>platform_connect</a></code></p></td>
+      <td><p>Deprecated : gor connection structure, create it using <code><a href='platform_connect.html'>platform_connect</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>an updated list with the phenotype object</p>
+    <p>phenotype structure</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -4,12 +4,14 @@
 \alias{gorr__failure}
 \title{Custom wrapper for stop() with formated error messages}
 \usage{
-gorr__failure(msg, detail = NULL)
+gorr__failure(msg, detail = NULL, url = NULL)
 }
 \arguments{
 \item{msg}{exception message}
 
 \item{detail}{exception details (chr or chr vector)}
+
+\item{url}{query url}
 }
 \description{
 Custom wrapper for stop() with formated error messages

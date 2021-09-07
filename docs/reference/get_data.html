@@ -82,7 +82,7 @@ using phemat_add_phenotype or phemat_add_phenotypes" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.1</span>
       </span>
     </div>
 
@@ -155,7 +155,7 @@ using phemat_add_phenotype or phemat_add_phenotypes" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Retrieve phenotype data or phenotype matrix data from the server.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_matrix.R'><code>R/phenotype_matrix.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_get_data.R'><code>R/phenotype_get_data.R</code></a></small>
     <div class="hidden name"><code>get_data.Rd</code></div>
     </div>
 
@@ -165,24 +165,57 @@ using <code><a href='get_phenotype_matrix.html'>get_phenotype_matrix</a></code> 
 using <code><a href='phemat_add_phenotype.html'>phemat_add_phenotype</a></code> or <code><a href='phemat_add_phenotypes.html'>phemat_add_phenotypes</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_data</span><span class='op'>(</span><span class='va'>phenotype_obj</span>, <span class='va'>conn</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_data</span><span class='op'>(</span><span class='va'>pheno_obj</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for phenotype</span>
+<span class='fu'>get_data</span><span class='op'>(</span><span class='va'>pheno_obj</span>, conn <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='co'># S3 method for phenotype_matrix</span>
+<span class='fu'>get_data</span><span class='op'>(</span><span class='va'>pheno_obj</span>, conn <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='co'># S3 method for phenotype_playlist</span>
+<span class='fu'>get_data</span><span class='op'>(</span><span class='va'>pheno_obj</span>, conn <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>get_data</span><span class='op'>(</span><span class='va'>pheno_obj</span>, <span class='va'>conn</span>, missing_value <span class='op'>=</span> <span class='cn'>NULL</span>, base <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>phenotype_obj</th>
-      <td><p>phenotype or phenotype_matrix structure.</p></td>
+      <th>pheno_obj</th>
+      <td><p>phenotype names, phenotype, phenotype matrix or phenotype playlist structure.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional arguments</p></td>
     </tr>
     <tr>
       <th>conn</th>
-      <td><p>gor connection structure, create it using <code><a href='platform_connect.html'>platform_connect</a></code></p></td>
+      <td><p>platform connection structure, create it using <code><a href='platform_connect.html'>platform_connect</a></code></p></td>
+    </tr>
+    <tr>
+      <th>missing_value</th>
+      <td><p>The string to substitute for a missing value in the data</p></td>
+    </tr>
+    <tr>
+      <th>base</th>
+      <td><p>Optional name of base set</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>tibble from server</p>
+    <h2 class="hasAnchor" id="methods-by-class-"><a class="anchor" href="#methods-by-class-"></a>Methods (by class)</h2>
+
+    
+<ul>
+<li><p><code>phenotype</code>: Get phenotype data</p></li>
+<li><p><code>phenotype_matrix</code>: Get data for phenotypes in phenotype matrix</p></li>
+<li><p><code>phenotype_playlist</code>: Get data phenotypes in phenotype playlist</p></li>
+<li><p><code>default</code>: Get data phenotype/s by phenotype names</p></li>
+</ul>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
