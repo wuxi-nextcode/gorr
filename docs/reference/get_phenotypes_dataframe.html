@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get server query results — gorr__get_query_results • gorr</title>
+<title>A dataframe of all/subset of phenotypes in the current project. — get_phenotypes_dataframe • gorr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Get server query results — gorr__get_query_results" />
-<meta property="og:description" content="Get server query results" />
+<meta property="og:title" content="A dataframe of all/subset of phenotypes in the current project. — get_phenotypes_dataframe" />
+<meta property="og:description" content="A dataframe of all/subset of phenotypes in the current project." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -152,57 +152,100 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get server query results</h1>
-    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/gor_query.R'><code>R/gor_query.R</code></a></small>
-    <div class="hidden name"><code>gorr__get_query_results.Rd</code></div>
+    <h1>A dataframe of all/subset of phenotypes in the current project.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_services.R'><code>R/phenotype_services.R</code></a></small>
+    <div class="hidden name"><code>get_phenotypes_dataframe.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get server query results</p>
+    <p>A dataframe of all/subset of phenotypes in the current project.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gorr__get_query_results</span><span class='op'>(</span>
-  <span class='va'>query_result_url</span>,
-  <span class='va'>conn</span>,
-  spinner <span class='op'>=</span> <span class='va'>invisible</span>,
-  query_limit <span class='op'>=</span> <span class='fl'>10000</span>,
-  offset <span class='op'>=</span> <span class='fl'>0</span>,
-  parse <span class='op'>=</span> <span class='cn'>T</span>
+    <pre class="usage"><span class='fu'>get_phenotypes_dataframe</span><span class='op'>(</span>
+  conn <span class='op'>=</span> <span class='va'>conn</span>,
+  pheno_names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  all_tags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  any_tags <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  pn_count <span class='op'>=</span> <span class='cn'>NULL</span>,
+  categories <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  limit <span class='op'>=</span> <span class='fl'>100</span>,
+  states <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  search <span class='op'>=</span> <span class='cn'>NULL</span>,
+  playlist <span class='op'>=</span> <span class='cn'>NULL</span>,
+  updated_at <span class='op'>=</span> <span class='cn'>NULL</span>,
+  result_types <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  filtered <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>query_result_url</th>
-      <td><p>query result url</p></td>
-    </tr>
-    <tr>
       <th>conn</th>
-      <td><p>connection object, see <code><a href='platform_connect.html'>platform_connect</a></code></p></td>
+      <td><p>gor connection structure, create it using <code><a href='platform_connect.html'>platform_connect</a></code></p></td>
     </tr>
     <tr>
-      <th>spinner</th>
-      <td><p>spinner function (e.g. some ascii animation for long running queries)</p></td>
+      <th>pheno_names</th>
+      <td><p>Only fetch phenotypes that are in a given list of phenotype names</p></td>
     </tr>
     <tr>
-      <th>query_limit</th>
-      <td><p>limit to how many rows to fetch in each page</p></td>
+      <th>all_tags</th>
+      <td><p>Only fetch phenotypes that have all tags in the given list of tags</p></td>
     </tr>
     <tr>
-      <th>offset</th>
-      <td><p>query offset (skip rows)</p></td>
+      <th>any_tags</th>
+      <td><p>Fetch phenotypes that have any of the tags in the given list of tags</p></td>
     </tr>
     <tr>
-      <th>parse</th>
-      <td><p>should output be parsed into a data.frame</p></td>
+      <th>pn_count</th>
+      <td><p>Only list phenotypes that match the given pn counts. (include greater or less symbol in string eg "&gt;10")</p></td>
+    </tr>
+    <tr>
+      <th>categories</th>
+      <td><p>Only fetch phenotypes in the given list of categories</p></td>
+    </tr>
+    <tr>
+      <th>limit</th>
+      <td><p>Maximum number of results (default: 100)</p></td>
+    </tr>
+    <tr>
+      <th>states</th>
+      <td><p>Only fetch phenotypes in the given list of states</p></td>
+    </tr>
+    <tr>
+      <th>search</th>
+      <td><p>String of keywords to search for in phenotypes, such as name, categories and tags</p></td>
+    </tr>
+    <tr>
+      <th>playlist</th>
+      <td><p>Fetch a specific playlist of phenotypes by the playlist id</p></td>
+    </tr>
+    <tr>
+      <th>updated_at</th>
+      <td><p>Only fetch phenotypes that match the given dates. Example: &gt;=2017-04-01 ┃ &lt;=2012-07-04 ┃ 2016-04-30..2016-07-04</p></td>
+    </tr>
+    <tr>
+      <th>result_types</th>
+      <td><p>Only fetch phenotypes in the given list of result types</p></td>
+    </tr>
+    <tr>
+      <th>filtered</th>
+      <td><p>boolean - Return subset of phenotype info columns. filtered=FALSE returns everything. Default: TRUE</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame of results</p>
+    <p>Dataframe of phenotype/s info</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>api_key</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GOR_API_KEY"</span><span class='op'>)</span>
+<span class='va'>project</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"GOR_PROJECT"</span><span class='op'>)</span>
+<span class='va'>conn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='platform_connect.html'>platform_connect</a></span><span class='op'>(</span><span class='va'>api_key</span>, <span class='va'>project</span><span class='op'>)</span>
+<span class='va'>phenotypes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_phenotypes.html'>get_phenotypes</a></span><span class='op'>(</span><span class='va'>conn</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

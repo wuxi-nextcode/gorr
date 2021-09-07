@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get server query results — gorr__get_query_results • gorr</title>
+<title>Retrieve phenotype data from the server. — get_phenotypes_data • gorr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Get server query results — gorr__get_query_results" />
-<meta property="og:description" content="Get server query results" />
+<meta property="og:title" content="Retrieve phenotype data from the server. — get_phenotypes_data" />
+<meta property="og:description" content="Retrieve phenotype data from the server." />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -152,56 +152,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get server query results</h1>
-    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/gor_query.R'><code>R/gor_query.R</code></a></small>
-    <div class="hidden name"><code>gorr__get_query_results.Rd</code></div>
+    <h1>Retrieve phenotype data from the server.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_get_data.R'><code>R/phenotype_get_data.R</code></a></small>
+    <div class="hidden name"><code>get_phenotypes_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get server query results</p>
+    <p>Retrieve phenotype data from the server.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gorr__get_query_results</span><span class='op'>(</span>
-  <span class='va'>query_result_url</span>,
-  <span class='va'>conn</span>,
-  spinner <span class='op'>=</span> <span class='va'>invisible</span>,
-  query_limit <span class='op'>=</span> <span class='fl'>10000</span>,
-  offset <span class='op'>=</span> <span class='fl'>0</span>,
-  parse <span class='op'>=</span> <span class='cn'>T</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_phenotypes_data</span><span class='op'>(</span><span class='va'>pheno_names</span>, <span class='va'>conn</span>, missing_value <span class='op'>=</span> <span class='cn'>NULL</span>, base <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>query_result_url</th>
-      <td><p>query result url</p></td>
+      <th>pheno_names</th>
+      <td><p>Fetch phenotypes that are in a given list of phenotype names, character and character vector also allowed</p></td>
     </tr>
     <tr>
       <th>conn</th>
-      <td><p>connection object, see <code><a href='platform_connect.html'>platform_connect</a></code></p></td>
+      <td><p>platform connection structure, create it using <code><a href='platform_connect.html'>platform_connect</a></code></p></td>
     </tr>
     <tr>
-      <th>spinner</th>
-      <td><p>spinner function (e.g. some ascii animation for long running queries)</p></td>
+      <th>missing_value</th>
+      <td><p>The string to substitute for a missing value in the data</p></td>
     </tr>
     <tr>
-      <th>query_limit</th>
-      <td><p>limit to how many rows to fetch in each page</p></td>
-    </tr>
-    <tr>
-      <th>offset</th>
-      <td><p>query offset (skip rows)</p></td>
-    </tr>
-    <tr>
-      <th>parse</th>
-      <td><p>should output be parsed into a data.frame</p></td>
+      <th>base</th>
+      <td><p>Optional name of base set</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.frame of results</p>
+    <p>tibble from server</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

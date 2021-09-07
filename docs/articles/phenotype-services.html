@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.1</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@
                         <h4 class="author">Andri M. Stefansson <a href="mailto:andri@genuitysci.com" class="email">andri@genuitysci.com</a>
 </h4>
             
-            <h4 class="date">2021-06-30</h4>
+            <h4 class="date">2021-09-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/master/vignettes/phenotype-services.Rmd"><code>vignettes/phenotype-services.Rmd</code></a></small>
       <div class="hidden name"><code>phenotype-services.Rmd</code></div>
@@ -144,40 +144,70 @@
 <span class="co">#&gt; ── GOR API service connection ──────────────────────────────────────────────────</span>
 <span class="co">#&gt; • Service Root/s: https://platform.wuxinextcodedev.com/api/query, https://platform.wuxinextcodedev.com/api/phenotype-catalog</span>
 <span class="co">#&gt; • Project: ukbb_hg38</span>
-<span class="co">#&gt; • API key issued at: 2021-03-25 18:42:08</span>
+<span class="co">#&gt; • API key issued at: 2021-08-31 12:19:55</span>
 <span class="co">#&gt; • API key expires at: Never</span>
-<span class="co">#&gt; • Access token issued at: 2021-06-30 14:20:18</span>
-<span class="co">#&gt; • Access token expires at: 2021-06-30 15:20:18</span></code></pre></div>
+<span class="co">#&gt; • Access token issued at: 2021-09-07 10:46:43</span>
+<span class="co">#&gt; • Access token expires at: 2021-09-07 11:46:43</span></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object to pass into subsequent functions.</p>
 </div>
 <div id="list-project-phenotypes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#list-project-phenotypes" class="anchor"></a>List project phenotypes</h2>
-<p>Let’s start by listing available phenotypes in project</p>
+<p>Let’s start by fethcing available phenotypes in project (first 25)</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">phenotypes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_phenotypes.html">get_phenotypes</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">phenotypes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_phenotypes.html">get_phenotypes</a></span><span class="op">(</span><span class="va">conn</span>, limit<span class="op">=</span><span class="fl">25</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">phenotypes</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt; [1] "rtest_pheno65" "rtest_pheno40" "rtest_pheno41" "rtest_pheno12"</span></code></pre></div>
-<p>The results come back as a <code>vector</code> of phenotypes</p>
+<span class="co">#&gt; $rtest_pheno95</span>
+<span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt;  $name: rtest_pheno95</span>
+<span class="co">#&gt;  $description: An updated description</span>
+<span class="co">#&gt;  $result_type: CATEGORY</span>
+<span class="co">#&gt;  $tag_list: </span>
+<span class="co">#&gt;  $pn_count: 1001</span>
+<span class="co">#&gt;  $query: </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $test_pheno84</span>
+<span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt;  $name: test_pheno84</span>
+<span class="co">#&gt;  $description: </span>
+<span class="co">#&gt;  $result_type: CATEGORY</span>
+<span class="co">#&gt;  $tag_list: </span>
+<span class="co">#&gt;  $pn_count: </span>
+<span class="co">#&gt;  $query: </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $test_pheno98</span>
+<span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt;  $name: test_pheno98</span>
+<span class="co">#&gt;  $description: This is a test phenotype</span>
+<span class="co">#&gt;  $result_type: QT</span>
+<span class="co">#&gt;  $tag_list: </span>
+<span class="co">#&gt;  $pn_count: </span>
+<span class="co">#&gt;  $query: </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $dfa3244__</span>
+<span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt;  $name: dfa3244__</span>
+<span class="co">#&gt;  $description: </span>
+<span class="co">#&gt;  $result_type: QT</span>
+<span class="co">#&gt;  $tag_list: </span>
+<span class="co">#&gt;  $pn_count: </span>
+<span class="co">#&gt;  $query:</span></code></pre></div>
+<p>The results come back as a <code>list</code> of phenotypes</p>
 </div>
 <div id="get-phenotype" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-phenotype" class="anchor"></a>Get phenotype</h2>
 <p>Next, let’s fetch a phenotype from the project. We’ll use the first listed</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_phenotype.html">get_phenotype</a></span><span class="op">(</span>name <span class="op">=</span> <span class="va">phenotypes</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">conn</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">phenotype</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt; $project_key</span>
-<span class="co">#&gt; [1] "ukbb_hg38"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $name</span>
-<span class="co">#&gt; [1] "rtest_pheno65"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $description</span>
-<span class="co">#&gt; [1] "This is a test phenotype"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $result_type</span>
-<span class="co">#&gt; [1] "CATEGORY"</span></code></pre></div>
+<code class="sourceCode R"><span class="va">phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_phenotype.html">get_phenotype</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">phenotypes</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">conn</span><span class="op">)</span>
+<span class="va">phenotype</span>
+<span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt;  $name: rtest_pheno95</span>
+<span class="co">#&gt;  $description: An updated description</span>
+<span class="co">#&gt;  $result_type: CATEGORY</span>
+<span class="co">#&gt;  $tag_list: </span>
+<span class="co">#&gt;  $pn_count: 1001</span>
+<span class="co">#&gt;  $query:</span></code></pre></div>
 <p>The results come back as a <code>phenotype</code> object, which is a list of lists containing different info on the <code>phenotype</code> object.</p>
 </div>
 <div id="create-phenotype" class="section level2">
@@ -189,25 +219,17 @@
 <span class="va">result_type</span> <span class="op">&lt;-</span> <span class="st">"CATEGORY"</span> <span class="co"># Type of phenotype (either "QT", "SET" or "CATEGORY")</span>
 <span class="va">description</span> <span class="op">&lt;-</span> <span class="st">"This is a test phenotype"</span> <span class="co"># Optional phenotype description</span>
 <span class="va">new_phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_phenotype.html">create_phenotype</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">result_type</span>, <span class="va">conn</span>, <span class="va">description</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">new_phenotype</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt; $project_key</span>
-<span class="co">#&gt; [1] "ukbb_hg38"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $name</span>
-<span class="co">#&gt; [1] "rtest_pheno75"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $description</span>
-<span class="co">#&gt; [1] "This is a test phenotype"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $result_type</span>
-<span class="co">#&gt; [1] "CATEGORY"</span></code></pre></div>
+<span class="va">new_phenotype</span>
+<span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt;  $name: rtest_pheno70</span>
+<span class="co">#&gt;  $description: This is a test phenotype</span>
+<span class="co">#&gt;  $result_type: CATEGORY</span>
+<span class="co">#&gt;  $tag_list: </span>
+<span class="co">#&gt;  $pn_count: </span>
+<span class="co">#&gt;  $query:</span></code></pre></div>
 <p>A new phenotype has now been added to the project’s phenotype-catalog as well as been assigned to the variable <code>new_phenotype</code>.</p>
-<pre><code>#&gt; [1] "Penotype class: phenotype"
-#&gt; [1] "Penotype name: rtest_pheno75"
-#&gt; [1] "Penotype description: This is a test phenotype"
-#&gt; [1] "Penotype State: pending"</code></pre>
 <p>Phenotypes can also be created using the full set of metadata in a single call and with a GOR/NOR query.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">##NOT RUN##</span>
 <span class="va">gor_query</span> <span class="op">&lt;-</span> <span class="st">"
 def #phenos# = added_salt_to_food;
@@ -230,41 +252,46 @@ nor [##aggregate##] | sort -c PN
 <span class="va">tags2</span> <span class="op">&lt;-</span> <span class="st">"dietary,nutrition"</span>
 
 <span class="va">new_phenotype2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_phenotype.html">create_phenotype</a></span><span class="op">(</span><span class="va">name2</span>, <span class="va">result_type2</span>, <span class="va">conn</span>, <span class="va">description2</span>, query <span class="op">=</span> <span class="va">query2</span>, tags <span class="op">=</span> <span class="va">tags2</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">new_phenotype2</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>
+<span class="va">new_phenotype2</span>
 <span class="fu"><a href="../reference/phenotype_delete.html">phenotype_delete</a></span><span class="op">(</span><span class="va">new_phenotype2</span>, <span class="va">conn</span><span class="op">)</span></code></pre></div>
 <p>If we see the phenotype’s state is ‘pending’, or we simply want to refresh the phenotype for fetching most recent info on the phenotype,<br>
 we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">new_phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phenotype_refresh.html">phenotype_refresh</a></span><span class="op">(</span><span class="va">new_phenotype</span>, <span class="va">conn</span><span class="op">)</span>
-<span class="va">new_phenotype</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>
-<span class="co">#&gt; $project_key</span>
-<span class="co">#&gt; [1] "ukbb_hg38"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $name</span>
-<span class="co">#&gt; [1] "rtest_pheno75"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $description</span>
-<span class="co">#&gt; [1] "This is a test phenotype"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $result_type</span>
-<span class="co">#&gt; [1] "CATEGORY"</span></code></pre></div>
+<span class="co">#&gt; Warning in deparse(substitute(arg)) %&gt;% paste("argument deprecated", if (!</span>
+<span class="co">#&gt; is.null(custom)) paste("-", : conn argument deprecated</span>
+<span class="va">new_phenotype</span>
+<span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt;  $name: rtest_pheno70</span>
+<span class="co">#&gt;  $description: This is a test phenotype</span>
+<span class="co">#&gt;  $result_type: CATEGORY</span>
+<span class="co">#&gt;  $tag_list: </span>
+<span class="co">#&gt;  $pn_count: </span>
+<span class="co">#&gt;  $query:</span></code></pre></div>
 </div>
 <div id="update-phenotype-description" class="section level2">
 <h2 class="hasAnchor">
 <a href="#update-phenotype-description" class="anchor"></a>Update phenotype description</h2>
 <p>Passing a phenotype object and a new description to <code>phenotype_update_description</code> updates the phenotype’s description in the project’s phenotype-catalog. The output is, again, an updated <code>phenotype</code> object.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">new_description</span> <span class="op">&lt;-</span> <span class="st">"An updated description"</span>
-<span class="va">new_phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phenotype_update_description.html">phenotype_update_description</a></span><span class="op">(</span><span class="va">new_description</span>, <span class="va">new_phenotype</span>, <span class="va">conn</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; [1] "Penotype class: phenotype"
-#&gt; [1] "Penotype name: rtest_pheno75"
-#&gt; [1] "Penotype description: An updated description"</code></pre>
+<span class="va">new_phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phenotype_update_description.html">phenotype_update_description</a></span><span class="op">(</span><span class="va">new_description</span>, <span class="va">new_phenotype</span>, <span class="va">conn</span><span class="op">)</span>
+<span class="co">#&gt; Warning in deparse(substitute(arg)) %&gt;% paste("argument deprecated", if (!</span>
+<span class="co">#&gt; is.null(custom)) paste("-", : conn argument deprecated</span>
+<span class="va">new_phenotype</span>
+<span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt;  $name: rtest_pheno70</span>
+<span class="co">#&gt;  $description: An updated description</span>
+<span class="co">#&gt;  $result_type: CATEGORY</span>
+<span class="co">#&gt;  $tag_list: </span>
+<span class="co">#&gt;  $pn_count: </span>
+<span class="co">#&gt;  $query:</span></code></pre></div>
 </div>
 <div id="upload-phenotype-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#upload-phenotype-data" class="anchor"></a>Upload phenotype data</h2>
 <p>Let’s start by creating a dummy dataset which is a list of list: [[PN#1, attribute], [PN#2, attribute], … , [PN#N, attribute]]</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cohort_size</span> <span class="op">&lt;-</span> <span class="fl">2000</span>
 <span class="va">pns</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">:</span><span class="va">cohort_size</span><span class="op">+</span><span class="fl">1000</span><span class="op">)</span>
 <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">pns</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">x</span>, <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0.5</span><span class="op">)</span> <span class="st">'obease'</span> <span class="kw">else</span> <span class="st">'lean'</span><span class="op">)</span> <span class="op">}</span><span class="op">)</span>
@@ -274,7 +301,7 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <span class="co">#&gt; [1] "2000"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]][[2]]</span>
-<span class="co">#&gt; [1] "obease"</span>
+<span class="co">#&gt; [1] "lean"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[2]]</span>
@@ -282,42 +309,46 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <span class="co">#&gt; [1] "2001"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[2]][[2]]</span>
-<span class="co">#&gt; [1] "lean"</span>
+<span class="co">#&gt; [1] "obease"</span>
 
-<span class="fu"><a href="../reference/phenotype_upload_data.html">phenotype_upload_data</a></span><span class="op">(</span><span class="va">new_phenotype</span>, <span class="va">data</span>, <span class="va">conn</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/phenotype_upload_data.html">phenotype_upload_data</a></span><span class="op">(</span><span class="va">new_phenotype</span>, <span class="va">data</span>, <span class="va">conn</span><span class="op">)</span>
+<span class="co">#&gt; Warning in deparse(substitute(arg)) %&gt;% paste("argument deprecated", if (!</span>
+<span class="co">#&gt; is.null(custom)) paste("-", : conn argument deprecated</span></code></pre></div>
 </div>
 <div id="get-phenotype-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-phenotype-data" class="anchor"></a>Get phenotype data</h2>
 <p>Phenotype data can then be fetched using <code>get_data</code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_data.html">get_data</a></span><span class="op">(</span><span class="va">new_phenotype</span>, <span class="va">conn</span><span class="op">)</span>
+<span class="co">#&gt; Warning in get_data.phenotype(new_phenotype, conn): phenotype structure provided</span>
+<span class="co">#&gt; - conn argument ignored</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; cols(</span>
 <span class="co">#&gt;   pn = col_double(),</span>
-<span class="co">#&gt;   rtest_pheno75 = col_character()</span>
+<span class="co">#&gt;   rtest_pheno70 = col_character()</span>
 <span class="co">#&gt; )</span>
 <span class="co">#&gt; # A tibble: 1,001 x 2</span>
-<span class="co">#&gt;       pn rtest_pheno75</span>
+<span class="co">#&gt;       pn rtest_pheno70</span>
 <span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;        </span>
-<span class="co">#&gt;  1  2000 obease       </span>
-<span class="co">#&gt;  2  2001 lean         </span>
-<span class="co">#&gt;  3  2002 obease       </span>
-<span class="co">#&gt;  4  2003 obease       </span>
+<span class="co">#&gt;  1  2000 lean         </span>
+<span class="co">#&gt;  2  2001 obease       </span>
+<span class="co">#&gt;  3  2002 lean         </span>
+<span class="co">#&gt;  4  2003 lean         </span>
 <span class="co">#&gt;  5  2004 lean         </span>
-<span class="co">#&gt;  6  2005 lean         </span>
-<span class="co">#&gt;  7  2006 obease       </span>
+<span class="co">#&gt;  6  2005 obease       </span>
+<span class="co">#&gt;  7  2006 lean         </span>
 <span class="co">#&gt;  8  2007 obease       </span>
-<span class="co">#&gt;  9  2008 obease       </span>
-<span class="co">#&gt; 10  2009 obease       </span>
+<span class="co">#&gt;  9  2008 lean         </span>
+<span class="co">#&gt; 10  2009 lean         </span>
 <span class="co">#&gt; # … with 991 more rows</span></code></pre></div>
 </div>
 <div id="get-all-tags-available-in-the-phenotype-catalog" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-all-tags-available-in-the-phenotype-catalog" class="anchor"></a>Get all tags available in the phenotype catalog</h2>
 <p>We can list all available tags in the catalog using <code>get_tags</code> and passing the <code>platform_connection</code> object.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_tags.html">get_tags</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>
 <span class="co">#&gt; [1] "testTag4"         "another-test-tag" "test-tag"         "Cases"</span></code></pre></div>
 </div>
@@ -325,7 +356,7 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <h2 class="hasAnchor">
 <a href="#get-phenotype-tags" class="anchor"></a>Get phenotype tags</h2>
 <p>Retrieve all tags for phenotype</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/phenotype_get_tags.html">phenotype_get_tags</a></span><span class="op">(</span><span class="va">new_phenotype</span><span class="op">)</span>
 <span class="co">#&gt; NULL</span></code></pre></div>
 </div>
@@ -333,12 +364,17 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <h2 class="hasAnchor">
 <a href="#add-phenotype-tags" class="anchor"></a>Add phenotype tag/s</h2>
 <p>Add a new tag/s to this phenotype. Multiple tags should be separated by either comma separated string, <code>"tag1,tag2"</code>, character vector <code><a href="https://rdrr.io/r/base/c.html">c("tag1", "tag2")</a></code> or a combination of the two</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">new_phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phenotype_add_tag.html">phenotype_add_tag</a></span><span class="op">(</span>tag <span class="op">=</span> <span class="st">"testTag2"</span>, <span class="va">new_phenotype</span>, <span class="va">conn</span><span class="op">)</span>
+<span class="co">#&gt; Warning: 'phenotype_add_tag' is deprecated.</span>
+<span class="co">#&gt; Use 'phenotype_add_tags' instead.</span>
+<span class="co">#&gt; See help("Deprecated")</span>
+<span class="co">#&gt; Warning in deparse(substitute(arg)) %&gt;% paste("argument deprecated", if (!</span>
+<span class="co">#&gt; is.null(custom)) paste("-", : conn argument deprecated</span>
 <span class="fu"><a href="../reference/phenotype_get_tags.html">phenotype_get_tags</a></span><span class="op">(</span><span class="va">new_phenotype</span><span class="op">)</span>
 <span class="co">#&gt; [1] "testTag2"</span></code></pre></div>
 <p>for assurance we can get the phenotype from server and check tags</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_phenotype.html">get_phenotype</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">conn</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/phenotype_get_tags.html">phenotype_get_tags</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "testTag2"</span></code></pre></div>
 </div>
@@ -346,13 +382,15 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <h2 class="hasAnchor">
 <a href="#set-phenotype-tags" class="anchor"></a>Set phenotype tag/s</h2>
 <p>Set the tag list for this phenotype, overriding all previous tags, defining the tags adheres to the same rules as add_phenotype_tag</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tags</span> <span class="op">&lt;-</span> <span class="st">"testTag7,testTag8"</span>
 <span class="va">new_phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phenotype_set_tags.html">phenotype_set_tags</a></span><span class="op">(</span><span class="va">tags</span>, <span class="va">new_phenotype</span>, <span class="va">conn</span><span class="op">)</span>
+<span class="co">#&gt; Warning in deparse(substitute(arg)) %&gt;% paste("argument deprecated", if (!</span>
+<span class="co">#&gt; is.null(custom)) paste("-", : conn argument deprecated</span>
 <span class="fu"><a href="../reference/phenotype_get_tags.html">phenotype_get_tags</a></span><span class="op">(</span><span class="va">new_phenotype</span><span class="op">)</span>
 <span class="co">#&gt; [1] "testTag7" "testTag8"</span></code></pre></div>
 <p>again, for assurance let’s load the tags from server</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_phenotype.html">get_phenotype</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">conn</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/phenotype_get_tags.html">phenotype_get_tags</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; [1] "testTag7" "testTag8"</span></code></pre></div>
 </div>
@@ -360,8 +398,13 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <h2 class="hasAnchor">
 <a href="#delete-phenotype-tags" class="anchor"></a>Delete phenotype tag/s</h2>
 <p>Delete a tag/s from phenotype.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">new_phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phenotype_delete_tag.html">phenotype_delete_tag</a></span><span class="op">(</span>tag <span class="op">=</span> <span class="st">"testTag7"</span>, <span class="va">new_phenotype</span>, <span class="va">conn</span><span class="op">)</span>
+<span class="co">#&gt; Warning: 'phenotype_delete_tag' is deprecated.</span>
+<span class="co">#&gt; Use 'phenotype_delete_tags' instead.</span>
+<span class="co">#&gt; See help("Deprecated")</span>
+<span class="co">#&gt; Warning in deparse(substitute(arg)) %&gt;% paste("argument deprecated", if (!</span>
+<span class="co">#&gt; is.null(custom)) paste("-", : conn argument deprecated</span>
 <span class="fu"><a href="../reference/phenotype_get_tags.html">phenotype_get_tags</a></span><span class="op">(</span><span class="va">new_phenotype</span><span class="op">)</span>
 <span class="co">#&gt; [1] "testTag8"</span>
 <span class="co">#or get_phenotype(name, conn) %&gt;% phenotype_get_tags()</span></code></pre></div>
@@ -370,10 +413,12 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <h2 class="hasAnchor">
 <a href="#delete-phenotype" class="anchor"></a>Delete phenotype</h2>
 <p>A phenotype can easily be removed from a project using the <code>phenotype_delete</code> function. <code>phenotype_delete</code> expects a <code>phenotype</code> object. Therefore the phenotype needs to be fetched using the <code>get_phenotype</code> function if it has not been assigned to a variable already.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/phenotype_delete.html">phenotype_delete</a></span><span class="op">(</span><span class="va">new_phenotype</span>, <span class="va">conn</span><span class="op">)</span>
-<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/phenotypes/rtest_pheno75]</span>
-<span class="co">#&gt;   Date: 2021-06-30 14:20</span>
+<span class="co">#&gt; Warning in deparse(substitute(arg)) %&gt;% paste("argument deprecated", if (!</span>
+<span class="co">#&gt; is.null(custom)) paste("-", : conn argument deprecated</span>
+<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/phenotypes/rtest_pheno70]</span>
+<span class="co">#&gt;   Date: 2021-09-07 10:46</span>
 <span class="co">#&gt;   Status: 204</span>
 <span class="co">#&gt;   Content-Type: &lt;unknown&gt;</span>
 <span class="co">#&gt; &lt;EMPTY BODY&gt;</span></code></pre></div>

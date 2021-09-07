@@ -12,20 +12,8 @@ phenotype_refresh(phenotype, conn = NULL)
 \item{conn}{Deprecated : gor connection structure, create it using \code{\link{platform_connect}}}
 }
 \value{
-a list with the phenotype object
+phenotype structure
 }
 \description{
-Refresh phenotype
-}
-\examples{
-\dontrun{
-api_key <- Sys.getenv("GOR_API_KEY")
-project <- Sys.getenv("GOR_PROJECT")
-conn <- platform_connect(api_key, project)
-name <- "height"
-result_type <- "QT"
-description <- "Height of individuals"
-phenotype <- create_phenotype(name, result_type, conn, description)
-phenotype <- phenotype_refresh(phenotype, conn)
-}
+Fetches current (up-to-date) phenotype version from project.
 }
