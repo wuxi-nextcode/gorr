@@ -24,6 +24,8 @@ initialize_phemat_tests <- function() {
     phenotype_mat<- get_phenotype_matrix()
     phenotype_mat<<- phemat_add_phenotypes(c(test_name, test_name2), phenotype_mat, missing_value = "-99")
 
+    phenotype_pl <<- create_playlist(name= paste0("test_pl", sample(1:100, 1)), conn = conn, phenotypes = c(test_name, test_name2))
+
 }
 
 
@@ -50,8 +52,18 @@ test_that("get_data works for phenotype_matrix", {
 
 })
 
+test_that("get_data works for phenotype_playlist", {
+    result <- get_data(phenotype_pl)
+
+    phenos <- names(phenotype_pl$phenotypes)
+    cols <- colnames(result)
+    expect_true(all(colnames(result) %in% c("pn", test_name, test_name2)))
+    expect_equal(dim(result), c(2, 3))
+
+})
+
 test_that("get_phenotypes_data", {
-    result <- get_phenotypes_data(test_name, conn = conn)
+    result <- get_phenotypes_data(pheno_names = test_name, conn = conn)
 
     expect_equal(names(result), c("pn", test_name))
     expect_equal(dim(result), c(2, 2))
@@ -59,8 +71,9 @@ test_that("get_phenotypes_data", {
 })
 
 clean_up_tests <- function() {
-    phenotype_delete(phenotype, conn)
-    phenotype_delete(phenotype2, conn)
+    phenotype_delete(phenotype)
+    phenotype_delete(phenotype2)
+    playlist_delete(phenotype_pl)
 }
 
 clean_up_tests()

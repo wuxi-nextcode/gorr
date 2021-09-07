@@ -44,7 +44,7 @@ get_data.phenotype <- function(pheno_obj, conn = NULL) {
 #' @describeIn get_data Get data for phenotypes in phenotype matrix
 #' @param conn platform connection structure, create it using \code{\link{platform_connect}}
 #' @export
-get_data.phenotype_matrix <- function(pheno_obj, conn = NULL) {
+get_data.phenotype_matrix <- function(pheno_obj, conn) {
     conn_obj <- attr(pheno_obj, which = "conn") %||% conn
     if (is.null(conn_obj)) {
         stop("platform connector object missing - please provide valid conn input argument ")
@@ -60,12 +60,18 @@ get_data.phenotype_matrix <- function(pheno_obj, conn = NULL) {
     query__phemat_data(conn = conn_obj, content = content)
 }
 
+
 #' @describeIn get_data Get data phenotypes in phenotype playlist
-#' @param conn platform connection structure, create it using \code{\link{platform_connect}}
+#' @param missing_value The string to substitute for a missing value in the data
+#' @param base Optional name of base set
 #' @export
-get_data.phenotype_playlist <- function(pheno_obj, conn=NULL) {
-    stop('get_data has not been implemented for phenotype playlists yet')
+get_data.playlist <- function(pheno_obj, missing_value = NULL, base = NULL) {
+    content <- list(base = base,
+                    phenotypes = purrr::map(names(pheno_obj$phenotypes), ~list(name = .x, missing_value = missing_value))
+                    )
+    query__phemat_data(conn = attr(pheno_obj, which = "conn"), content = content)
 }
+
 
 #' @describeIn get_data Get data phenotype/s by phenotype names
 #' @param conn platform connection structure, create it using \code{\link{platform_connect}}
