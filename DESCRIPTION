@@ -1,7 +1,7 @@
 Type: Package
 Package: gorr
 Title: GOR Direct Query API for R
-Version: 1.4.0
+Version: 1.4.1
 Authors@R: c(
     person("Genuity", "Science", role = c("aut", "cre","cph"), email = "support@genuitysci.com"),
     person("Edvald", "Gislason", role = "aut", email = ""),
@@ -29,6 +29,8 @@ Imports:
     data.table (>= 1.12.2),
     digest (>= 0.6.20),
     rlang (>= 0.4.0),
+    tidyselect,
+    tidyr
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1

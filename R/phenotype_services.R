@@ -67,7 +67,7 @@ print.phenotype <- function(x, ...) {
     bullet("$name: ", x$name)
     bullet("$description: ", x$description)
     bullet("$result_type: ", x$result_type)
-    bullet("$tag_list: ", x$tag_list)
+    bullet("$tag_list: ", paste(x$tag_list, collapse = ", "))
     bullet("$pn_count: ", x$pn_count)
     bullet("$query: ", x$query)
 }
@@ -154,7 +154,8 @@ get_phenotypes <- function(conn,
                            updated_at=NULL,
                            result_types=list()) {
     if (!missing(tags)) {
-        deprecated_argument_msg(conn, custom = "consider using 'all_tags' or 'any_tags' arguments instead")
+        deprecated_argument_msg(tags, custom = "'any_tags' arguments used instead")
+        any_tags <- append(any_tags, tags)
     }
     assertthat::assert_that(class(conn) == "platform_connection")
 
@@ -270,7 +271,7 @@ get_phenotypes_dataframe <- function(conn = conn,
 
     if (filtered) {
         cols<- c(cols, "source_type", "query", "covariates", "created_by"," created_at", "updated_at")
-        phenotypes_dataframe <- phenotypes_dataframe %>% select(all_of(cols))
+        phenotypes_dataframe <- phenotypes_dataframe %>% dplyr::select(tidyselect::all_of(cols))
     }
 
     phenotypes_dataframe
@@ -388,44 +389,45 @@ create_phenotype <-
         phenotype(resp$phenotype, conn = conn)
     }
 
-
-#' Upload phenotype data
+#' Update the phenotype with a new description
 #'
-#' The data is expected to be a data.frame, tibble or list of lists. If data.frame or tibble is provided it should contain 2 columns.
-#' and list of lists should be of the form `list(list(pn1, value1),list(pn2,value2))` or `list(list(pn1),list(pn2))` For phenotypes of result_type SET.
-#' The `result_type` of the phenotype dictates if each sublist should contain one or two items.
+#' @param description phenotype description
+#' @param phenotype phenotype structure, create or get it using \code{\link{get_phenotype}}
+#' @param conn Deprecated : gor connection structure, create it using \code{\link{phenotype_connect}} or \code{\link{platform_connect}}
 #'
-#' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
-#' @param data a list of lists to be uploaded
-#' @param conn Deprecated : gor connection structure, create it using \code{\link{platform_connect}}
-#'
+#' @return an updated list with the phenotype object
 #' @export
-phenotype_upload_data <- function(phenotype, data, conn=NULL) {
+#'
+#' @examples
+#' \dontrun{
+#' api_key <- Sys.getenv("GOR_API_KEY")
+#' project <- Sys.getenv("GOR_PROJECT")
+#' conn <- platform_connect(api_key, project)
+#' name <- "height"
+#' phenotype <- get_phenotype(name, conn)
+#' description <- "individual height"
+#' phenotype <- update_phenotype_desc(description, phenotype, conn)
+#' }
+phenotype_update_description <- function(description, phenotype, conn=NULL) {
     if (!missing(conn)) {
         deprecated_argument_msg(conn)
     }
+    assertthat::assert_that(is.character(description))
     assertthat::assert_that(class(phenotype) == "phenotype")
-    assertthat::assert_that(is.list(data) | is.data.frame(data))
     assertthat::assert_that(class(attr(phenotype, which = "conn")) == "platform_connection")
 
+    #  Update the phenotype with a new description
+    url <- get__link(phenotype, "self")
+    content <- list(description = description)
 
-    # If input is data.frame convert to list of lists
-    if (is.data.frame(data)) {
-        assertthat::assert_that(ncol(data) <= 2, msg = "data.frame/tibble should only contain 1 (if pheno is SET) or 2 columns, pn and value")
-        data <- apply(data, 1, as.list) %>%
-            lapply(unname)
-    }
-
-    url <- get__link(phenotype, "upload")
-    content <- list(data = data)
-
-    gorr__api_request("POST",
-                      url,
-                      body = content,
-                      conn = attr(phenotype, which = "conn"),
-                      parse.body = F) %>%
-        httr::stop_for_status()
+    resp <-
+        gorr__api_request("PATCH",
+                          url = url,
+                          body = content,
+                          conn = attr(phenotype, which = "conn"))
+    phenotype(resp$phenotype, conn = attr(phenotype, which = "conn"))
 }
+
 
 #' Delete a phenotype, including all data from a project
 #'
