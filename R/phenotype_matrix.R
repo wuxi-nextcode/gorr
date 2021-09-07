@@ -20,6 +20,7 @@ validate_phenotype_matrix <- function(phenotype_matrix) {
     phenotype_matrix
 }
 
+
 new_phenotype_matrix <- function(base, phenotypes) {
     phenotype_matrix <- list(base = base,
                             phenotypes = phenotypes
@@ -52,9 +53,10 @@ phenotype_matrix <- function(base, phenotypes = list()) {
 #' \dontrun{
 #' phenotype_mat <- get_phenotype_matrix()
 #' }
-get_phenotype_matrix <- function(base=NULL) {
-    phenotype_matrix(base = base, phenotypes=list())
+get_phenotype_matrix <- function(base = NULL) {
+    phenotype_matrix(base = base, phenotypes = list())
 }
+
 
 #' Add a new phenotype to the matrix request.
 #'
@@ -94,6 +96,7 @@ phemat_add_phenotype <- function(name,
     phenotype_matrix
 }
 
+
 #' Add multiple phenotypes to a phenotype matrix request.
 #'
 #' @param names a comma seperated string or character vector of phenotype/s to be added. E.g. "height,weight" or c("height", "weight")
@@ -122,6 +125,7 @@ phemat_add_phenotypes <- function(names, phenotype_matrix, missing_value=NULL) {
 
     phenotype_matrix
 }
+
 
 #' Remove a phenotype from the matrix request.
 #'
@@ -152,57 +156,4 @@ phemat_remove_phenotype <- function(name, phenotype_matrix) {
 
     phenotype_matrix$phenotypes[[name]] <- NULL
     phenotype_matrix
-}
-
-
-#' Retrieve phenotype data or phenotype matrix data from the server.
-#'
-#' If input is phenotype matrix object then phenotypes need te have been added to the phenotype matrix object. Create it
-#' using \code{\link{get_phenotype_matrix}} and add to it
-#' using \code{\link{phemat_add_phenotype}} or \code{\link{phemat_add_phenotypes}}
-#'
-#' @param phenotype_obj phenotype or phenotype_matrix structure.
-#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
-#'
-#' @return tibble from server
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' api_key <- Sys.getenv("GOR_API_KEY")
-#' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- platform_connect(api_key, project)
-#' phenotype_mat <- get_phenotype_matrix()
-#' phenotype_mat <-  phemat_add_phenotypes(...)
-#' phenotype_data <- get_data(phenotype_mat, conn)
-#' }
-get_data <- function(phenotype_obj, conn) {
-    assertthat::assert_that(class(phenotype_obj) == "phenotype_matrix" |
-                            class(phenotype_obj) == "phenotype")
-
-    if (class(phenotype_obj) == "phenotype_matrix") {
-        base <- phenotype_obj$base
-        phenotypes <- unname(phenotype_obj$phenotypes)
-    } else if (class(phenotype_obj) == "phenotype") {
-        base <- NULL
-        phenotypes <- list(list(name = phenotype_obj$name)
-        )
-    }
-
-    content <- list(
-            base =  base,
-            phenotypes = phenotypes
-    )
-
-    url <-  gorr__get_endpoint(conn, "phenotype-catalog", "get_phenotype_matrix")
-
-    withCallingHandlers({
-        resp <- gorr__api_request("POST", url = url, body = content, conn = conn)
-    }, warning = function(w) {
-        if (startsWith(conditionMessage(w), "Unknown or uninitialised column: `status`"))
-            invokeRestart("muffleWarning")
-
-    })
-
-    resp
 }

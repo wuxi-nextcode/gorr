@@ -56,7 +56,6 @@ phenotype_update <-
 #'
 #' @return phenotype structure
 #' @export
-#' }
 phenotype_update_description <- function(description, phenotype, conn=NULL) {
     if (!missing(conn)) {
         deprecated_argument_msg(conn)
@@ -80,7 +79,7 @@ phenotype_update_query <- function(query, phenotype) {
 
 #' Add new tag/s phenotype.
 #'
-#' @param tag string or character vector of tag/s to be added. Tags should be seperated by comma e.g. "height,weight" or as vector "c("height", "weight")
+#' @param tags string or character vector of tag/s to be added. Tags should be seperated by comma e.g. "height,weight" or as vector "c("height", "weight")
 #' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
 #'
 #' @return phenotype structure

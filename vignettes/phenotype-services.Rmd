@@ -45,22 +45,22 @@ If everything goes as planned, we'll have a `conn` object to pass into subsequen
 
 ## List project phenotypes
 
-Let's start by listing available phenotypes in project
+Let's start by fethcing available phenotypes in project (first 25)
 
 ```{r}
-phenotypes <- get_phenotypes(conn)
+phenotypes <- get_phenotypes(conn, limit=25)
 print(phenotypes[1:4])
 ```
 
-The results come back as a `vector` of phenotypes
+The results come back as a `list` of phenotypes
 
 ## Get phenotype
 
 Next, let's fetch a phenotype from the project. We'll use the first listed 
 
 ```{r}
-phenotype <- get_phenotype(name = phenotypes[1], conn)
-print(phenotype[1:4])
+phenotype <- get_phenotype(name = names(phenotypes)[1], conn)
+phenotype
 ```
 
 The results come back as a `phenotype` object, which is a list of lists containing different info on the `phenotype` object.
@@ -74,17 +74,10 @@ name <- paste0("rtest_pheno", sample(1:99,1)) # Name of new phenotype
 result_type <- "CATEGORY" # Type of phenotype (either "QT", "SET" or "CATEGORY")
 description <- "This is a test phenotype" # Optional phenotype description
 new_phenotype <- create_phenotype(name, result_type, conn, description)
-print(new_phenotype[1:4])
+new_phenotype
 ```
 
 A new phenotype has now been added to the project's phenotype-catalog as well as been assigned to the variable `new_phenotype`.
-
-```{r, echo=FALSE}
-print(paste0('Penotype class: ', class(new_phenotype)))
-print(paste0('Penotype name: ',  new_phenotype$name))
-print(paste0('Penotype description: ',  new_phenotype$description))
-print(paste0('Penotype State: ',  new_phenotype$state))
-```
 
 Phenotypes can also be created using the full set of metadata in a single call and with a GOR/NOR query.
 
@@ -111,7 +104,7 @@ query2 <- gor_query
 tags2 <- "dietary,nutrition"
 
 new_phenotype2 <- create_phenotype(name2, result_type2, conn, description2, query = query2, tags = tags2)
-print(new_phenotype2[1:4])
+new_phenotype2
 phenotype_delete(new_phenotype2, conn)
 ```
 
@@ -120,7 +113,7 @@ we can refresh the phenotype using the `phenotype_refresh` method
 
 ```{r}
 new_phenotype <- phenotype_refresh(new_phenotype, conn)
-new_phenotype[1:4]
+new_phenotype
 ```
 
 ## Update phenotype description
@@ -130,13 +123,7 @@ Passing a phenotype object and a new description to `phenotype_update_descriptio
 ```{r}
 new_description <- "An updated description"
 new_phenotype <- phenotype_update_description(new_description, new_phenotype, conn)
-```
-
-
-```{r, echo=FALSE}
-print(paste0('Penotype class: ', class(new_phenotype)))
-print(paste0('Penotype name: ',  new_phenotype$name))
-print(paste0('Penotype description: ',  new_phenotype$description))
+new_phenotype
 ```
 
 ## Upload phenotype data
