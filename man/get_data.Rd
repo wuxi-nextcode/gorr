@@ -4,7 +4,7 @@
 \alias{get_data}
 \alias{get_data.phenotype}
 \alias{get_data.phenotype_matrix}
-\alias{get_data.phenotype_playlist}
+\alias{get_data.playlist}
 \alias{get_data.default}
 \title{Retrieve phenotype data or phenotype matrix data from the server.}
 \usage{
@@ -12,11 +12,11 @@ get_data(pheno_obj, ...)
 
 \method{get_data}{phenotype}(pheno_obj, conn = NULL)
 
-\method{get_data}{phenotype_matrix}(pheno_obj, conn = NULL)
+\method{get_data}{phenotype_matrix}(pheno_obj, conn)
 
-\method{get_data}{phenotype_playlist}(pheno_obj, conn = NULL)
+\method{get_data}{playlist}(pheno_obj, missing_value = NULL, base = NULL)
 
-\method{get_data}{default}(pheno_obj, conn, missing_value = NULL, base = NULL)
+\method{get_data}{default}(pheno_obj, conn, missing_value = NA, base = NULL)
 }
 \arguments{
 \item{pheno_obj}{phenotype names, phenotype, phenotype matrix or phenotype playlist structure.}
@@ -43,7 +43,7 @@ using \code{\link{phemat_add_phenotype}} or \code{\link{phemat_add_phenotypes}}
 
 \item \code{phenotype_matrix}: Get data for phenotypes in phenotype matrix
 
-\item \code{phenotype_playlist}: Get data phenotypes in phenotype playlist
+\item \code{playlist}: Get data phenotypes in phenotype playlist
 
 \item \code{default}: Get data phenotype/s by phenotype names
 }}

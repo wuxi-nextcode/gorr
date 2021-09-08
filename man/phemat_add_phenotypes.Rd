@@ -4,7 +4,7 @@
 \alias{phemat_add_phenotypes}
 \title{Add multiple phenotypes to a phenotype matrix request.}
 \usage{
-phemat_add_phenotypes(names, phenotype_matrix, missing_value = NULL)
+phemat_add_phenotypes(names, phenotype_matrix, missing_value = NA)
 }
 \arguments{
 \item{names}{a comma seperated string or character vector of phenotype/s to be added. E.g. "height,weight" or c("height", "weight")}

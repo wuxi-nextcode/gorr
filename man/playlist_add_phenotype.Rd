@@ -4,7 +4,7 @@
 \alias{playlist_add_phenotype}
 \title{Add phenotype/s to a playlist.}
 \usage{
-playlist_add_phenotype(name, playlist, conn)
+playlist_add_phenotype(name, playlist, conn = NULL)
 }
 \arguments{
 \item{name}{comma seperated string of phenotypes existing in project to add eg. "pheno1,pheno2"  or character vector c("pheno1", "pheno2")}

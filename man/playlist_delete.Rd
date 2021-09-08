@@ -4,7 +4,7 @@
 \alias{playlist_delete}
 \title{Delete a playlist from a project.}
 \usage{
-playlist_delete(playlist, conn)
+playlist_delete(playlist, conn = NULL)
 }
 \arguments{
 \item{playlist}{playlist structure, create or get it using \code{\link{create_playlist}} or \code{\link{get_playlist}}}
