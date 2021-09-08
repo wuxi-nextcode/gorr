@@ -78,7 +78,7 @@ get_data.playlist <- function(pheno_obj, missing_value = NULL, base = NULL) {
 #' @param missing_value The string to substitute for a missing value in the data
 #' @param base Optional name of base set
 #' @export
-get_data.default <- function(pheno_obj, conn, missing_value = NULL, base = NULL) {
+get_data.default <- function(pheno_obj, conn, missing_value = NA, base = NULL) {
     assertthat::assert_that(is.list(pheno_obj) | is.character(pheno_obj))
 
     pheno_obj <- purrr::map(pheno_obj, ~base::strsplit(.x, ",", fixed = TRUE)) %>% unlist()
@@ -99,7 +99,7 @@ get_data.default <- function(pheno_obj, conn, missing_value = NULL, base = NULL)
 #'
 #' @return tibble from server
 #' @export
-get_phenotypes_data <- function(pheno_names, conn, missing_value = NULL, base = NULL) {
+get_phenotypes_data <- function(pheno_names, conn, missing_value = NA, base = NULL) {
     assertthat::assert_that(is.list(pheno_names) | is.character(pheno_names))
     assertthat::assert_that(is.list(conn) | is.character("platform_connection"))
     get_data(as.list(pheno_names), conn = conn, missing_value = missing_value, base = base)
