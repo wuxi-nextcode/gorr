@@ -44,7 +44,7 @@ get_data.phenotype <- function(pheno_obj, conn = NULL) {
 #' @describeIn get_data Get data for phenotypes in phenotype matrix
 #' @param conn platform connection structure, create it using \code{\link{platform_connect}}
 #' @export
-get_data.phenotype_matrix <- function(pheno_obj, conn = NULL) {
+get_data.phenotype_matrix <- function(pheno_obj, conn) {
     conn_obj <- attr(pheno_obj, which = "conn") %||% conn
     if (is.null(conn_obj)) {
         stop("platform connector object missing - please provide valid conn input argument ")
@@ -60,19 +60,25 @@ get_data.phenotype_matrix <- function(pheno_obj, conn = NULL) {
     query__phemat_data(conn = conn_obj, content = content)
 }
 
+
 #' @describeIn get_data Get data phenotypes in phenotype playlist
-#' @param conn platform connection structure, create it using \code{\link{platform_connect}}
+#' @param missing_value The string to substitute for a missing value in the data
+#' @param base Optional name of base set
 #' @export
-get_data.phenotype_playlist <- function(pheno_obj, conn=NULL) {
-    stop('get_data has not been implemented for phenotype playlists yet')
+get_data.playlist <- function(pheno_obj, missing_value = NULL, base = NULL) {
+    content <- list(base = base,
+                    phenotypes = purrr::map(names(pheno_obj$phenotypes), ~list(name = .x, missing_value = missing_value))
+                    )
+    query__phemat_data(conn = attr(pheno_obj, which = "conn"), content = content)
 }
+
 
 #' @describeIn get_data Get data phenotype/s by phenotype names
 #' @param conn platform connection structure, create it using \code{\link{platform_connect}}
 #' @param missing_value The string to substitute for a missing value in the data
 #' @param base Optional name of base set
 #' @export
-get_data.default <- function(pheno_obj, conn, missing_value = NULL, base = NULL) {
+get_data.default <- function(pheno_obj, conn, missing_value = NA, base = NULL) {
     assertthat::assert_that(is.list(pheno_obj) | is.character(pheno_obj))
 
     pheno_obj <- purrr::map(pheno_obj, ~base::strsplit(.x, ",", fixed = TRUE)) %>% unlist()
@@ -93,7 +99,7 @@ get_data.default <- function(pheno_obj, conn, missing_value = NULL, base = NULL)
 #'
 #' @return tibble from server
 #' @export
-get_phenotypes_data <- function(pheno_names, conn, missing_value = NULL, base = NULL) {
+get_phenotypes_data <- function(pheno_names, conn, missing_value = NA, base = NULL) {
     assertthat::assert_that(is.list(pheno_names) | is.character(pheno_names))
     assertthat::assert_that(is.list(conn) | is.character("platform_connection"))
     get_data(as.list(pheno_names), conn = conn, missing_value = missing_value, base = base)

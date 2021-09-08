@@ -46,9 +46,19 @@ test_that("get_phenotypes works", {
     #expect_equal(length(result), lim)
 })
 
+test_that("get_phenotypes_dataframe works", {
+    limit <- 3
+    results <- get_phenotypes_dataframe(conn = conn, limit = limit, filtered = FALSE)
+    results2 <- get_phenotypes_dataframe(pheno_names = test_name, conn = conn)
+    #expect_is(class(results), "data.frame")
+    expect_equal(nrow(results), limit)
+    expect_equal(nrow(results2), 1)
+    expect_true(ncol(results) > ncol(results2))
+})
+
 
 test_that("get_phenotype works", {
-    result <- get_phenotype(name=test_name, conn=conn)
+    result <- get_phenotype(name = test_name, conn = conn)
 
     expect_is(result, "phenotype")
 })
