@@ -4,6 +4,8 @@ conn <- NULL
 
 context("test-phenotype_playlist.R")
 
+if (FALSE) {
+
 init_phenotype_playlist_tests <- function() {
     conn <<- platform_connect(
         api_key = Sys.getenv("GOR_API_KEY"),
@@ -68,3 +70,5 @@ test_that("playlist_delete works", {
 
 
 clean_up_tests()
+
+}

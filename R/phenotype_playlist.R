@@ -30,8 +30,8 @@ validate_playlist <- function(playlist) {
     playlist
 }
 
-new_playlist <- function(playlist) {
-    structure(playlist, class = "playlist")
+new_playlist <- function(playlist, conn) {
+    structure(playlist, class = "playlist", conn = conn)
 }
 
 
@@ -49,9 +49,27 @@ new_playlist <- function(playlist) {
 # * updated_at - Timestamp when the playlist was last updated
 # * created_by - Username who created the playlist
 # * versions - List of data versions available in this playlist
-playlist <- function(playlist) {
-    new_playlist(playlist) %>%
+playlist <- function(playlist, conn) {
+    # Set playlist$phenotypes to be phenotype objects
+    playlist$phenotypes <- playlist$phenotypes %>%
+        purrr::map(gorr:::phenotype, conn = conn)
+    attr(playlist$phenotypes, "names") <- playlist$phenotypes %>% purrr::map_chr(~.x$name)
+
+    new_playlist(playlist, conn) %>%
         validate_playlist()
+}
+
+#' @export
+print.playlist <- function(x, ...) {
+
+    bullet <- purrr::partial(cli::cat_bullet, bullet = " ")
+    cli::cat_rule(left = ("Phenotype playlist"))
+
+    bullet("$name: ", x$name)
+    bullet("$id: ", x$id)
+    bullet("$description: ", x$description)
+    bullet("$phenotypes: ", paste(names(x$phenotypes), collapse= ", "))
+    bullet("$created_by: ", x$created_by)
 }
 
 #' A list of all the playlists in the current project.
@@ -121,12 +139,12 @@ get_playlist <- function(name = NULL, id = NULL, conn) {
                               url = url,
                               query = list(name = name),
                               conn = conn)
-
+    # This is needed as response is different because of different enpoints when querying by id or name
     if (!is.null(id)) {
-        return(playlist(resp$playlist))
+        return(playlist(resp$playlist, conn = conn))
     }
 
-    playlist(resp$playlist[[1]])
+    playlist(resp$playlist[[1]], conn = conn)
 }
 
 #' Create a new playlist in the current project.
@@ -162,9 +180,9 @@ create_playlist <- function(name, conn, description=NULL, phenotypes=NULL) {
     }
 
     url <- paste(gorr__get_endpoint(conn, "phenotype-catalog", "projects"), conn$project, "playlists", sep="/")
-    payload <- list(name = name,
-                   description = description,
-                   phenotypes = phenotypes)
+    payload <- list(playlist = list(name = name,
+                                    description = description,
+                                    phenotypes = phenotypes))
 
     resp <-
         gorr__api_request("POST",
@@ -172,7 +190,7 @@ create_playlist <- function(name, conn, description=NULL, phenotypes=NULL) {
                           body = payload,
                           conn = conn)
 
-    playlist(resp$playlist)
+    playlist(resp$playlist, conn = conn)
 }
 
 
@@ -195,10 +213,15 @@ create_playlist <- function(name, conn, description=NULL, phenotypes=NULL) {
 #' playlist <- create_playlist(name = name, conn)
 #' playlist <- playlist_add_phenotype("pheno1", playlist, conn)
 #' }
-playlist_add_phenotype <- function(name, playlist, conn) {
+playlist_add_phenotype <- function(name, playlist, conn = NULL) {
     assertthat::assert_that(is.character(name))
     assertthat::assert_that(class(playlist) == "playlist")
-    assertthat::assert_that(class(conn) == "platform_connection")
+    assertthat::assert_that(class(attr(playlist, which = "conn")) == "platform_connection")
+
+    if (!missing(conn)) {
+        deprecated_argument_msg(conn) %>%
+            warning()
+    }
 
     name <- purrr::map(name, ~base::strsplit(.x, ",", fixed = TRUE)) %>%
             unlist() %>%
@@ -211,9 +234,10 @@ playlist_add_phenotype <- function(name, playlist, conn) {
     resp <- gorr__api_request("POST",
                   url,
                   body = content,
-                  conn = conn)
+                  conn = attr(playlist, which = "conn"))
 
-    playlist_refresh(playlist, conn)
+
+    playlist_refresh(playlist)
 
 }
 
@@ -234,15 +258,19 @@ playlist_add_phenotype <- function(name, playlist, conn) {
 #' pl <- create_playlist(name, conn)
 #' pl <- playlist_refresh(pl, conn)
 #' }
-playlist_refresh <- function(playlist, conn) {
+playlist_refresh <- function(playlist, conn = NULL) {
     assertthat::assert_that(class(playlist) == "playlist")
-    assertthat::assert_that(class(conn) == "platform_connection")
+    assertthat::assert_that(class(attr(playlist, which = "conn")) == "platform_connection")
+    if (!missing(conn)) {
+        deprecated_argument_msg(conn) %>%
+            warning()
+    }
 
     url <- get__link(playlist, "self")
 
-    resp <- gorr__api_request("GET", url = url, conn = conn)
+    resp <- gorr__api_request("GET", url = url, attr(playlist, which = "conn"))
 
-    playlist(resp$playlist)
+    playlist(resp$playlist, conn = attr(playlist, which = "conn"))
 }
 
 #' Delete a playlist from a project.
@@ -261,13 +289,17 @@ playlist_refresh <- function(playlist, conn) {
 #' playlist <- get_playlist(conn, id=1)
 #' playlist_delete(playlist, conn)
 #' }
-playlist_delete <- function(playlist, conn) {
+playlist_delete <- function(playlist, conn = NULL) {
     assertthat::assert_that(class(playlist) == "playlist")
+    if (!missing(conn)) {
+        deprecated_argument_msg(conn) %>%
+            warning()
+    }
 
     url <- get__link(playlist, "self")
 
     gorr__api_request("DELETE",
                       url = url,
-                      conn = conn,
+                      conn = attr(playlist, which = "conn"),
                       parse.body = F)
 }

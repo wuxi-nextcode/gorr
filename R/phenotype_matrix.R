@@ -77,7 +77,7 @@ get_phenotype_matrix <- function(base = NULL) {
 #' }
 phemat_add_phenotype <- function(name,
                             phenotype_matrix,
-                            missing_value=NULL,
+                            missing_value=NA,
                             label=NULL) {
     assertthat::assert_that(is.string(name))
     assertthat::assert_that(class(phenotype_matrix) == "phenotype_matrix")
@@ -112,7 +112,7 @@ phemat_add_phenotype <- function(name,
 #' phenotype_mat <- get_phenotype_matrix()
 #' phenotype_mat <- phemat_add_phenotypes(names=c("PT1", "PT2"), phenotype_matrix = phenotype_mat)
 #' }
-phemat_add_phenotypes <- function(names, phenotype_matrix, missing_value=NULL) {
+phemat_add_phenotypes <- function(names, phenotype_matrix, missing_value=NA) {
     assertthat::assert_that(is.character(names))
 
     names <- purrr::map(names, ~base::strsplit(.x, ",", fixed = TRUE)) %>% unlist()

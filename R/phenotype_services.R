@@ -74,7 +74,7 @@ print.phenotype <- function(x, ...) {
 
 # Internal method to be called by `get_phenotypes`, `get_phenotypes_matrix` and `get_phenotypes_dataframe`
 # See documentation of those methods for more details
-query__phenotypes <- function(conn, all_tags, any_tags, pn_count, categories, limit, states, search, playlist, updated_at, result_types) {
+query__phenotypes <- function(conn, all_tags, any_tags, pn_count, categories, limit, states, search, updated_at, result_types) {
     assertthat::assert_that(class(conn) == "platform_connection")
     assertthat::assert_that(is.numeric(limit))
     assertthat::assert_that(is.list(all_tags) | is.character(all_tags))
@@ -88,10 +88,6 @@ query__phenotypes <- function(conn, all_tags, any_tags, pn_count, categories, li
 
     url <- gorr__get_endpoint(conn, "phenotype-catalog", "phenotypes")
 
-    if (!is.null(playlist)) {
-        url <- paste(gorr__get_endpoint(conn, "phenotype-catalog", "playlist"), playlist, sep = "/")
-    }
-
     content <- list(with_all_tags = paste(all_tags, collapse = ","),
                     with_any_tags = paste(any_tags, collapse = ","),
                     pn_count = pn_count,
@@ -99,7 +95,6 @@ query__phenotypes <- function(conn, all_tags, any_tags, pn_count, categories, li
                     limit = limit,
                     state = paste(states, collapse = ","),
                     search = search,
-                    playlist = playlist,
                     updated_at = updated_at,
                     result_type = paste(result_types, collapse = ","))
 
@@ -107,9 +102,6 @@ query__phenotypes <- function(conn, all_tags, any_tags, pn_count, categories, li
                               url = url,
                               query = content,
                               conn = conn)
-    if (!is.null(playlist)) {
-        return(resp$playlist$phenotypes)
-    }
     resp$phenotypes
 }
 
@@ -154,13 +146,15 @@ get_phenotypes <- function(conn,
                            updated_at=NULL,
                            result_types=list()) {
     if (!missing(tags)) {
-        deprecated_argument_msg(tags, custom = "'any_tags' arguments used instead")
+        deprecated_argument_msg(tags, custom = "'any_tags' arguments used instead") %>%
+        warning()
         any_tags <- append(any_tags, tags)
     }
     assertthat::assert_that(class(conn) == "platform_connection")
 
     if (!is.null(playlist)) {
-        stop("playlist option is not yet supported for get_phenotypes")
+        assertthat::assert_that(class(playlist) == "playlist")
+        pheno_names <- names(playlist$phenotypes)
     }
     if (length(pheno_names) > 0) {
         if (length(pheno_names) > 100) {stop("Maximum length of pheno_names is 100")}
@@ -174,7 +168,6 @@ get_phenotypes <- function(conn,
                                     limit = limit,
                                     states = states,
                                     search = search,
-                                    playlist = playlist,
                                     updated_at = updated_at,
                                     result_types = result_types) %>%
         purrr::map(phenotype, conn = conn)
@@ -245,7 +238,8 @@ get_phenotypes_dataframe <- function(conn = conn,
 
 
     if (!is.null(playlist)) {
-        stop("playlist option is not yet supported for get_phenotypes_dataframe")
+        assertthat::assert_that(class(playlist) == "playlist")
+        pheno_names <- names(playlist$phenotypes)
     }
 
     if (length(pheno_names) > 0) {
@@ -260,7 +254,6 @@ get_phenotypes_dataframe <- function(conn = conn,
                                     limit = limit,
                                     states = states,
                                     search = search,
-                                    playlist = playlist,
                                     updated_at = updated_at,
                                     result_types = result_types)
     }
@@ -270,7 +263,7 @@ get_phenotypes_dataframe <- function(conn = conn,
         as.data.frame()
 
     if (filtered) {
-        cols<- c(cols, "source_type", "query", "covariates", "created_by"," created_at", "updated_at")
+        cols <- c("name", "description", "result_type", "tag_list", "pn_count")
         phenotypes_dataframe <- phenotypes_dataframe %>% dplyr::select(tidyselect::all_of(cols))
     }
 
@@ -410,7 +403,8 @@ create_phenotype <-
 #' }
 phenotype_update_description <- function(description, phenotype, conn=NULL) {
     if (!missing(conn)) {
-        deprecated_argument_msg(conn)
+        deprecated_argument_msg(conn) %>%
+        warning()
     }
     assertthat::assert_that(is.character(description))
     assertthat::assert_that(class(phenotype) == "phenotype")
@@ -447,7 +441,8 @@ phenotype_update_description <- function(description, phenotype, conn=NULL) {
 #' }
 phenotype_delete <- function(phenotype, conn=NULL) {
     if (!missing(conn)) {
-        deprecated_argument_msg(conn)
+        deprecated_argument_msg(conn) %>%
+        warning()
     }
     assertthat::assert_that(class(phenotype) == "phenotype")
     assertthat::assert_that(class(attr(phenotype, which = "conn")) == "platform_connection")
@@ -472,7 +467,8 @@ phenotype_delete <- function(phenotype, conn=NULL) {
 #' @export
 phenotype_refresh <- function(phenotype, conn=NULL) {
     if (!missing(conn)) {
-        deprecated_argument_msg(conn)
+        deprecated_argument_msg(conn) %>%
+        warning()
     }
     assertthat::assert_that(class(phenotype) == "phenotype")
     assertthat::assert_that(class(attr(phenotype, which = "conn")) == "platform_connection")
@@ -508,6 +504,5 @@ phenotype_get_tags <- function(phenotype) {
 # msg of form "[arg_name] argument deprecated [- optional custom message]"
 deprecated_argument_msg <- function(arg, custom=NULL) {
     deparse(substitute(arg)) %>%
-    paste("argument deprecated", if (!is.null(custom)) paste("-", custom)) %>%
-    warning()
+    paste("argument deprecated", if (!is.null(custom)) paste("-", custom))
 }
