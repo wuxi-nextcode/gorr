@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.3</span>
       </span>
     </div>
 
@@ -146,8 +146,8 @@
 <span class="co">#&gt; • Project: ukbb_hg38</span>
 <span class="co">#&gt; • API key issued at: 2021-08-31 12:19:55</span>
 <span class="co">#&gt; • API key expires at: Never</span>
-<span class="co">#&gt; • Access token issued at: 2021-09-08 09:22:09</span>
-<span class="co">#&gt; • Access token expires at: 2021-09-08 10:22:09</span></code></pre></div>
+<span class="co">#&gt; • Access token issued at: 2021-09-08 13:59:07</span>
+<span class="co">#&gt; • Access token expires at: 2021-09-08 14:59:07</span></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object to pass into subsequent functions.</p>
 </div>
 <div id="list-categories" class="section level2">
@@ -172,7 +172,7 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">new_category</span><span class="op">)</span>
 <span class="co">#&gt; $name</span>
-<span class="co">#&gt; [1] "rtestcat9"</span></code></pre></div>
+<span class="co">#&gt; [1] "rtestcat32"</span></code></pre></div>
 </div>
 <div id="delete-category" class="section level2">
 <h2 class="hasAnchor">
@@ -183,11 +183,11 @@
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span> <span class="co"># Category to be deleted</span>
 <span class="fu"><a href="../reference/category_delete.html">category_delete</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">conn</span><span class="op">)</span>
 <span class="fu"><a href="../reference/get_categories.html">get_categories</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; [1] "statistics"     "cardiovascular" "rtestcat9"      "rtestCat73"    
+<pre><code>#&gt; [1] "statistics"     "cardiovascular" "rtestcat32"     "rtestCat73"    
 #&gt; [5] "rtestCat16"
-#&gt; [1] "rtestcat9"
-#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/categories/rtestcat9]
-#&gt;   Date: 2021-09-08 09:22
+#&gt; [1] "rtestcat32"
+#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/categories/rtestcat32]
+#&gt;   Date: 2021-09-08 13:59
 #&gt;   Status: 204
 #&gt;   Content-Type: &lt;unknown&gt;
 #&gt; &lt;EMPTY BODY&gt;

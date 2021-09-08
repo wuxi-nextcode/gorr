@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.3</span>
       </span>
     </div>
 
@@ -146,8 +146,8 @@
 <span class="co">#&gt; • Project: ukbb_hg38</span>
 <span class="co">#&gt; • API key issued at: 2021-08-31 12:19:55</span>
 <span class="co">#&gt; • API key expires at: Never</span>
-<span class="co">#&gt; • Access token issued at: 2021-09-08 09:22:24</span>
-<span class="co">#&gt; • Access token expires at: 2021-09-08 10:22:24</span></code></pre></div>
+<span class="co">#&gt; • Access token issued at: 2021-09-08 13:59:20</span>
+<span class="co">#&gt; • Access token expires at: 2021-09-08 14:59:20</span></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object to pass into subsequent functions.</p>
 </div>
 <div id="list-project-phenotypes" class="section level2">
@@ -157,33 +157,6 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">phenotypes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_phenotypes.html">get_phenotypes</a></span><span class="op">(</span><span class="va">conn</span>, limit<span class="op">=</span><span class="fl">25</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">phenotypes</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt; $test_pheno10</span>
-<span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;  $name: test_pheno10</span>
-<span class="co">#&gt;  $description: </span>
-<span class="co">#&gt;  $result_type: CATEGORY</span>
-<span class="co">#&gt;  $tag_list: </span>
-<span class="co">#&gt;  $pn_count: 2</span>
-<span class="co">#&gt;  $query: </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $test_pheno68</span>
-<span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;  $name: test_pheno68</span>
-<span class="co">#&gt;  $description: </span>
-<span class="co">#&gt;  $result_type: CATEGORY</span>
-<span class="co">#&gt;  $tag_list: </span>
-<span class="co">#&gt;  $pn_count: 2</span>
-<span class="co">#&gt;  $query: </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $test_pheno30</span>
-<span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;  $name: test_pheno30</span>
-<span class="co">#&gt;  $description: This is a test phenotype</span>
-<span class="co">#&gt;  $result_type: QT</span>
-<span class="co">#&gt;  $tag_list: </span>
-<span class="co">#&gt;  $pn_count: </span>
-<span class="co">#&gt;  $query: </span>
-<span class="co">#&gt; </span>
 <span class="co">#&gt; $dfa3244__</span>
 <span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
 <span class="co">#&gt;  $name: dfa3244__</span>
@@ -191,7 +164,49 @@
 <span class="co">#&gt;  $result_type: QT</span>
 <span class="co">#&gt;  $tag_list: </span>
 <span class="co">#&gt;  $pn_count: </span>
-<span class="co">#&gt;  $query:</span></code></pre></div>
+<span class="co">#&gt;  $query: </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $pulmonary_embolism_diagnosis_age</span>
+<span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt;  $name: pulmonary_embolism_diagnosis_age</span>
+<span class="co">#&gt;  $description: Age pulmonary embolism blood clot in lung diagnosed.</span>
+<span class="co">#&gt;  $result_type: QT</span>
+<span class="co">#&gt;  $tag_list: pulmonology</span>
+<span class="co">#&gt;  $pn_count: 4149</span>
+<span class="co">#&gt;  $query: </span>
+<span class="co">#&gt; def #phenos# = age_pulmonary_embolism_blood_clot_in_lung_diagnosed;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; create ##aggregate## = nor UKBB/phenotypes/fields.nord -s phenotype -f #phenos#</span>
+<span class="co">#&gt;     | ATMAX visit_id -gc PN,phenotype</span>
+<span class="co">#&gt;     | map -h -m '#empty#' -c phenotype,value &lt;(nor -h UKBB/phenotypes/meta/field_encoding_lookup.tsv)</span>
+<span class="co">#&gt;     | REPLACE value if(meaning = '#empty#',value,meaning)</span>
+<span class="co">#&gt;     | hide meaning,visit_id,index_id;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; nor [##aggregate##] | sort -c PN</span>
+<span class="co">#&gt;     | pivot phenotype -ordered -gc PN -v #phenos# -e NA</span>
+<span class="co">#&gt;     | rename (.*)_value #{1}</span>
+<span class="co">#&gt;     | rename #phenos# value</span>
+<span class="co">#&gt;     | WHERE value != 'Do not know'</span>
+<span class="co">#&gt;     | WHERE value != 'Prefer not to answer'</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $`975_phenocat`</span>
+<span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt;  $name: 975_phenocat</span>
+<span class="co">#&gt;  $description: asdfasdf </span>
+<span class="co">#&gt;  $result_type: SET</span>
+<span class="co">#&gt;  $tag_list: Phecode, anna</span>
+<span class="co">#&gt;  $pn_count: </span>
+<span class="co">#&gt;  $query: Lallalalala</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $`975`</span>
+<span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
+<span class="co">#&gt;  $name: 975</span>
+<span class="co">#&gt;  $description: testing something</span>
+<span class="co">#&gt;  $result_type: SET</span>
+<span class="co">#&gt;  $tag_list: </span>
+<span class="co">#&gt;  $pn_count: </span>
+<span class="co">#&gt;  $query: gor #dbsnp#</span></code></pre></div>
 <p>The results come back as a <code>list</code> of phenotypes</p>
 </div>
 <div id="get-phenotype" class="section level2">
@@ -202,11 +217,11 @@
 <code class="sourceCode R"><span class="va">phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_phenotype.html">get_phenotype</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">phenotypes</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">conn</span><span class="op">)</span>
 <span class="va">phenotype</span>
 <span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;  $name: test_pheno10</span>
+<span class="co">#&gt;  $name: dfa3244__</span>
 <span class="co">#&gt;  $description: </span>
-<span class="co">#&gt;  $result_type: CATEGORY</span>
+<span class="co">#&gt;  $result_type: QT</span>
 <span class="co">#&gt;  $tag_list: </span>
-<span class="co">#&gt;  $pn_count: 2</span>
+<span class="co">#&gt;  $pn_count: </span>
 <span class="co">#&gt;  $query:</span></code></pre></div>
 <p>The results come back as a <code>phenotype</code> object, which is a list of lists containing different info on the <code>phenotype</code> object.</p>
 </div>
@@ -221,7 +236,7 @@
 <span class="va">new_phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_phenotype.html">create_phenotype</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">result_type</span>, <span class="va">conn</span>, <span class="va">description</span><span class="op">)</span>
 <span class="va">new_phenotype</span>
 <span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;  $name: rtest_pheno25</span>
+<span class="co">#&gt;  $name: rtest_pheno61</span>
 <span class="co">#&gt;  $description: This is a test phenotype</span>
 <span class="co">#&gt;  $result_type: CATEGORY</span>
 <span class="co">#&gt;  $tag_list: </span>
@@ -261,7 +276,7 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <span class="co">#&gt; Warning in deprecated_argument_msg(conn) %&gt;% warning(): conn argument deprecated</span>
 <span class="va">new_phenotype</span>
 <span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;  $name: rtest_pheno25</span>
+<span class="co">#&gt;  $name: rtest_pheno61</span>
 <span class="co">#&gt;  $description: This is a test phenotype</span>
 <span class="co">#&gt;  $result_type: CATEGORY</span>
 <span class="co">#&gt;  $tag_list: </span>
@@ -277,7 +292,7 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <span class="va">new_phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phenotype_update_description.html">phenotype_update_description</a></span><span class="op">(</span><span class="va">new_description</span>, <span class="va">new_phenotype</span>, <span class="va">conn</span><span class="op">)</span>
 <span class="va">new_phenotype</span>
 <span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;  $name: rtest_pheno25</span>
+<span class="co">#&gt;  $name: rtest_pheno61</span>
 <span class="co">#&gt;  $description: An updated description</span>
 <span class="co">#&gt;  $result_type: CATEGORY</span>
 <span class="co">#&gt;  $tag_list: </span>
@@ -298,7 +313,7 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <span class="co">#&gt; [1] "2000"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]][[2]]</span>
-<span class="co">#&gt; [1] "lean"</span>
+<span class="co">#&gt; [1] "obease"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[2]]</span>
@@ -322,21 +337,21 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; cols(</span>
 <span class="co">#&gt;   pn = col_double(),</span>
-<span class="co">#&gt;   rtest_pheno25 = col_character()</span>
+<span class="co">#&gt;   rtest_pheno61 = col_character()</span>
 <span class="co">#&gt; )</span>
 <span class="co">#&gt; # A tibble: 1,001 x 2</span>
-<span class="co">#&gt;       pn rtest_pheno25</span>
+<span class="co">#&gt;       pn rtest_pheno61</span>
 <span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;        </span>
-<span class="co">#&gt;  1  2000 lean         </span>
+<span class="co">#&gt;  1  2000 obease       </span>
 <span class="co">#&gt;  2  2001 obease       </span>
-<span class="co">#&gt;  3  2002 lean         </span>
-<span class="co">#&gt;  4  2003 obease       </span>
-<span class="co">#&gt;  5  2004 lean         </span>
+<span class="co">#&gt;  3  2002 obease       </span>
+<span class="co">#&gt;  4  2003 lean         </span>
+<span class="co">#&gt;  5  2004 obease       </span>
 <span class="co">#&gt;  6  2005 obease       </span>
 <span class="co">#&gt;  7  2006 lean         </span>
-<span class="co">#&gt;  8  2007 lean         </span>
+<span class="co">#&gt;  8  2007 obease       </span>
 <span class="co">#&gt;  9  2008 obease       </span>
-<span class="co">#&gt; 10  2009 lean         </span>
+<span class="co">#&gt; 10  2009 obease       </span>
 <span class="co">#&gt; # … with 991 more rows</span></code></pre></div>
 </div>
 <div id="get-all-tags-available-in-the-phenotype-catalog" class="section level2">
@@ -405,8 +420,8 @@ we can refresh the phenotype using the <code>phenotype_refresh</code> method</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/phenotype_delete.html">phenotype_delete</a></span><span class="op">(</span><span class="va">new_phenotype</span>, <span class="va">conn</span><span class="op">)</span>
 <span class="co">#&gt; Warning in deprecated_argument_msg(conn) %&gt;% warning(): conn argument deprecated</span>
-<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/phenotypes/rtest_pheno25]</span>
-<span class="co">#&gt;   Date: 2021-09-08 09:22</span>
+<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/phenotypes/rtest_pheno61]</span>
+<span class="co">#&gt;   Date: 2021-09-08 13:59</span>
 <span class="co">#&gt;   Status: 204</span>
 <span class="co">#&gt;   Content-Type: &lt;unknown&gt;</span>
 <span class="co">#&gt; &lt;EMPTY BODY&gt;</span></code></pre></div>
