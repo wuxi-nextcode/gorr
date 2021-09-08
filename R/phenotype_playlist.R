@@ -242,6 +242,7 @@ playlist_add_phenotype <- function(name, playlist, conn = NULL) {
 #'
 #' @param names comma seperated string of phenotypes existing in project to add eg. "pheno1,pheno2" or character vector c("pheno1", "pheno2")
 #' @param playlist playlist structure, create or get it using \code{\link{create_playlist}} or \code{\link{get_playlist}}
+#' @param remove whether to delete the the phenotypes
 #'
 #' @return A playlist object
 playlist_update_phenotypes <- function(names, playlist, remove) {

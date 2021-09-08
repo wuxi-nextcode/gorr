@@ -2,12 +2,12 @@
 % Please edit documentation in R/phenotype_playlist.R
 \name{playlist_add_phenotype}
 \alias{playlist_add_phenotype}
-\title{Add phenotype/s to a playlist.}
+\title{Add phenotype to a playlist.}
 \usage{
 playlist_add_phenotype(name, playlist, conn = NULL)
 }
 \arguments{
-\item{name}{comma seperated string of phenotypes existing in project to add eg. "pheno1,pheno2"  or character vector c("pheno1", "pheno2")}
+\item{name}{name of phenotype existing in project}
 
 \item{playlist}{playlist structure, create or get it using \code{\link{create_playlist}} or \code{\link{get_playlist}}}
 
@@ -17,7 +17,7 @@ playlist_add_phenotype(name, playlist, conn = NULL)
 A playlist object
 }
 \description{
-Add phenotype/s to a playlist.
+For adding multiple phenotypes to playlist see: or \code{\link{playlist_add_phenotypes}}
 }
 \examples{
 \dontrun{

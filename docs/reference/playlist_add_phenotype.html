@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add phenotype/s to a playlist. — playlist_add_phenotype • gorr</title>
+<title>Add phenotype to a playlist. — playlist_add_phenotype • gorr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Add phenotype/s to a playlist. — playlist_add_phenotype" />
-<meta property="og:description" content="Add phenotype/s to a playlist." />
+<meta property="og:title" content="Add phenotype to a playlist. — playlist_add_phenotype" />
+<meta property="og:description" content="For adding multiple phenotypes to playlist see: or playlist_add_phenotypes" />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.3</span>
       </span>
     </div>
 
@@ -152,13 +152,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add phenotype/s to a playlist.</h1>
+    <h1>Add phenotype to a playlist.</h1>
     <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_playlist.R'><code>R/phenotype_playlist.R</code></a></small>
     <div class="hidden name"><code>playlist_add_phenotype.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Add phenotype/s to a playlist.</p>
+    <p>For adding multiple phenotypes to playlist see: or <code><a href='playlist_add_phenotypes.html'>playlist_add_phenotypes</a></code></p>
     </div>
 
     <pre class="usage"><span class='fu'>playlist_add_phenotype</span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>playlist</span>, conn <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
@@ -168,7 +168,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>name</th>
-      <td><p>comma seperated string of phenotypes existing in project to add eg. "pheno1,pheno2"  or character vector c("pheno1", "pheno2")</p></td>
+      <td><p>name of phenotype existing in project</p></td>
     </tr>
     <tr>
       <th>playlist</th>

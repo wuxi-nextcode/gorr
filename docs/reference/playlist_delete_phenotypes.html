@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Delete a tag/s from phenotype. — phenotype_delete_tag • gorr</title>
+<title>Delete phenotype/s from playlist — playlist_delete_phenotypes • gorr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Delete a tag/s from phenotype. — phenotype_delete_tag" />
-<meta property="og:description" content="This method is depricated and will be removed in future versions. use phenotype_delete_tags instead." />
+<meta property="og:title" content="Delete phenotype/s from playlist — playlist_delete_phenotypes" />
+<meta property="og:description" content="Delete phenotype/s from playlist" />
 <meta property="og:image" content="/logo.svg" />
 
 
@@ -152,37 +152,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Delete a tag/s from phenotype.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_deprecated.R'><code>R/phenotype_deprecated.R</code></a></small>
-    <div class="hidden name"><code>phenotype_delete_tag.Rd</code></div>
+    <h1>Delete phenotype/s from playlist</h1>
+    <small class="dont-index">Source: <a href='https://github.com/wuxi-nextcode/gorr/blob/master/R/phenotype_playlist.R'><code>R/phenotype_playlist.R</code></a></small>
+    <div class="hidden name"><code>playlist_delete_phenotypes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This method is depricated and will be removed in future versions. use <code><a href='phenotype_delete_tags.html'>phenotype_delete_tags</a></code> instead.</p>
+    <p>Delete phenotype/s from playlist</p>
     </div>
 
-    <pre class="usage"><span class='fu'>phenotype_delete_tag</span><span class='op'>(</span><span class='va'>tag</span>, <span class='va'>phenotype</span>, conn <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>playlist_delete_phenotypes</span><span class='op'>(</span><span class='va'>names</span>, <span class='va'>playlist</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>tag</th>
-      <td><p>string of tag/s to be added seperated by comma eg. "height,weight"  or character vector "c("height", "weight")</p></td>
+      <th>names</th>
+      <td><p>comma seperated string of phenotypes existing in project to delete eg. "pheno1,pheno2" or character vector c("pheno1", "pheno2")</p></td>
     </tr>
     <tr>
-      <th>phenotype</th>
-      <td><p>phenotype structure, create or get it using <code><a href='create_phenotype.html'>create_phenotype</a></code> or <code><a href='get_phenotype.html'>get_phenotype</a></code></p></td>
-    </tr>
-    <tr>
-      <th>conn</th>
-      <td><p>Deprecated : gor connection structure, create it using <code><a href='platform_connect.html'>platform_connect</a></code></p></td>
+      <th>playlist</th>
+      <td><p>playlist structure, create or get it using <code><a href='create_playlist.html'>create_playlist</a></code> or <code><a href='get_playlist.html'>get_playlist</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>an updated list with the phenotype object</p>
+    <p>A playlist object</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
