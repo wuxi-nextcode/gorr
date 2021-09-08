@@ -195,9 +195,11 @@ create_playlist <- function(name, conn, description=NULL, phenotypes=NULL) {
 
 
 
-#' Add phenotype/s to a playlist.
+#' Add phenotype to a playlist.
 #'
-#' @param name comma seperated string of phenotypes existing in project to add eg. "pheno1,pheno2"  or character vector c("pheno1", "pheno2")
+#' For adding multiple phenotypes to playlist see: or \code{\link{playlist_add_phenotypes}}
+#'
+#' @param name name of phenotype existing in project
 #' @param playlist playlist structure, create or get it using \code{\link{create_playlist}} or \code{\link{get_playlist}}
 #' @param conn gor connection structure, create it using \code{\link{platform_connect}}
 #'
@@ -214,7 +216,7 @@ create_playlist <- function(name, conn, description=NULL, phenotypes=NULL) {
 #' playlist <- playlist_add_phenotype("pheno1", playlist, conn)
 #' }
 playlist_add_phenotype <- function(name, playlist, conn = NULL) {
-    assertthat::assert_that(is.character(name))
+    assertthat::assert_that(is.string(name))
     assertthat::assert_that(class(playlist) == "playlist")
     assertthat::assert_that(class(attr(playlist, which = "conn")) == "platform_connection")
 
@@ -222,10 +224,6 @@ playlist_add_phenotype <- function(name, playlist, conn = NULL) {
         deprecated_argument_msg(conn) %>%
             warning()
     }
-
-    name <- purrr::map(name, ~base::strsplit(.x, ",", fixed = TRUE)) %>%
-            unlist() %>%
-            as.list()
 
     url <- paste(get__link(playlist, "self"), "phenotypes", sep = "/")
 
@@ -238,8 +236,92 @@ playlist_add_phenotype <- function(name, playlist, conn = NULL) {
 
 
     playlist_refresh(playlist)
-
 }
+
+#' Update playlist phenotypes
+#'
+#' @param names comma seperated string of phenotypes existing in project to add eg. "pheno1,pheno2" or character vector c("pheno1", "pheno2")
+#' @param playlist playlist structure, create or get it using \code{\link{create_playlist}} or \code{\link{get_playlist}}
+#'
+#' @return A playlist object
+playlist_update_phenotypes <- function(names, playlist, remove) {
+    assertthat::assert_that(class(playlist) == "playlist")
+    assertthat::assert_that(class(attr(playlist, which = "conn")) == "platform_connection")
+    assertthat::assert_that(is.character(names))
+    assertthat::assert_that(is.logical(remove))
+
+    url <- get__link(playlist, "self")
+
+    phenotypes <- purrr::map(names, ~base::strsplit(.x, ",", fixed = TRUE)) %>%
+            unlist() %>%
+            purrr::map(~list(name = .x, `_destroy` = remove))
+
+    content <- list(playlist = list(phenotypes = phenotypes))
+
+    resp <- gorr__api_request("PATCH",
+                  url,
+                  body = content,
+                  conn = attr(playlist, which = "conn"))
+
+    playlist_refresh(playlist)
+}
+
+
+#' Add phenotype/s to playlist
+#'
+#' @param names comma seperated string of phenotypes existing in project to add eg. "pheno1,pheno2" or character vector c("pheno1", "pheno2")
+#' @param playlist playlist structure, create or get it using \code{\link{create_playlist}} or \code{\link{get_playlist}}
+#'
+#' @return A playlist object
+#' @export
+playlist_add_phenotypes <- function(names, playlist) {
+    assertthat::assert_that(is.character(names))
+    assertthat::assert_that(class(playlist) == "playlist")
+    assertthat::assert_that(class(attr(playlist, which = "conn")) == "platform_connection")
+
+    playlist_update_phenotypes(names = names, playlist = playlist, remove = FALSE)
+}
+
+#' Delete phenotype/s from playlist
+#'
+#' @param names comma seperated string of phenotypes existing in project to delete eg. "pheno1,pheno2" or character vector c("pheno1", "pheno2")
+#' @param playlist playlist structure, create or get it using \code{\link{create_playlist}} or \code{\link{get_playlist}}
+#'
+#' @return A playlist object
+#' @export
+playlist_delete_phenotypes <- function(names, playlist) {
+    assertthat::assert_that(is.character(names))
+    assertthat::assert_that(class(playlist) == "playlist")
+    assertthat::assert_that(class(attr(playlist, which = "conn")) == "platform_connection")
+
+    playlist_update_phenotypes(names = names, playlist = playlist, remove = TRUE)
+}
+
+#' Update playlist's description
+#'
+#' @param playlist playlist structure, create or get it using \code{\link{create_playlist}} or \code{\link{get_playlist}}
+#' @param description playlist description
+#'
+#' @return A playlist object
+#' @export
+playlist_update_description <- function(description, playlist) {
+    assertthat::assert_that(is.string(description))
+    assertthat::assert_that(class(playlist) == "playlist")
+    assertthat::assert_that(class(attr(playlist, which = "conn")) == "platform_connection")
+
+    url <- get__link(playlist, "self")
+
+    content <- list(playlist = list(description = description))
+
+    resp <- gorr__api_request("PATCH",
+                  url,
+                  body = content,
+                  conn = attr(playlist, which = "conn"))
+
+
+    playlist_refresh(playlist)
+}
+
 
 #' Refresh playlist
 #'

@@ -13,9 +13,11 @@ init_phenotype_playlist_tests <- function() {
 
     test_pl_name <<- paste0("rtestpack_pl", sample(1:1000, 1))
     test_pheno_name <<- paste0("rtestpack_pheno", sample(1:1000, 1))
+    test_pheno_name2 <<- paste0("rtestpack_pheno", sample(1:1000, 1))
 
     test_pl <<- create_playlist(test_pl_name, conn)
     test_pheno <<- create_phenotype(test_pheno_name, "set", conn)
+    test_pheno2 <<- create_phenotype(test_pheno_name2, "set", conn)
 
     if (!grepl("platform", conn$service_root, fixed = TRUE)) {
         stop("Tests should only be run on Platform dev - please reset 'GOR_API_KEY'")
@@ -34,7 +36,6 @@ test_that("get_playlists works", {
 
     expect_true(test_pl_name %in% playlists)
 })
-
 
 test_that("get_playlist works", {
     playlist <- get_playlist(name = test_pl_name, conn = conn)
@@ -57,6 +58,25 @@ test_that("playlist_add_phenotype works", {
     pl <- playlist_add_phenotype(test_pheno_name, test_pl, conn)
     expect_is(pl, "playlist")
     expect_true(test_pheno_name %in% fetch__from_lst(pl$phenotypes, "name"))
+})
+
+test_that("playlist_delete_phenotypes works", {
+    pl <- playlist_delete_phenotype(test_pheno_name, test_pl)
+    expect_is(pl, "playlist")
+    expect_equal(length(pl$phenotypes),0)
+})
+
+test_that("playlist_add_phenotypes works", {
+    pl <- playlist_add_phenotypes(c(test_pheno_name,test_pheno_name2), test_pl)
+    expect_is(pl, "playlist")
+    expect_true(all(c(test_pheno_name,test_pheno_name2) %in% names(pl$phenotypes)))
+})
+
+test_that("playlist_update_description works", {
+    new_description <- "new desc"
+    pl <- playlist_update_phenotype(new_description, test_pl)
+    expect_is(pl, "playlist")
+    expect_true(new_description == pl$description)
 })
 
 test_that("playlist_delete works", {
