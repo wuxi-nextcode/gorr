@@ -4,7 +4,7 @@
 \alias{playlist_refresh}
 \title{Refresh playlist}
 \usage{
-playlist_refresh(playlist, conn)
+playlist_refresh(playlist, conn = NULL)
 }
 \arguments{
 \item{playlist}{structure, create or get it using \code{\link{create_playlist}} or \code{\link{get_playlist}}}

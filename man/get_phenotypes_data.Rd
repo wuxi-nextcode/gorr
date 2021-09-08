@@ -4,7 +4,7 @@
 \alias{get_phenotypes_data}
 \title{Retrieve phenotype data from the server.}
 \usage{
-get_phenotypes_data(pheno_names, conn, missing_value = NULL, base = NULL)
+get_phenotypes_data(pheno_names, conn, missing_value = NA, base = NULL)
 }
 \arguments{
 \item{pheno_names}{Fetch phenotypes that are in a given list of phenotype names, character and character vector also allowed}

@@ -4,12 +4,7 @@
 \alias{phemat_add_phenotype}
 \title{Add a new phenotype to the matrix request.}
 \usage{
-phemat_add_phenotype(
-  name,
-  phenotype_matrix,
-  missing_value = NULL,
-  label = NULL
-)
+phemat_add_phenotype(name, phenotype_matrix, missing_value = NA, label = NULL)
 }
 \arguments{
 \item{name}{Phenotype name}
