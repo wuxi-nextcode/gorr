@@ -130,7 +130,7 @@ query__phenotypes <- function(conn, all_tags, any_tags, pn_count, categories, li
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
 #' conn <- platform_connect(api_key, project)
-#' phenotypes <- get_phenotypes(conn)
+#' phenotypes <- get_phenotypes(conn, limit=5)
 #' }
 get_phenotypes <- function(conn,
                            tags = list(),
@@ -218,7 +218,7 @@ print.phenotype_list <- function(x, ...) {
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
 #' conn <- platform_connect(api_key, project)
-#' phenotypes <- get_phenotypes(conn)
+#' phenotypes <- get_phenotypes_dataframe(conn, limit=5)
 #' }
 get_phenotypes_dataframe <- function(conn = conn,
                                      pheno_names=list(),
@@ -261,6 +261,10 @@ get_phenotypes_dataframe <- function(conn = conn,
     phenotypes_dataframe <- phenotypes %>%
         do.call(rbind, .)  %>%
         as.data.frame()
+
+    if (nrow(phenotypes_dataframe) == 0) {
+        return(phenotypes_dataframe)
+    }
 
     if (filtered) {
         cols <- c("name", "description", "result_type", "tag_list", "pn_count")

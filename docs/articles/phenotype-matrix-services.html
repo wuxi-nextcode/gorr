@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.4</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@
                         <h4 class="author">Andri M. Stefansson <a href="mailto:andri@genuitysci.com" class="email">andri@genuitysci.com</a>
 </h4>
             
-            <h4 class="date">2021-09-08</h4>
+            <h4 class="date">2021-09-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/master/vignettes/phenotype-matrix-services.Rmd"><code>vignettes/phenotype-matrix-services.Rmd</code></a></small>
       <div class="hidden name"><code>phenotype-matrix-services.Rmd</code></div>
@@ -146,8 +146,8 @@
 <span class="co">#&gt; • Project: ukbb_hg38</span>
 <span class="co">#&gt; • API key issued at: 2021-08-31 12:19:55</span>
 <span class="co">#&gt; • API key expires at: Never</span>
-<span class="co">#&gt; • Access token issued at: 2021-09-08 13:59:11</span>
-<span class="co">#&gt; • Access token expires at: 2021-09-08 14:59:11</span></code></pre></div>
+<span class="co">#&gt; • Access token issued at: 2021-09-10 10:57:43</span>
+<span class="co">#&gt; • Access token expires at: 2021-09-10 11:57:43</span></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object to pass into subsequent functions.</p>
 </div>
 <div id="list-project-phenotypes" class="section level2">
@@ -191,8 +191,8 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">phenos_subset_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">phenos</span><span class="op">)</span>,<span class="fl">5</span><span class="op">)</span>
 <span class="va">phenos_subset_names</span> 
-<span class="co">#&gt; [1] "phecode_case_255.21" "phecode_case_251.0"  "phecode_case_252.1" </span>
-<span class="co">#&gt; [4] "phecode_case_253.3"  "phecode_case_253.0"</span></code></pre></div>
+<span class="co">#&gt; [1] "phecode_case_180.3" "phecode_case_255.0" "phecode_case_250.6"</span>
+<span class="co">#&gt; [4] "phecode_case_253.3" "phecode_case_253.7"</span></code></pre></div>
 </div>
 <div id="initialize-phenotype-matrix" class="section level2">
 <h2 class="hasAnchor">
@@ -220,7 +220,7 @@
 <code class="sourceCode R"><span class="va">pheno_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phemat_add_phenotypes.html">phemat_add_phenotypes</a></span><span class="op">(</span><span class="va">phenos_subset_names</span>, <span class="va">pheno_matrix</span>,  missing_value <span class="op">=</span> <span class="st">'-99'</span><span class="op">)</span> </code></pre></div>
 <pre><code>#&gt; [1] "pheno_matrix class: phenotype_matrix"
 #&gt; [1] "pheno_matrix content: base, phenotypes"
-#&gt; [1] "pheno_matrix phenotypes: phecode_case_255.21, phecode_case_251.0, phecode_case_252.1, phecode_case_253.3, phecode_case_253.0"</code></pre>
+#&gt; [1] "pheno_matrix phenotypes: phecode_case_180.3, phecode_case_255.0, phecode_case_250.6, phecode_case_253.3, phecode_case_253.7"</code></pre>
 </div>
 <div id="remove-phenotype-from-matrix" class="section level2">
 <h2 class="hasAnchor">
@@ -228,33 +228,33 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rm_pheno</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">pheno_matrix</span><span class="op">$</span><span class="va">phenotypes</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
 <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"Removing phenotype:"</span>, <span class="va">rm_pheno</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Removing phenotype: phecode_case_255.21"</span>
+<span class="co">#&gt; [1] "Removing phenotype: phecode_case_180.3"</span>
 <span class="va">pheno_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phemat_remove_phenotype.html">phemat_remove_phenotype</a></span><span class="op">(</span>name<span class="op">=</span><span class="va">rm_pheno</span>, <span class="va">pheno_matrix</span><span class="op">)</span>
 <span class="va">pheno_matrix</span>
 <span class="co">#&gt; $base</span>
 <span class="co">#&gt; NULL</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $phenotypes</span>
-<span class="co">#&gt; $phenotypes$phecode_case_251.0</span>
-<span class="co">#&gt; $phenotypes$phecode_case_251.0$name</span>
-<span class="co">#&gt; [1] "phecode_case_251.0"</span>
+<span class="co">#&gt; $phenotypes$phecode_case_255.0</span>
+<span class="co">#&gt; $phenotypes$phecode_case_255.0$name</span>
+<span class="co">#&gt; [1] "phecode_case_255.0"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_251.0$missing_value</span>
+<span class="co">#&gt; $phenotypes$phecode_case_255.0$missing_value</span>
 <span class="co">#&gt; [1] "-99"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_251.0$label</span>
-<span class="co">#&gt; [1] "phecode_case_251.0"</span>
+<span class="co">#&gt; $phenotypes$phecode_case_255.0$label</span>
+<span class="co">#&gt; [1] "phecode_case_255.0"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_252.1</span>
-<span class="co">#&gt; $phenotypes$phecode_case_252.1$name</span>
-<span class="co">#&gt; [1] "phecode_case_252.1"</span>
+<span class="co">#&gt; $phenotypes$phecode_case_250.6</span>
+<span class="co">#&gt; $phenotypes$phecode_case_250.6$name</span>
+<span class="co">#&gt; [1] "phecode_case_250.6"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_252.1$missing_value</span>
+<span class="co">#&gt; $phenotypes$phecode_case_250.6$missing_value</span>
 <span class="co">#&gt; [1] "-99"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_252.1$label</span>
-<span class="co">#&gt; [1] "phecode_case_252.1"</span>
+<span class="co">#&gt; $phenotypes$phecode_case_250.6$label</span>
+<span class="co">#&gt; [1] "phecode_case_250.6"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $phenotypes$phecode_case_253.3</span>
@@ -268,15 +268,15 @@
 <span class="co">#&gt; [1] "phecode_case_253.3"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_253.0</span>
-<span class="co">#&gt; $phenotypes$phecode_case_253.0$name</span>
-<span class="co">#&gt; [1] "phecode_case_253.0"</span>
+<span class="co">#&gt; $phenotypes$phecode_case_253.7</span>
+<span class="co">#&gt; $phenotypes$phecode_case_253.7$name</span>
+<span class="co">#&gt; [1] "phecode_case_253.7"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_253.0$missing_value</span>
+<span class="co">#&gt; $phenotypes$phecode_case_253.7$missing_value</span>
 <span class="co">#&gt; [1] "-99"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_253.0$label</span>
-<span class="co">#&gt; [1] "phecode_case_253.0"</span>
+<span class="co">#&gt; $phenotypes$phecode_case_253.7$label</span>
+<span class="co">#&gt; [1] "phecode_case_253.7"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
@@ -293,27 +293,27 @@
 <span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span>
 <span class="co">#&gt; cols(</span>
 <span class="co">#&gt;   pn = col_double(),</span>
-<span class="co">#&gt;   phecode_case_251.0 = col_double(),</span>
-<span class="co">#&gt;   phecode_case_252.1 = col_double(),</span>
+<span class="co">#&gt;   phecode_case_255.0 = col_double(),</span>
+<span class="co">#&gt;   phecode_case_250.6 = col_double(),</span>
 <span class="co">#&gt;   phecode_case_253.3 = col_double(),</span>
-<span class="co">#&gt;   phecode_case_253.0 = col_double()</span>
+<span class="co">#&gt;   phecode_case_253.7 = col_double()</span>
 <span class="co">#&gt; )</span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">pheno_data</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 2,449 x 5</span>
-<span class="co">#&gt;         pn phecode_case_251… phecode_case_252… phecode_case_25… phecode_case_25…</span>
+<span class="co">#&gt; # A tibble: 1,037 x 5</span>
+<span class="co">#&gt;         pn phecode_case_255… phecode_case_250… phecode_case_25… phecode_case_25…</span>
 <span class="co">#&gt;      &lt;dbl&gt;             &lt;dbl&gt;             &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 1001310               -99                 1              -99              -99</span>
-<span class="co">#&gt;  2 1001630               -99                 1              -99              -99</span>
-<span class="co">#&gt;  3 1001698               -99                 1              -99              -99</span>
-<span class="co">#&gt;  4 1003853                 1               -99              -99              -99</span>
-<span class="co">#&gt;  5 1006415                 1               -99              -99              -99</span>
-<span class="co">#&gt;  6 1007085                 1               -99              -99              -99</span>
-<span class="co">#&gt;  7 1012150               -99                 1              -99              -99</span>
-<span class="co">#&gt;  8 1012200               -99                 1              -99              -99</span>
-<span class="co">#&gt;  9 1014767               -99                 1              -99              -99</span>
-<span class="co">#&gt; 10 1015826                 1               -99              -99              -99</span>
-<span class="co">#&gt; # … with 2,439 more rows</span></code></pre></div>
+<span class="co">#&gt;  1 1000493               -99                 1              -99              -99</span>
+<span class="co">#&gt;  2 1008099               -99               -99              -99                1</span>
+<span class="co">#&gt;  3 1018263                 1               -99              -99              -99</span>
+<span class="co">#&gt;  4 1021089               -99               -99              -99                1</span>
+<span class="co">#&gt;  5 1022008               -99                 1              -99              -99</span>
+<span class="co">#&gt;  6 1031129               -99                 1              -99              -99</span>
+<span class="co">#&gt;  7 1034436                 1               -99              -99              -99</span>
+<span class="co">#&gt;  8 1034575               -99               -99              -99                1</span>
+<span class="co">#&gt;  9 1041113               -99               -99                1              -99</span>
+<span class="co">#&gt; 10 1041612               -99                 1              -99              -99</span>
+<span class="co">#&gt; # … with 1,027 more rows</span></code></pre></div>
 </div>
   </div>
 

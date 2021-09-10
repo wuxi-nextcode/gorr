@@ -58,6 +58,6 @@ A dataframe of all/subset of phenotypes in the current project.
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
 conn <- platform_connect(api_key, project)
-phenotypes <- get_phenotypes(conn)
+phenotypes <- get_phenotypes_dataframe(conn, limit=5)
 }
 }
