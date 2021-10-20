@@ -21,8 +21,6 @@ phenotype_plot <- function(phenotype, title=NULL, y=NULL, x=NULL) {
             ggplot2::labs(title = if (is.null(title)) phenotype$name else title) +
             ggplot2::theme(panel.background = ggplot2::element_blank(),
                            plot.title = ggplot2::element_text(colour = GENUSCI_COL2),
-                           axis.title.y = ggplot2::element_text(colour = GENUSCI_COL2),
-                           axis.title.x = ggplot2::element_blank(),
                            axis.line = ggplot2::element_line(colour = "black"))
         p
     }
