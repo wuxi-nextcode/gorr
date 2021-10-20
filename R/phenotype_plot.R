@@ -20,8 +20,10 @@ phenotype_plot <- function(phenotype, title=NULL, y=NULL, x=NULL) {
         p <- request.fun(data, colname=phenotype$name, fill=GENUSCI_COL1) +
             ggplot2::labs(title = if (is.null(title)) phenotype$name else title) +
             ggplot2::theme(panel.background = ggplot2::element_blank(),
+                           axis.title.x = ggplot2::element_blank(),
                            plot.title = ggplot2::element_text(colour = GENUSCI_COL2),
                            axis.line = ggplot2::element_line(colour = "black"))
+        p + ggplot2::ylab("fdsafdsafdsafdsa")
         p
     }
 
@@ -49,7 +51,7 @@ plot__qt <- function(df, colname, fill) {
 plot__category <- function(df, colname, fill) {
     df <- df %>%
         dplyr::group_by_at(2) %>%
-        dplyr::summarise(count=n())
+        dplyr::summarise(count=dplyr::n())
     p <- ggplot2::ggplot(data=df, ggplot2::aes_string(x=colname, y="count")) +
                 ggplot2::geom_bar(stat="identity", fill=fill)
 }
