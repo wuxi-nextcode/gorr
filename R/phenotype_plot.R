@@ -23,7 +23,6 @@ phenotype_plot <- function(phenotype, title=NULL, y=NULL, x=NULL) {
                            axis.title.x = ggplot2::element_blank(),
                            plot.title = ggplot2::element_text(colour = GENUSCI_COL2),
                            axis.line = ggplot2::element_line(colour = "black"))
-        p + ggplot2::ylab("fdsafdsafdsafdsa")
         p
     }
 
