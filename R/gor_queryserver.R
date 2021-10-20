@@ -20,13 +20,13 @@ gorr__queryserver <- function(query, conn, parse, relations, spinner = invisible
             MESSAGE <<- gorr__process_msg(stream, spinner, elapsed, MESSAGE)
             stream <- gorr__remove_msg(stream)
         }
-        spinner(sprintf("%s (elapsed: %.1f %s) %s", MESSAGE$status, elapsed, attr(elapsed, "units"), MESSAGE$info)) # Print progress to cli
+        spinner(gorr__elapsed_time(elapsed, status = MESSAGE$status, info = MESSAGE$info)) # Print progress to cli
         RESULT <<- paste0(RESULT, stream) # Append results to variable
     }
 
     # Initialize for stream handling
     RESULT <- ""
-    MESSAGE <- list(status = "", info = "")
+    MESSAGE <- list(status = "RUNNING", info = "")
 
     tryCatch({
         response <- gorr__post_query(query = query,
@@ -76,19 +76,13 @@ gorr__process_msg <- function(stream, spinner, elapsed, msg) {
     if (status == "EXCEPTION") {
         gorr__failure("Query Failure", detail = parsed_msg[3])
     } else if (status == "GOR") {
-        msg <- list(status="PROCESSING", info=paste0(msg$info, "."))
+        msg <- list(status = "RUNNING", info = paste0(msg$info, "."))
     } else if (status == "DONE") {
-        msg <- list(status = status, info = "")
         stats <- jsonlite::fromJSON(parsed_msg[3])
 
-        spinner(sprintf("%s (elapsed: %.1f %s) ", msg$status, elapsed, attr(elapsed, "units")))
-
-        if (interactive()) {
-            cli::cat_line("")
-            cli::cat_line(" Result details: ",
-                          stats$lineCount, " rows, total size: ",
-                          fs::fs_bytes(stats$bytesCount), "bytes")
-        }
+        msg <- list(status = status, info = paste0(" ", " \n Result details: ",
+                                                   stats$lineCount, " rows, total size: ",
+                                                   fs::fs_bytes(stats$bytesCount), "bytes \n"))
     } else {
         msg <- list(status="UNKOWN", info = parsed_msg[1])
     }

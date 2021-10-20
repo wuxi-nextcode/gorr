@@ -28,7 +28,7 @@ gorr__queryservice <- function(query, conn, page_size, parse, relations, persist
             elapsed <- lubridate::now() - start_time
             Sys.sleep(.5) # 500 ms
             status_response <- gorr__get_query_status(query_response$links$self, conn)
-            spinner(sprintf("%s (elapsed: %.1f %s)", status_response$status, elapsed, attr(elapsed, "units")))
+            spinner(gorr__elapsed_time(elapsed, status = status_response$status))
             if (status_response$status == "FAILED")
                 gorr__failure(status_response$error$type,  status_response$error$description)
 

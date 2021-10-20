@@ -229,6 +229,16 @@ gorr__spinner <- function(msg) {
     cat("\r", rpad(msg, cli::console_width() - 1))
 }
 
+#' Custom wrapper for formatted query progress messages
+#' 
+#' @param elapsed elapsed time
+#' @param status optional query status message
+#' @param info optional additional info message
+gorr__elapsed_time <- function(elapsed, status = "", info = ""){
+    sprintf("%s (elapsed: %.1f %s) %s", status, elapsed, attr(elapsed, "units"), info)
+}
+
+
 #' Custom wrapper for stop() with formated error messages
 #'
 #' @param msg exception message
