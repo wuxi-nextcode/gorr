@@ -1,3 +1,4 @@
+# Endpoint definitions
 ENDPOINTS <- list(queryservice = list(name = "gor-query-api",
                                       endpoint="/api/query",
                                       display_name = "GOR Query Service"),
