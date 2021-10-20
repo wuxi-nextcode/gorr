@@ -105,7 +105,7 @@ print.gor_creation <- function(x, ...) {
             cli::cat_line(" ", crayon::bold(name))
 
             if (is.data.frame(code)) {
-                preview <- utils::capture.output(print(dplyr::tbl_df(code)))
+                preview <- utils::capture.output(print(tibble::as_tibble(code)))
                 cli::cat_line("   ", preview)
             } else {
                 cli::cat_line("   ", crayon::italic(code))
