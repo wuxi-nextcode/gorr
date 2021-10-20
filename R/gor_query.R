@@ -58,7 +58,7 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE", "PATCH"),
 #' "gor #dbsnp# | top 100" %>%
 #'     gor_query(conn)
 #' }
-gor_query <- function(query,conn, timeout = 0, page_size = 100e3, parse = T, relations = NULL, persist = NULL, query.service = "queryservice") {
+gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, relations = NULL, persist = NULL, query.service = "queryservice") {
     assertthat::assert_that(is.string(query))
     assertthat::assert_that(class(conn) == "platform_connection")
 
