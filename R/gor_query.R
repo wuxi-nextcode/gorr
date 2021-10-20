@@ -150,7 +150,7 @@ gorr__post_query <- function(query,
     if (query.service == "queryservice") {
         body <- append(body,
                        list(relations = relations,
-                            presist = persist)
+                            persist = persist)
                        )
     } else if (query.service == "queryserver") {
         body <- append(body,
