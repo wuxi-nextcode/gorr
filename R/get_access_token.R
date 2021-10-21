@@ -17,7 +17,11 @@ get_access_token <- function(api_key, url) {
         refresh_token = api_key
     )
 
-    response <- httr::POST(url, body = body, encode = "form")
+    tryCatch({
+        response <- httr::POST(url, body = body, encode = "form", httr::timeout(30))
+    }, error = function(x) { if (grepl("Timeout", x, fixed=TRUE)) gorr__failure(paste("Connection timeout:", url)) else stop(x)
+    })
+
     if (response$status_code != 200) {
         content <- httr::content(response)
         error_message <- if (!is.null(content$error_description))  {
