@@ -245,8 +245,10 @@ gorr__elapsed_time <- function(elapsed, status = "", info = ""){
 #' @param detail exception details (chr or chr vector)
 #' @param url query url
 gorr__failure <- function(msg, detail = NULL, url=NULL) {
-    cli::cat_line()
-    cli::cat_rule(col = "red")
+    if (interactive()) {
+        cli::cat_line()
+        cli::cat_rule(col = "red")
+    }
     if (length(detail) > 0) {
         if (is.null(names(detail)))
             detail <- paste(detail, collapse = "\n")

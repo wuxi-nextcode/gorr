@@ -80,6 +80,7 @@ platform_connect <- function(api_key = NULL, project = NULL, root_url = NULL, ap
         api_key = api_key,
         service_root = NULL,
         project = project,
+        user = access_token_payload$email,
         header = header,
         api_key_exp = payload_date(token_payload$exp),
         api_key_iat = payload_date(token_payload$iat),
