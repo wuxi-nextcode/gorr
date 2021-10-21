@@ -39,7 +39,7 @@ platform_connect <- function(api_key = NULL, project = NULL, root_url = NULL, ap
 
     if (is.null(api_endpoint)) {
         api_endpoint_env <- Sys.getenv("GOR_API_ENDPOINT")
-        api_endpoint <- if (api_endpoint_env == "") c("/api/query","/api/phenotype-catalog", "/queryserver") else api_endpoint_env
+        api_endpoint <- if (api_endpoint_env == "") c("/api/query","/api/phenotype-catalog", "/queryserver", "/workflow") else api_endpoint_env
     }
 
     token_payload <- get_jwt_token_payload(api_key)

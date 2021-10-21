@@ -269,8 +269,10 @@ gorr__failure <- function(msg, detail = NULL, url=NULL) {
 #' @param detail warning details (chr or chr vector)
 #' @param url query url
 gorr__warning <- function(msg, detail = NULL, url=NULL) {
-    cli::cat_line()
-    cli::cat_rule(col = "yellow")
+    if (interactive()) {
+        cli::cat_line()
+        cli::cat_rule(col = "yellow")
+    }
     if (length(detail) > 0) {
         if (is.null(names(detail)))
             detail <- paste(detail, collapse = "\n")
@@ -279,8 +281,40 @@ gorr__warning <- function(msg, detail = NULL, url=NULL) {
 
         url_msg <- paste(crayon::white(paste("Failure while requesting", url)), "\nInfo: \n    ")
 
-        stop(paste(if (!is.null(url)) url_msg, crayon::white(msg), "\nDetails: \n    ", crayon::white(detail)), call. = F)
+        warning(paste(if (!is.null(url)) url_msg, crayon::yellow(msg), "\nDetails: \n    ", crayon::white(detail)), call. = F)
     } else {
-        stop(crayon::white(msg), call. = F)
+        warning(crayon::yellow(msg), call. = F)
+    }
+}
+
+
+#' Custom wrapper for message() with formated messages
+#'
+#' @param msg  message
+#' @param detail exception details (chr or chr vector)
+gorr__info <- function(msg, details) {
+    gorr__cat()
+    if (length(detail) > 0) {
+        if (is.null(names(detail)))
+            detail <- paste(detail, collapse = "\n")
+        else
+            detail <- paste(names(detail), detail, sep = ": ", collapse = "\n    ")
+
+        warning(paste(crayon::white(msg), "\nDetails: \n    ", crayon::white(detail)), call. = F)
+    } else {
+        message(crayon::white(msg), call. = F)
+    
+}
+
+
+#' Custom wrapper for cli::cat..()
+#'
+#' @param line logical. Start with newline. Default True
+#' @param rule logical. Include rule. Default False
+#' @param col string, color of rule. Default 'white'
+gorr__cat <- function(line=T, rule=F, col="white") {
+    if (interactive()) {
+        cli::cat_line("")
+        if (rule) cli::cat_rule(col = col)
     }
 }
