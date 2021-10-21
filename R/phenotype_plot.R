@@ -1,6 +1,6 @@
 # Genuity science's colors
-GENUSCI_COL1 <- "yellowgreen"
-GENUSCI_COL2 <- "turquoise4"
+GENUSCI_COL1 <- "#93C90E"
+GENUSCI_COL2 <- "#008A97"
 
 
 #' Plot phenotype
