@@ -63,7 +63,7 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, re
     assertthat::assert_that(class(conn) == "platform_connection")
 
     if (!is.null(persist) && query.service == "queryserver")
-        error("Persisting results not allowed using 'queryserver' in R-sdk. Please add 'write' statement to the GOR query or switch to using 'queryservice'")
+        gorr__failure("Persisting results not allowed using 'queryserver' in R-sdk. Please add 'write' statement to the GOR query or switch to using 'queryservice'")
 
     query.fun <- switch(query.service, queryservice = gorr__queryservice, queryserver = gorr__queryserver)
 
@@ -230,7 +230,7 @@ gorr__spinner <- function(msg) {
 }
 
 #' Custom wrapper for formatted query progress messages
-#' 
+#'
 #' @param elapsed elapsed time
 #' @param status optional query status message
 #' @param info optional additional info message

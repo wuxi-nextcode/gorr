@@ -4,6 +4,10 @@
 #'
 #' This object can be queried for the current status of a workflow job and will
 #' automatically refresh from server until the job is finished (or failed)
+#'
+#' @param response workflow-api job response
+#' @param conn connection object, see \code{\link{platform_connect}}
+#'
 WorkflowJob <- function(response, conn) {
     structure(response, class = "WorkflowJob", conn = conn)
 }
@@ -35,29 +39,30 @@ FINISHED_STATUSES <- c(c("CANCELLED", "COMPLETED"), FAILED_STATUSES)
 
 
 
-#' Refresh the local cache of the serverside job object
+#' Refresh the local object of the serverside job object
+#'
+#' @param job WorkflowJob object
+#'
+#' @returns WorkflowJob object
+#' @export
 workflow_refresh <- function(job) {
     resp <- gorr__api_request("GET",
                               url = job$links$self,
-                              conn)
-    WorkflowJob(resp, conn = conn)
+                              conn = attr(job, which = "conn"))
+    WorkflowJob(resp, conn = attr(job, which = "conn"))
 
 }
 
 #' Wait for a running job to complete.
+#'
 #' This is similar to the wait method in the Query Service and will wait by default
 #' indefinitely for a workflow job to complete and poll the server regularly to update
 #' the local status. When the job is completed (or failed) the method will return the
 #' workflow job object.
 #'
-#' :param max_seconds: raise an exception if the job runs longer than this
-#' :param poll_period: Number of seconds to wait between polling (max 10 seconds)
-#' :returns: WorkflowJob
-#' :raises: :exc:`JobError`
-#'
-#' @param  max_seconds: raise an exception if the job runs longer than this
-#' @param poll_period: Number of seconds to wait between polling (max 10 seconds)
-#' @param conn connection object, see \code{\link{platform_connect}}
+#' @param job WorkflowJob object, see \code{\link{post_job}} and \code{\link{get_job}}
+#' @param max_seconds raise an exception if the job runs longer than this
+#' @param poll_period Number of seconds to wait between polling (max 10 seconds)
 #'
 #' @return WorkflowJob object
 #' @export
@@ -77,7 +82,7 @@ workflow_wait <- function(job, max_seconds = NULL, poll_period = .5) {
     tryCatch({
         while (is_running) {
             elapsed <- lubridate::now() - start_time
-            spinner(gorr__elapsed_time(elapsed, status = "RUNNING", info = sprintf("Current job status: %s"), job$status)) # Print progress to cli
+            spinner(gorr__elapsed_time(elapsed, status = "RUNNING", info = sprintf("Current job status: %s", job$status))) # Print progress to cli
             Sys.sleep(poll_period)
 
             job <- workflow_refresh(job)
@@ -92,7 +97,7 @@ workflow_wait <- function(job, max_seconds = NULL, poll_period = .5) {
                 executor_pod <- NULL
 
                 for (pod in curr_status$pods) {
-                    if (pod$metadata$labels$app-name == "nextflow-executor") {
+                    if (pod$metadata$labels$`app-name` == "nextflow-executor") {
                         executor_pod <- pod
                         break
                     }
@@ -110,7 +115,7 @@ workflow_wait <- function(job, max_seconds = NULL, poll_period = .5) {
 
             if (job$status %in% RUNNING_STATUSES && !is.null(max_seconds) && elapsed > max_seconds)
                 gorr__failure(sprintf("Job %s has exceeded wait time %.0fs and we will not wait any longer. It is currently %s.",
-                                      job_id, max_seconds, job$status))
+                                      job$job_id, max_seconds, job$status))
 
             poll_period = min(poll_period + 0.5, 10.0)
 
@@ -135,10 +140,15 @@ workflow_wait <- function(job, max_seconds = NULL, poll_period = .5) {
     }, interrupt = function(err) {gorr__warning("Code interrupted")}
     )
 
-    WorkflowJob(job, conn=conn)
+    WorkflowJob(job, conn = attr(job, which = "conn"))
 }
 
-
+#' Get current status of job
+#'
+#' @param job WorkflowJob object, see \code{\link{post_job}} and \code{\link{get_job}}
+#'
+#' @return Job status
+#' @export
 workflow_check_status <- function(job) {
     workflow_refresh(job)$status
 }
@@ -149,19 +159,28 @@ workflow_check_status <- function(job) {
 #' Returns unfiltered pod and node information from the kubernetes system.
 #' Raises error if the server is not configured for inspection capabilities
 #'
+#' @param job WorkflowJob object, see \code{\link{post_job}} and \code{\link{get_job}}
+#'
 #' @return List containing low-level debugging information
 #' @export
 workflow_inspect <- function(job) {
     tryCatch({
         gorr__api_request("GET",
                           url = job$links$inspect,
-                          conn)
+                          conn = attr(job, which = "conn"))
     },
     error = function(err)  gorr__failure("Server does not support inspect functionality")
     )
 }
 
+
 #' Is the job currently running. This is not a public function
+#'
+#' @param job WorkflowJob object, see \code{\link{post_job}} and \code{\link{get_job}}
+#' @param refresh Logical, if object should be refresh if job not in running state
+#'
+#' @returns TRUE / FALSE
+#' @export
 workflow__is_running <- function(job, refresh=FALSE) {
     if (job$status %in% RUNNING_STATUSES)
         job <- workflow_refresh(job)

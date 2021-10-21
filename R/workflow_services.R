@@ -42,6 +42,7 @@ get_job <- function(job_id, conn){
 
 #' Get a list of jobs satisfying the supplied criteria
 #'
+#' @param conn connection object, see \code{\link{platform_connect}}
 #' @param user_name The user who created the job
 #' @param status Current status of jobs
 #' @param project Filter by project
@@ -122,7 +123,7 @@ post_job <- function(pipeline_name, params, conn){
 #' @return data.frame oor list of pipeline info
 #' @export
 get_pipelines <- function(conn, include.description = FALSE) {
-    resp <- gorr::gorr__api_request("GET",
+    resp <- gorr__api_request("GET",
                               url = gorr__get_endpoint(conn, "workflow-service", "pipelines"),
                               conn)
     pipelines = resp$pipelines
