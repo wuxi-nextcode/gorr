@@ -326,24 +326,3 @@ gorr__failure <- function(msg, detail = NULL, url=NULL) {
         stop(crayon::red(msg), call. = F)
     }
 }
-
-#' Custom wrapper for message() with formated messages
-#'
-#' @param msg  message
-#' @param detail exception details (chr or chr vector)
-gorr__info <- function(msg, details) {
-    if (interactive()) {
-        cli::cat_line("")
-    }
-    if (length(detail) > 0) {
-        if (is.null(names(detail)))
-            detail <- paste(detail, collapse = "\n")
-        else
-            detail <- paste(names(detail), detail, sep = ": ", collapse = "\n    ")
-
-        warning(paste(crayon::white(msg), "\nDetails: \n    ", crayon::red(detail)), call. = F)
-    } else {
-        message(crayon::white(msg), call. = F)
-    }
-}
-
