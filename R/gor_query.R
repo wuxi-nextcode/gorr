@@ -230,7 +230,7 @@ gorr__spinner <- function(msg) {
 }
 
 #' Custom wrapper for formatted query progress messages
-#'
+#' 
 #' @param elapsed elapsed time
 #' @param status optional query status message
 #' @param info optional additional info message
@@ -269,7 +269,6 @@ gorr__failure <- function(msg, detail = NULL, url=NULL) {
 gorr__warning <- function(msg, detail = NULL, url=NULL) {
     cli::cat_line()
     cli::cat_rule(col = "yellow")
-
     if (length(detail) > 0) {
         if (is.null(names(detail)))
             detail <- paste(detail, collapse = "\n")
