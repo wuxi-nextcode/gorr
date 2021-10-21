@@ -230,7 +230,7 @@ gorr__spinner <- function(msg) {
 }
 
 #' Custom wrapper for formatted query progress messages
-#'
+#' 
 #' @param elapsed elapsed time
 #' @param status optional query status message
 #' @param info optional additional info message
