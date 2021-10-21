@@ -1,5 +1,18 @@
+# Endpoint definitions
+ENDPOINTS <- list(queryservice = list(name = "gor-query-api",
+                                      endpoint="/api/query",
+                                      display_name = "GOR Query Service"),
+                  queryserver = list(name = "QueryServer",
+                                     endpoint="/queryserver",
+                                     display_name = "GOR Query Server"),
+                  phenotype_catalog = list(name="`phenotype-catalog`",
+                                           endpoint="/api/phenotype-catalog",
+                                           display_name="Phenotype Catalog"))
+
+
+
 gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE", "PATCH"),
-                              url, conn, body = list(), query=list(), parse.body = T) {
+                              url, conn, body = list(), query=list(), parse.body = T, stream.handler = NULL) {
     request.fun <- match.arg(request.fun)
     request.fun <- switch(request.fun, POST = httr::POST, GET = httr::GET, DELETE = httr::DELETE, PATCH = httr::PATCH)
 
@@ -7,8 +20,14 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE", "PATCH"),
         conn <- gorr__reconnect(conn)
     }
     debug <- getOption("gor.debug", default = F)
-    response <- request.fun(url = url, body = body, query=query, conn$header, encode = "json", if (debug) httr::verbose() )
-
+    response <- request.fun(url = url,
+                            body = body[!sapply(body,is.null)],  # Remove NULLs from request
+                            query = query,
+                            conn$header,
+                            encode = "json",
+                            if (debug) httr::verbose(),
+                            if (!is.null(stream.handler)) httr::write_stream(stream.handler)
+                            )
     if (parse.body) {
             response <- gorr__get_response_body(response)
     }
@@ -26,6 +45,7 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE", "PATCH"),
 #' @param parse should the TSV output be parsed into a dataframe? False will make the function return the results as text object
 #' @param relations list of tables to upload and make available in the query, e.g. \code{list(cars = cars, letters = data.frame(letter = letters))}, refer to them in the query using [] around their names, e.g. `nor -h [cars]`
 #' @param persist remote path to file for saving results of the query into. Query results will not be fetched if this parameter is set.
+#' @param query.service query service to use - either 'queryservice' (old) or 'queryserver' (new). Default: queryservice
 #'
 #' @return data.frame of gor results, i.e. gor results are passed to \code{\link[readr]{read_tsv}}
 #' @export
@@ -38,76 +58,46 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE", "PATCH"),
 #' "gor #dbsnp# | top 100" %>%
 #'     gor_query(conn)
 #' }
-gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, relations = NULL, persist = NULL) {
+gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, relations = NULL, persist = NULL, query.service = "queryservice") {
     assertthat::assert_that(is.string(query))
     assertthat::assert_that(class(conn) == "platform_connection")
 
-    if (page_size == 0)
-        warning("Setting page_size to 0 could crash the API server for very large results")
+    if (!is.null(persist) && query.service == "queryserver")
+        error("Persisting results not allowed using 'queryserver' in R-sdk. Please add 'write' statement to the GOR query or switch to using 'queryservice'")
+
+    query.fun <- switch(query.service, queryservice = gorr__queryservice, queryserver = gorr__queryserver)
 
     if (timeout > 0)
         setTimeLimit(elapsed = timeout)
 
-    start_time <- lubridate::now()
-
     spinner <- if (interactive()) gorr__spinner else invisible
     if (interactive()) {
-        cli::cat_rule(left = "Executing Query", right = "GOR Query Service", col = "blue")
+        cli::cat_rule(left = "Executing Query", right = ENDPOINTS[[query.service]]$display_name, col = "blue")
         cli::cat_line(query, col = "silver")
         cli::cat_rule("", col = "blue")
     }
-    spinner("Submitting Query")
-    query_response <- gorr__post_query(query, conn, relations, persist)
-    if (interactive()) {
-        cli::cat_line("")
-        cli::cat_line(paste0(" Server assigned query ID ", crayon::green(paste0("#",query_response$id))))
+    spinner("Submitting Query\n")
+
+    result <- query.fun(query = query,
+              conn = conn,
+              parse = parse,
+              relations = relations,
+              query.service = query.service,
+              persist = persist,
+              page_size = page_size,
+              spinner = spinner)
+
+
+    if (parse && !is.null(result)) {
+        result <- gorr__read_tsv(text = result)
+        if (!is.data.frame(result)) gorr__failure("Unexpected result:", result)
     }
 
-    tryCatch({
-        repeat {
-            elapsed <- lubridate::now() - start_time
-            Sys.sleep(.5) # 500 ms
-            status_response <- gorr__get_query_status(query_response$links$self, conn)
-            spinner(sprintf("%s (elapsed: %.1f %s)", status_response$status, elapsed, attr(elapsed, "units")))
-            if (status_response$status == "FAILED")
-                gorr__failure(status_response$error$type,  status_response$error$description)
+    if (interactive()) {
+        cli::cat_rule("Done", col = "green")
+    }
 
-            if (status_response$status == "DONE")
-                break
-        }
-        if (interactive()) {
-            cli::cat_line("")
-            cli::cat_line(" Result details: ",
-                          status_response$stats$line_count, " rows by ",
-                          status_response$stats$column_count, " columns, total size: ",
-                          fs::fs_bytes(status_response$stats$size_bytes), "bytes")
-        }
-
-        # If we are persisting the results, then don't also fetch them over the wire
-        if (is.null(persist)) {
-            result <- gorr__get_query_results(
-                query_response$links$result, conn,
-                spinner = spinner, query_limit = page_size, parse = parse)
-        } else {
-            result <- NULL
-            parse <- F
-        }
-
-        if (parse && !is.data.frame(result)) {
-            gorr__failure("Unexpected result:", result)
-        }
-
-        if (interactive()) {
-            if (!is.null(persist))
-                cli::cat_line(" Results saved to remote file: ", crayon::green(crayon::italic(persist)))
-            cli::cat_rule("Done", col = "green")
-        }
-
-        # if there are no results, then return invisibly.
-        if (is.null(result)) invisible(result) else result
-    },
-    interrupt = function(err) gorr__kill_query(query_response$links$self, conn),
-    error = stop)
+    if (is.null(result)) invisible(result) else result
 }
 
 
@@ -116,10 +106,24 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, re
 #' @param query GOR query
 #' @param conn connection object, see \code{\link{platform_connect}}
 #' @param relations data.frames to include with the query in the format \code{list(list(table_name = data.frame() ))}
+#' @param parse.body logical, should the response body be fetched
+#' @param query.service qquery service to use - either 'queryservice' (old) or 'queryserver' (new)
 #' @param persist remote path to file for saving results of the query into. Query results will not be fetched if this parameter is set.
+#' @param stream.handler function to be passed as an input to POST request stream httr::write_stream(fcn), Default: NULL
+#' @param ... placeholder for unused arguments
+#'
 #'
 #' @return response content object, see \code{\link[httr]{content}}
-gorr__post_query <- function(query, conn, relations = NULL, persist = NULL) {
+gorr__post_query <- function(query,
+                             conn,
+                             relations,
+                             parse.body,
+                             query.service = c("queryservice", "queryserver"),
+                             persist = NULL,
+                             stream.handler = NULL, ...) {
+
+    query.service <- match.arg(query.service)
+
     if (!is.null(relations)) {
         if (!all(purrr::map_lgl(relations, is.data.frame)))
             gorr__failure("Invalid relations parameter", "All relations must be dataframes")
@@ -142,107 +146,29 @@ gorr__post_query <- function(query, conn, relations = NULL, persist = NULL) {
         }
     }
 
-    body <- list(query = query, project = conn$project,  relations = relations)
-    if (!is.null(persist)) {
-        body$persist <- persist
+    body <- list(query = query, project = conn$project)
+    if (query.service == "queryservice") {
+        body <- append(body,
+                       list(relations = relations,
+                            persist = persist)
+                       )
+    } else if (query.service == "queryserver") {
+        body <- append(body,
+                       list(virtualRelations = relations,
+                       user = "r-sdk",
+                       useGzip = FALSE,
+                       sendTerm = TRUE,
+                       sendProgress = TRUE,
+                       sendAlive = TRUE)
+                        )
     }
 
     gorr__api_request("POST",
-        url = gorr__get_endpoint(conn, "gor-query-api", "query"),
+        url = gorr__get_endpoint(conn, ENDPOINTS[[query.service]]$name, "query"),
         body = body,
-        conn)
-}
-
-
-#' Get query status from api. This is not a public function, but is called from \code{\link{gor_query}}
-#'
-#' @param query_url query url
-#' @param conn connection object, see \code{\link{platform_connect}}
-#'
-#' @return response content object, see \code{\link[httr]{content}}
-gorr__get_query_status <- function(query_url, conn) {
-    gorr__api_request("GET",
-        url = query_url,
-        conn = conn
-    )
-}
-
-
-#' Get server query results
-#'
-#' @param query_result_url query result url
-#' @param conn connection object, see \code{\link{platform_connect}}
-#' @param spinner spinner function (e.g. some ascii animation for long running queries)
-#' @param query_limit limit to how many rows to fetch in each page
-#' @param offset query offset (skip rows)
-#' @param parse should output be parsed into a data.frame
-#'
-#' @return data.frame of results
-gorr__get_query_results <- function(query_result_url, conn, spinner = invisible, query_limit = 10000, offset = 0, parse = T) {
-    url <- stringr::str_glue("{query_result_url}?offset={format(offset,scientific=F)}&limit={format(query_limit,scientific=F)}")
-    results <- NULL
-    page <- 0
-    repeat {
-        page <- page + 1
-        Sys.sleep(.5) # seconds to wait between status polls
-        # parse the query string part of the url into a human readable format
-        url_query_details <- url %>%
-            httr::parse_url() %$%
-            paste(stringr::str_to_title(names(query)), query, sep = ": ", collapse = ", ")
-
-        spinner(stringr::str_glue("Fetching results (Page #{page}, {url_query_details})"))
-        response <- gorr__api_request("GET",
-            url = url,
-            conn = conn,
-            parse.body = F)
-
-        # Stop with an error in case the response has http error codes
-        httr::stop_for_status(response)
-
-        #Extract headers and body
-        headers <- httr::headers(response)
-        body <- suppressMessages({#suppress messages needed to suppress unnecessary parsing messages
-            gorr__get_response_body(response, content.fun = httr::text_content)
-        })
-
-
-        # if we're not on the first page, we need to remove the repeating header before we append the strings
-        # str_replace stops replacing after first match.
-        if (page > 1)
-            results <- stringr::str_replace(results, ".*\n", "")
-        results <- paste0(body, results)
-        if (is.null(headers$link))
-            break
-
-        url <- stringr::str_match(headers$link, "<(?<path>.*)>; rel=\"next\"")[,2]
-        if (is.na(url))
-            gorr__failure("Could not parse header link to rel next:", headers$link)
-
-    }
-
-    if (parse) {
-        gorr__read_tsv(text = results)
-    } else {
-        results
-    }
-}
-
-
-#' Kill remote query
-#' @param query_url query url
-#' @param conn connection object, see \code{\link{platform_connect}}
-gorr__kill_query <- function(query_url, conn) {
-    if (interactive()) {
-        cli::cat_line("")
-        cli::cat_line("Killing Query", col = "red")
-    }
-
-    response <- gorr__api_request("DELETE",
-        url = query_url,
         conn = conn,
-        parse.body = F
-    )
-    gorr__failure("Killed query")
+        parse.body = parse.body,
+        stream.handler = stream.handler)
 }
 
 
@@ -303,6 +229,16 @@ gorr__spinner <- function(msg) {
     cat("\r", rpad(msg, cli::console_width() - 1))
 }
 
+#' Custom wrapper for formatted query progress messages
+#' 
+#' @param elapsed elapsed time
+#' @param status optional query status message
+#' @param info optional additional info message
+gorr__elapsed_time <- function(elapsed, status = "", info = ""){
+    sprintf("%s (elapsed: %.1f %s) %s", status, elapsed, attr(elapsed, "units"), info)
+}
+
+
 #' Custom wrapper for stop() with formated error messages
 #'
 #' @param msg exception message
@@ -325,3 +261,24 @@ gorr__failure <- function(msg, detail = NULL, url=NULL) {
     }
 }
 
+#' Custom wrapper for warning() with formatted error messages
+#'
+#' @param msg warning message
+#' @param detail warning details (chr or chr vector)
+#' @param url query url
+gorr__warning <- function(msg, detail = NULL, url=NULL) {
+    cli::cat_line()
+    cli::cat_rule(col = "yellow")
+    if (length(detail) > 0) {
+        if (is.null(names(detail)))
+            detail <- paste(detail, collapse = "\n")
+        else
+            detail <- paste(names(detail), detail, sep = ": ", collapse = "\n    ")
+
+        url_msg <- paste(crayon::white(paste("Failure while requesting", url)), "\nInfo: \n    ")
+
+        stop(paste(if (!is.null(url)) url_msg, crayon::white(msg), "\nDetails: \n    ", crayon::white(detail)), call. = F)
+    } else {
+        stop(crayon::white(msg), call. = F)
+    }
+}

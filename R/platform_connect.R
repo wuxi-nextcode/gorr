@@ -39,7 +39,7 @@ platform_connect <- function(api_key = NULL, project = NULL, root_url = NULL, ap
 
     if (is.null(api_endpoint)) {
         api_endpoint_env <- Sys.getenv("GOR_API_ENDPOINT")
-        api_endpoint <- if (api_endpoint_env == "") c("/api/query","/api/phenotype-catalog") else api_endpoint_env
+        api_endpoint <- if (api_endpoint_env == "") c("/api/query","/api/phenotype-catalog", "/queryserver") else api_endpoint_env
     }
 
     token_payload <- get_jwt_token_payload(api_key)
@@ -92,23 +92,30 @@ platform_connect <- function(api_key = NULL, project = NULL, root_url = NULL, ap
         service_url_parts$path <- endpoint
         service_root <- httr::build_url(service_url_parts)
 
-        response <- gorr__api_request(
-            "GET", service_root, conn = conn_data, parse.body = T)
+        tryCatch({
+            response <- gorr__api_request(
+                "GET", service_root, conn = conn_data, parse.body = T)
 
-        conn_data[[response$service_name]] <- list(service_root = service_root,
-                                                   endpoints = response$endpoints,
-                                                   build_info = response$build_info,
-                                                   service_name = response$service_name)
+            conn_data[[response$service_name]] <- list(service_root = service_root,
+                                                       endpoints = response$endpoints,
+                                                       build_info = response$build_info,
+                                                       service_name = response$service_name)
 
-        # Create and add 'self' enpoint if not exist
-        if (!"self" %in% names(conn_data[[response$service_name]]$endpoints)) {
-            conn_data[[response$service_name]]$endpoints$self <- generate_self_link(response)
-        }
+            # Create and add 'self' endpoint if not exist
+            if (!"self" %in% names(conn_data[[response$service_name]]$endpoints)) {
+                conn_data[[response$service_name]]$endpoints$self <- generate_self_link(response)
+            }
 
-        if (!assertthat::has_name(response, "endpoints"))
-            gorr__failure("Unexpected response from host", "Is this a valid API?")
+            if (!assertthat::has_name(response, "endpoints"))
+                gorr__failure("Unexpected response from host", "Is this a valid API?")
 
-        conn_data$service_root <- append(conn_data$service_root, service_root)
+            conn_data$service_root <- append(conn_data$service_root, service_root)
+        },
+        error = function(err) {
+            gorr__warning("Service Unavailable",
+                          detail = paste0("Cannot connect to api-endpoint -> '", endpoint, "' - Skipping"))
+            }
+        )
     }
 
     structure(conn_data, class = "platform_connection")

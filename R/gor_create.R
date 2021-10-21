@@ -9,6 +9,7 @@
 #' @param defs definitions string
 #' @param conn connection object from \code{\link{platform_connect}}
 #' @param replace replace a previously created \code{gor_create} closure. When supplied, the two will be merged, overwriting existing values with the current values if they have been previously defined
+#' @param query.service query service to use - either 'queryservice' (old) or 'queryserver' (new). Default: queryservice
 #'
 #' @return partial-application of function \code{\link{gor_query}} with the `conn` and `relations` parameters set.
 #'
@@ -22,7 +23,7 @@
 #' query("nor [air] | map -c Month [months]")
 #' }
 #' @export
-gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL) {
+gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL, query.service = "queryservice") {
     defs <- gor_define(defs)
 
     dots <- rlang::dots_list(...)
@@ -69,7 +70,7 @@ gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL) {
         if (render_only)
             return(query)
 
-        gor_query(query, conn = conn, relations = virtual_relations, ...)
+        gor_query(query, conn = conn, relations = virtual_relations, query.service = query.service, ...)
     }
 
     structure(fn, class = "gor_creation", defs = defs, dots = dots, conn = conn)
@@ -104,7 +105,7 @@ print.gor_creation <- function(x, ...) {
             cli::cat_line(" ", crayon::bold(name))
 
             if (is.data.frame(code)) {
-                preview <- utils::capture.output(print(dplyr::tbl_df(code)))
+                preview <- utils::capture.output(print(tibble::as_tibble(code)))
                 cli::cat_line("   ", preview)
             } else {
                 cli::cat_line("   ", crayon::italic(code))
