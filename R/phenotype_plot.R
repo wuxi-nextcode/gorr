@@ -17,7 +17,7 @@ phenotype_plot <- function(phenotype, title=NULL, y=NULL, x=NULL) {
         data <- get_data(phenotype)
         request.fun <- switch(phenotype$result_type, QT = plot__qt, CATEGORY = plot__category, SET = plot__set)
 
-        p <- request.fun(data, colname=phenotype$name, fill=GENUSCI_COL1) +
+        p <- request.fun(data, colname=phenotype$name, fill=GENUSCI_COL2) +
             ggplot2::labs(title = if (is.null(title)) phenotype$name else title) +
             ggplot2::theme(panel.background = ggplot2::element_blank(),
                            axis.title.x = ggplot2::element_blank(),
