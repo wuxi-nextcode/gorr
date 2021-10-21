@@ -12,7 +12,7 @@
 #'
 #' @return WorkflowJob object
 #' @export
-workflow_get_job <- function(job_id, conn){
+get_job <- function(job_id, conn){
     url <- gorr__get_endpoint(conn, "workflow-service", "jobs")
 
     body <- list(limit = 1)
@@ -21,21 +21,21 @@ workflow_get_job <- function(job_id, conn){
         body <- append(body, list(job_id = job_id))
     } else {
         tryCatch({
-            body <- if (job_id%%1==0)  append(body, list(job_id = job_id)) # Test if job_id is an integer
-        }, error = stop(sprintf("job_id must be an integer or 'latest', not '%s'", job_id))
+            body <- if (job_id%%1==0 ) append(body, list(job_id = job_id)) # Test if job_id is an integer
+        }, error = function(err) {gorr__failure(sprintf("job_id must be an integer or 'latest', not '%s'", job_id))}
         )
     }
 
     resp <- gorr__api_request("GET",
                       url = url,
-                      body = body,
+                      query = body,
                       conn)
 
     if (is.null(resp$jobs))
         gorr__failure("Job not found")
 
 
-    WorkflowJob(resp$jobs, conn = conn)
+    WorkflowJob(resp$jobs[[1]], conn = conn)
 }
 
 
@@ -71,18 +71,20 @@ get_jobs <- function(conn,
                  limit = limit)
 
 
-    resp <- gorr__api_request("get",
+    resp <- gorr__api_request("GET",
                               url = gorr__get_endpoint(conn, "workflow-service", "jobs"),
-                              body = body,
+                              query = body,
                               conn)
 
     jobs <- resp$jobs
 
-    gorr__info(sprintf("Retrieved %s jobs in %.2f sec", len(jobs), lubridate::now() - start_time))
+    #gorr__info(sprintf("Retrieved %s jobs in %.2f sec", length(jobs), lubridate::now() - start_time))
 
+    cols <- c("job_id", "pipeline_name", "user_name", "project_name", "submit_date", "cost_amount", "status")
     jobs %>%
         do.call(rbind, .)  %>%
-        as.data.frame()
+        as.data.frame() %>%
+        dplyr::select(tidyselect::all_of(cols))
 }
 
 
@@ -96,7 +98,7 @@ get_jobs <- function(conn,
 #'
 #' @return WorkflowJob object
 #' @export
-workflow_post_job <- function(pipeline_name, params, conn){
+post_job <- function(pipeline_name, params, conn){
     url <- gorr__get_endpoint(conn, "workflow-service", "jobs")
     body <- list(pipeline_name = pipeline_name,
                  project_name = conn$project,
@@ -115,24 +117,17 @@ workflow_post_job <- function(pipeline_name, params, conn){
 #' Refer to the API documentation for the Workflow service to see formatting of data.
 #'
 #' @param conn connection object, see \code{\link{platform_connect}}
-#' @param as.dataframe Logical, should the result be served as a data.frame. Default: True
 #' @param include.description Logical, should pipeline description be included in data.frame results. Default: False
 #'
 #' @return data.frame oor list of pipeline info
 #' @export
-get_pipelines <- function(conn, as.data.frame = T, include.description = F) {
+get_pipelines <- function(conn, include.description = FALSE) {
     resp <- gorr::gorr__api_request("GET",
                               url = gorr__get_endpoint(conn, "workflow-service", "pipelines"),
-                              body = body,
                               conn)
     pipelines = resp$pipelines
 
-    if (!as.data.frame) {
-        return(pipelines)
-    }
-
-    cols <- if (description) c("name", "script", "revision") else c("name", "description", "script", "revision")
-
+    cols <- if (!include.description) c("name", "script", "revision") else c("name", "description", "script", "revision")
     pipelines %>%
         do.call(rbind, .)  %>%
         as.data.frame() %>%

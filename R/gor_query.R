@@ -230,7 +230,7 @@ gorr__spinner <- function(msg) {
 }
 
 #' Custom wrapper for formatted query progress messages
-#' 
+#'
 #' @param elapsed elapsed time
 #' @param status optional query status message
 #' @param info optional additional info message
@@ -292,7 +292,7 @@ gorr__warning <- function(msg, detail = NULL, url=NULL) {
 #'
 #' @param msg  message
 #' @param detail exception details (chr or chr vector)
-gorr__info <- function(msg, details) {
+gorr__info <- function(msg, detail=NULL) {
     gorr__cat()
     if (length(detail) > 0) {
         if (is.null(names(detail)))
@@ -300,10 +300,10 @@ gorr__info <- function(msg, details) {
         else
             detail <- paste(names(detail), detail, sep = ": ", collapse = "\n    ")
 
-        warning(paste(crayon::white(msg), "\nDetails: \n    ", crayon::white(detail)), call. = F)
+        message(paste(crayon::white(msg), "\nDetails: \n    ", crayon::white(detail)))
     } else {
-        message(crayon::white(msg), call. = F)
-    
+        message(crayon::white(paste(msg)))
+    }
 }
 
 

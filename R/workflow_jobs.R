@@ -14,13 +14,17 @@ print.WorkflowJob<- function(x, ...) {
     bullet <- purrr::partial(cli::cat_bullet, bullet = " ")
     cli::cat_rule(left = ("WorkflowJob"))
 
+    params_exclude <- c("csa_api_endpoint", "csa_api_password","csa_api_user", "csa_base", "csa_env", "project_path", "user_id", "project_name", "job_id")
+    nextflow_params <- x$details$launch_config$nextflow_params
+    input_params <- subset(nextflow_params, !(names(nextflow_params) %in% params_exclude))
+
     bullet("$name: ", x$name)
     bullet("$description: ", x$description)
-    bullet("$run_id: ", x$run_id)
+    bullet("$job_id: ", x$job_id)
     bullet("$pipeline_name: ", x$pipeline_name)
     bullet("$status: ", x$status)
     bullet("$user_name: ", x$user_name)
-    bullet("Parameters: ",x$details$launch_config$run_args)
+    bullet("Input Parameters: ", paste0("\n\t", paste(names(input_params), input_params, sep = ": ", collapse = "\n\t")))
 }
 
 
@@ -62,16 +66,26 @@ workflow_wait <- function(job, max_seconds = NULL, poll_period = .5) {
 
     spinner <- if (interactive()) gorr__spinner else invisible
 
-    tryCatch({
-        repeat {
-            elapsed <- lubridate::now() - start_time
-            Sys.sleep(poll_period)
-            status_response <- workflow_refresh(job)
+    job <- workflow_refresh(job)
+    is_running <- workflow__is_running(job)
 
+    if (!is_running) {
+        gorr__info(sprintf("Job %s not running - job status: %s", job$job_id, job$status))
+        return(job)
+    }
+
+    tryCatch({
+        while (is_running) {
+            elapsed <- lubridate::now() - start_time
+            spinner(gorr__elapsed_time(elapsed, status = "RUNNING", info = sprintf("Current job status: %s"), job$status)) # Print progress to cli
+            Sys.sleep(poll_period)
+
+            job <- workflow_refresh(job)
+            is_running <- workflow__is_running(job)
 
             # cancel the wait if the executor pod is in trouble after 30 seconds of waiting to start.
             # it most likely means that the nextflow script has a syntax error or something.
-            if (status_response$status == "PENDING" && ( !is.null(max_seconds) && elapsed > max_seconds || elapsed > 30.0 )) {
+            if (job$status == "PENDING" && ( !is.null(max_seconds) && elapsed > max_seconds || elapsed > 30.0 )) {
                 gorr__info(sprintf("Job has been PENDING for %.0fsec. Inspecting it...", elapsed))
 
                 curr_status <- workflow_inspect(job)
@@ -94,26 +108,26 @@ workflow_wait <- function(job, max_seconds = NULL, poll_period = .5) {
                                           elapsed))
             }
 
-            if (status_response$status %in% RUNNING_STATUSES && !is.null(max_seconds) && elapsed > max_seconds)
+            if (job$status %in% RUNNING_STATUSES && !is.null(max_seconds) && elapsed > max_seconds)
                 gorr__failure(sprintf("Job %s has exceeded wait time %.0fs and we will not wait any longer. It is currently %s.",
-                                      job_id, max_seconds, status_response$status))
+                                      job_id, max_seconds, job$status))
 
             poll_period = min(poll_period + 0.5, 10.0)
 
         }
 
-        if (status_response$status == "DONE") {
+        if (job$status == "DONE") {
             gorr__info(sprintf(
                 "Job %s completed in %.2f sec and returned %s rows",
-                status_response$job_id,
+                job$job_id,
                 elapsed,
-                status_response$line_count
+                job$line_count
             ))
         } else {
             gorr__info(sprintf(
                 "Job %s has status %s after %.2f sec",
-                status_response$job_id,
-                status_response$status,
+                job$job_id,
+                job$status,
                 elapsed
             ))
         }
@@ -121,7 +135,7 @@ workflow_wait <- function(job, max_seconds = NULL, poll_period = .5) {
     }, interrupt = function(err) {gorr__warning("Code interrupted")}
     )
 
-    WorkflowJob(status_response, conn=conn)
+    WorkflowJob(job, conn=conn)
 }
 
 
@@ -146,3 +160,11 @@ workflow_inspect <- function(job) {
     error = function(err)  gorr__failure("Server does not support inspect functionality")
     )
 }
+
+#' Is the job currently running. This is not a public function
+workflow__is_running <- function(job, refresh=FALSE) {
+    if (job$status %in% RUNNING_STATUSES)
+        job <- workflow_refresh(job)
+    job$status %in% RUNNING_STATUSES
+}
+
