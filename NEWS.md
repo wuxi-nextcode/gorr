@@ -1,3 +1,9 @@
+# gorr 1.5.0
+
+* Add phenotype_plot() method
+* Added workflow service support
+* Added queryserver support
+
 # gorr 1.4.0
 
 * Added *self* link to service root endpoints if not exist

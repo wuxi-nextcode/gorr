@@ -11,7 +11,8 @@ gor_query(
   page_size = 1e+05,
   parse = T,
   relations = NULL,
-  persist = NULL
+  persist = NULL,
+  query.service = "queryservice"
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ gor_query(
 \item{relations}{list of tables to upload and make available in the query, e.g. \code{list(cars = cars, letters = data.frame(letter = letters))}, refer to them in the query using [] around their names, e.g. \code{nor -h [cars]}}
 
 \item{persist}{remote path to file for saving results of the query into. Query results will not be fetched if this parameter is set.}
+
+\item{query.service}{query service to use - either 'queryservice' (old) or 'queryserver' (new). Default: queryservice}
 }
 \value{
 data.frame of gor results, i.e. gor results are passed to \code{\link[readr]{read_tsv}}
