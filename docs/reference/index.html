@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
       </span>
     </div>
 
@@ -177,6 +177,12 @@
       <tr>
         
         <td>
+          <p><code><a href="WorkflowJob.html">WorkflowJob()</a></code> </p>
+        </td>
+        <td><p>WorkflowJob class constructor</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="category_delete.html">category_delete()</a></code> </p>
         </td>
         <td><p>Delete a phenotype category</p></td>
@@ -237,6 +243,18 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="get_job.html">get_job()</a></code> </p>
+        </td>
+        <td><p>Get a workflow job</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_jobs.html">get_jobs()</a></code> </p>
+        </td>
+        <td><p>Get a list of jobs satisfying the supplied criteria</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="get_jwt_token_payload.html">get_jwt_token_payload()</a></code> </p>
         </td>
         <td><p>Decode a JWT token and extract payload</p></td>
@@ -270,6 +288,12 @@
           <p><code><a href="get_phenotypes_dataframe.html">get_phenotypes_dataframe()</a></code> </p>
         </td>
         <td><p>A dataframe of all/subset of phenotypes in the current project.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="get_pipelines.html">get_pipelines()</a></code> </p>
+        </td>
+        <td><p>Returns the pipelines available on the current server</p></td>
       </tr><tr>
         
         <td>
@@ -328,6 +352,18 @@ server side</p></td>
       </tr><tr>
         
         <td>
+          <p><code><a href="gorr__cat.html">gorr__cat()</a></code> </p>
+        </td>
+        <td><p>Custom wrapper for cli::cat..()</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gorr__elapsed_time.html">gorr__elapsed_time()</a></code> </p>
+        </td>
+        <td><p>Custom wrapper for formatted query progress messages</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="gorr__failure.html">gorr__failure()</a></code> </p>
         </td>
         <td><p>Custom wrapper for stop() with formated error messages</p></td>
@@ -336,13 +372,13 @@ server side</p></td>
         <td>
           <p><code><a href="gorr__get_query_results.html">gorr__get_query_results()</a></code> </p>
         </td>
-        <td><p>Get server query results</p></td>
+        <td><p>Get server query results This is not a public function, but is called from <code>gorr__queryservice</code></p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="gorr__get_query_status.html">gorr__get_query_status()</a></code> </p>
         </td>
-        <td><p>Get query status from api. This is not a public function, but is called from <code>gor_query</code></p></td>
+        <td><p>Get query status from api. This is not a public function, but is called from <code>gorr__queryservice</code></p></td>
       </tr><tr>
         
         <td>
@@ -352,9 +388,21 @@ server side</p></td>
       </tr><tr>
         
         <td>
+          <p><code><a href="gorr__info.html">gorr__info()</a></code> </p>
+        </td>
+        <td><p>Custom wrapper for message() with formated messages</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="gorr__kill_query.html">gorr__kill_query()</a></code> </p>
         </td>
         <td><p>Kill remote query</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gorr__kill_stream.html">gorr__kill_stream()</a></code> </p>
+        </td>
+        <td><p>Kill remote query stream</p></td>
       </tr><tr>
         
         <td>
@@ -364,9 +412,27 @@ server side</p></td>
       </tr><tr>
         
         <td>
+          <p><code><a href="gorr__queryserver.html">gorr__queryserver()</a></code> </p>
+        </td>
+        <td><p>Get query from queryserver api. This is not a public function, but is called from <code>gor_query</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gorr__queryservice.html">gorr__queryservice()</a></code> </p>
+        </td>
+        <td><p>Get query from queryservice api. This is not a public function, but is called from <code>gor_query</code></p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="gorr__reconnect.html">gorr__reconnect()</a></code> </p>
         </td>
         <td><p>Reconnect using a connection object from <code>platform_connect</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gorr__warning.html">gorr__warning()</a></code> </p>
+        </td>
+        <td><p>Custom wrapper for warning() with formatted error messages</p></td>
       </tr><tr>
         
         <td>
@@ -431,6 +497,12 @@ server side</p></td>
       </tr><tr>
         
         <td>
+          <p><code><a href="phenotype_plot.html">phenotype_plot()</a></code> </p>
+        </td>
+        <td><p>Plot phenotype</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="phenotype_refresh.html">phenotype_refresh()</a></code> </p>
         </td>
         <td><p>Refresh phenotype</p></td>
@@ -449,7 +521,7 @@ server side</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="phenotype_update_description.html">phenotype_update_description()</a></code> <code><a href="phenotype_update_description.html">phenotype_update_description()</a></code> </p>
+          <p><code><a href="phenotype_update_description.html">phenotype_update_description()</a></code> </p>
         </td>
         <td><p>Update the phenotype with a new description</p></td>
       </tr><tr>
@@ -513,6 +585,60 @@ server side</p></td>
           <p><code><a href="playlist_update_phenotypes.html">playlist_update_phenotypes()</a></code> </p>
         </td>
         <td><p>Update playlist phenotypes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot__category.html">plot__category()</a></code> </p>
+        </td>
+        <td><p>Plot categorical phenotypes. This is not a public function, but is called from <code>phenotype_plot</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot__qt.html">plot__qt()</a></code> </p>
+        </td>
+        <td><p>Plot quantitative phenotypes. This is not a public function, but is called from <code>phenotype_plot</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot__set.html">plot__set()</a></code> </p>
+        </td>
+        <td><p>Plot set phenotypes. This is not a public function, but is called from <code>phenotype_plot</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="post_job.html">post_job()</a></code> </p>
+        </td>
+        <td><p>Run a workflow job</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="workflow__is_running.html">workflow__is_running()</a></code> </p>
+        </td>
+        <td><p>Is the job currently running. This is not a public function</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="workflow_check_status.html">workflow_check_status()</a></code> </p>
+        </td>
+        <td><p>Get current status of job</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="workflow_inspect.html">workflow_inspect()</a></code> </p>
+        </td>
+        <td><p>Inspect a failed job for debugging.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="workflow_refresh.html">workflow_refresh()</a></code> </p>
+        </td>
+        <td><p>Refresh the local object of the serverside job object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="workflow_wait.html">workflow_wait()</a></code> </p>
+        </td>
+        <td><p>Wait for a running job to complete.</p></td>
       </tr>
     </tbody>
     </table>

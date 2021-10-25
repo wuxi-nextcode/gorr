@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.4.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.0</span>
       </span>
     </div>
 
@@ -161,7 +161,13 @@
     <p>Creates a partial-application of <code><a href='gor_query.html'>gor_query</a></code> in the context of <code>conn</code> and the listed relations in the <code>...</code> arguments</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gor_create</span><span class='op'>(</span><span class='va'>...</span>, defs <span class='op'>=</span> <span class='cn'>NULL</span>, conn <span class='op'>=</span> <span class='cn'>NULL</span>, replace <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>gor_create</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  defs <span class='op'>=</span> <span class='cn'>NULL</span>,
+  conn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  replace <span class='op'>=</span> <span class='cn'>NULL</span>,
+  query.service <span class='op'>=</span> <span class='st'>"queryservice"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -181,6 +187,10 @@
     <tr>
       <th>replace</th>
       <td><p>replace a previously created <code>gor_create</code> closure. When supplied, the two will be merged, overwriting existing values with the current values if they have been previously defined</p></td>
+    </tr>
+    <tr>
+      <th>query.service</th>
+      <td><p>query service to use - either 'queryservice' (old) or 'queryserver' (new). Default: queryservice</p></td>
     </tr>
     </table>
 

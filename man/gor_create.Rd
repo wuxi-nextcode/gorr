@@ -4,7 +4,13 @@
 \alias{gor_create}
 \title{gor_create}
 \usage{
-gor_create(..., defs = NULL, conn = NULL, replace = NULL)
+gor_create(
+  ...,
+  defs = NULL,
+  conn = NULL,
+  replace = NULL,
+  query.service = "queryservice"
+)
 }
 \arguments{
 \item{...}{ellipse for the relations to include}
@@ -14,6 +20,8 @@ gor_create(..., defs = NULL, conn = NULL, replace = NULL)
 \item{conn}{connection object from \code{\link{platform_connect}}}
 
 \item{replace}{replace a previously created \code{gor_create} closure. When supplied, the two will be merged, overwriting existing values with the current values if they have been previously defined}
+
+\item{query.service}{query service to use - either 'queryservice' (old) or 'queryserver' (new). Default: queryservice}
 }
 \value{
 partial-application of function \code{\link{gor_query}} with the \code{conn} and \code{relations} parameters set.
