@@ -24,15 +24,15 @@ gorr__queryserver <- function(query, conn, parse, relations, spinner = invisible
 
         # Add stream to an array ()
         # Potential for faster append https://stackoverflow.com/questions/22235809/append-value-to-empty-vector-in-r
-        RESULT[loop] <<- stream
+        RESULT[idx] <<- stream
 
-        loop <<- loop + 1
+        idx <<- idx + 1
     }
 
     # Initialize for stream handling
     RESULT <- character(0)
     MESSAGE <- list(status = "RUNNING", info = "")
-    loop <- 1
+    idx <- 1
     tryCatch({
         response <- gorr__post_query(query = query,
                                            conn = conn,
