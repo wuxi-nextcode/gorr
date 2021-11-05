@@ -45,6 +45,7 @@ phenotype_matrix <- function(base, phenotypes = list()) {
 #' Get a phenotype matrix object.
 #'
 #' @param base Optional name of base set
+#' @param ... named arguments passed to `get_phenotypes` for populating matrix.
 #'
 #' @return a phenotype matrix object
 #' @export
@@ -53,8 +54,15 @@ phenotype_matrix <- function(base, phenotypes = list()) {
 #' \dontrun{
 #' phenotype_mat <- get_phenotype_matrix()
 #' }
-get_phenotype_matrix <- function(base = NULL) {
-    phenotype_matrix(base = base, phenotypes = list())
+get_phenotype_matrix <- function(base = NULL, ...) {
+    dots <- rlang::dots_list(...)
+    phemat <- phenotype_matrix(base = base)
+    if (length(dots)>0) {
+        if (!is.null(conn)) gorr__failure("Please provide connector object for populating matrix using `get_phenotypes`")
+        phenotypes = get_phenotypes(conn = conn, ...)
+        phemat <- phemat_add_phenotypes(names = purrr::map_chr(name = phenotypes, ~.x$name), phemat)
+    }
+    phemat
 }
 
 
