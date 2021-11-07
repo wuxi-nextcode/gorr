@@ -1,3 +1,8 @@
+# gorr 1.5.1
+
+* Speed up queryserver queries
+* Bugfix
+
 # gorr 1.5.0
 
 * Add phenotype_plot() method
