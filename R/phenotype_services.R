@@ -219,7 +219,7 @@ print.phenotype_list <- function(x, ...) {
 #' conn <- platform_connect(api_key, project)
 #' phenotypes <- get_phenotypes_dataframe(conn, limit=5)
 #' }
-get_phenotypes_dataframe <- function(conn = conn,
+get_phenotypes_dataframe <- function(conn,
                                      pheno_names=list(),
                                      all_tags = list(),
                                      any_tags = list(),
