@@ -158,7 +158,7 @@ gorr__post_query <- function(query,
                        user = "r-sdk",
                        useGzip = FALSE,
                        sendTerm = TRUE,
-                       sendProgress = TRUE,
+                       sendProgress = FALSE,
                        sendAlive = TRUE)
                         )
     }
