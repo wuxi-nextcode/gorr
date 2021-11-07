@@ -21,13 +21,18 @@ gorr__queryserver <- function(query, conn, parse, relations, spinner = invisible
             stream <- gorr__remove_msg(stream)
         }
         spinner(gorr__elapsed_time(elapsed, status = MESSAGE$status, info = MESSAGE$info)) # Print progress to cli
-        RESULT <<- paste0(RESULT, stream) # Append results to variable
+
+        # Add stream to an array ()
+        # Potential for faster append https://stackoverflow.com/questions/22235809/append-value-to-empty-vector-in-r
+        RESULT[idx] <<- stream
+
+        idx <<- idx + 1
     }
 
     # Initialize for stream handling
-    RESULT <- ""
+    RESULT <- character(0)
     MESSAGE <- list(status = "RUNNING", info = "")
-
+    idx <- 1
     tryCatch({
         response <- gorr__post_query(query = query,
                                            conn = conn,
@@ -40,7 +45,8 @@ gorr__queryserver <- function(query, conn, parse, relations, spinner = invisible
     error = function(err) {closeAllConnections(); stop(err)}
     )
 
-    RESULT
+    # Concatenate result string
+    paste0(RESULT, collapse="")
 }
 
 # Check for status messages in stream
