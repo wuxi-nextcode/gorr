@@ -5,7 +5,7 @@
 \title{A dataframe of all/subset of phenotypes in the current project.}
 \usage{
 get_phenotypes_dataframe(
-  conn = conn,
+  conn,
   pheno_names = list(),
   all_tags = list(),
   any_tags = list(),
