@@ -352,11 +352,6 @@ create_phenotype <-
                 as.list()
         }
 
-        if (!(name == base::tolower(name))) {
-            warning("name of phenotype should be lowercase - converting to lowercase")
-            name <- base::tolower(name)
-        }
-
         result_type <- toupper(result_type)
 
         if (!(result_type %in% SUPPORTED_RESULT_TYPES)) {
