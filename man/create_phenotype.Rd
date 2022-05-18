@@ -12,7 +12,8 @@ create_phenotype(
   url = NULL,
   category = NULL,
   query = NULL,
-  tags = NULL
+  tags = NULL,
+  data = NULL
 )
 }
 \arguments{

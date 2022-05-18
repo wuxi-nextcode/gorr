@@ -17,6 +17,8 @@ phenotype_upload_data <- function(phenotype, data, conn=NULL) {
     assertthat::assert_that(is.list(data) | is.data.frame(data))
     assertthat::assert_that(class(attr(phenotype, which = "conn")) == "platform_connection")
 
+    if ( phenotype$result_type == "SET" && is.data.frame(data) && ncol(data) > 1 ) gorr__failure(msg="Data for phenotypes of result_type 'SET' should be either a list single column data.frame")
+
 
     # If input is data.frame convert to list of lists
     if (is.data.frame(data)) {
@@ -34,4 +36,6 @@ phenotype_upload_data <- function(phenotype, data, conn=NULL) {
                       conn = attr(phenotype, which = "conn"),
                       parse.body = F) %>%
         httr::stop_for_status()
+    
+    gorr__info(msg="Successfully uploaded phenotype data")
 }

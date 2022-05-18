@@ -5,9 +5,9 @@
 
 #' Get a workflow job
 #'
-#' This is a description
+#'  Fetch a job proxy object from server by job id.
 #'
-#' @param job_id job-id as integer or l
+#' @param job_id job-id as numeric or "latest"
 #' @param conn connection object, see \code{\link{platform_connect}}
 #'
 #' @return WorkflowJob object
@@ -45,7 +45,7 @@ get_job <- function(job_id, conn){
 #' @param conn connection object, see \code{\link{platform_connect}}
 #' @param user_name The user who created the job
 #' @param status Current status of jobs
-#' @param project Filter by project
+#' @param project Filter by project - use "all" for searching in all projects. Default: conn$project
 #' @param pipeline Filter by pipeline name
 #' @param state Filter by state, each state encapsulates several statuses (running, finished)
 #' @param context Filter by context string
@@ -62,6 +62,12 @@ get_jobs <- function(conn,
                      context = NULL,
                      limit = 20) {
     start_time <- lubridate::now()
+
+    if (is.null(project)) {
+        project <- conn$project
+    } else if (project == "all") {
+        project <- NULL
+    }
 
     body <- list(user_name = user_name,
                  status = status,

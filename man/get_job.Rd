@@ -7,7 +7,7 @@
 get_job(job_id, conn)
 }
 \arguments{
-\item{job_id}{job-id as integer or l}
+\item{job_id}{job-id as numeric or "latest"}
 
 \item{conn}{connection object, see \code{\link{platform_connect}}}
 }
@@ -15,5 +15,5 @@ get_job(job_id, conn)
 WorkflowJob object
 }
 \description{
-This is a description
+Fetch a job proxy object from server by job id.
 }
