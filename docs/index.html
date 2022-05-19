@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GOR Direct Query API for R • gorr</title>
+<title>Genuity Science service API for R • gorr</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="GOR Direct Query API for R">
+<script src="pkgdown.js"></script><meta property="og:title" content="Genuity Science service API for R">
 <meta property="og:description" content="R library for interfacing with Genuity Science services.">
 <meta property="og:image" content="/logo.svg">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,23 +40,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.5.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -92,7 +88,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/wuxi-nextcode/gorr/">
+  <a href="https://github.com/wuxi-nextcode/gorr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -110,34 +106,36 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<p><img src="reference/figures/logo.svg" alt="GOR-R"></p>
-<p>See full documentation at <a href="https://wuxi-nextcode.github.io/gorr/">https://wuxi-nextcode.github.io/gorr/</a></p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<div id="installing-from-github-using-devtools" class="section level3">
-<h3 class="hasAnchor">
-<a href="#installing-from-github-using-devtools" class="anchor"></a>Installing from github using <code>devtools</code>
+<div class="figure">
+<img src="reference/figures/logo.svg" alt=""><p class="caption">GOR-R</p>
+</div>
+<p>See full documentation at <a href="https://wuxi-nextcode.github.io/gorr/" class="external-link">https://wuxi-nextcode.github.io/gorr/</a></p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<div class="section level3">
+<h3 id="installing-from-github-using-devtools">Installing from github using <code>devtools</code>
+<a class="anchor" aria-label="anchor" href="#installing-from-github-using-devtools"></a>
 </h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"wuxi-nextcode/gorr"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"wuxi-nextcode/gorr"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <p>In this example, we’re going to run a simple remote gor query using the <code>gorr</code> package.</p>
-<div id="load-packages" class="section level3">
-<h3 class="hasAnchor">
-<a href="#load-packages" class="anchor"></a>Load packages</h3>
+<div class="section level3">
+<h3 id="load-packages">Load packages<a class="anchor" aria-label="anchor" href="#load-packages"></a>
+</h3>
 <p>First load the <code>gorr</code> package, the <code>tidyverse</code> package is recommended in general, but not required for this example</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/wuxi-nextcode/gorr">gorr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/wuxi-nextcode/gorr" class="external-link">gorr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></code></pre></div>
 </div>
-<div id="connect-to-a-genuity-science-apis" class="section level3">
-<h3 class="hasAnchor">
-<a href="#connect-to-a-genuity-science-apis" class="anchor"></a>Connect to a Genuity Science APIs</h3>
+<div class="section level3">
+<h3 id="connect-to-a-genuity-science-apis">Connect to a Genuity Science APIs<a class="anchor" aria-label="anchor" href="#connect-to-a-genuity-science-apis"></a>
+</h3>
 <p>First we’ll need to establish a connection to our APIs. To do that we’ll need to call <code>platform_connect</code> and provide it with the relevant parameters pointing to the api-services, i.e. <code>api_key</code> and <code>project</code>. You get the API Key from the <code>/api-key-service/token</code> endpoint on your CSA instance, and you can find a list of projects available to you in CSA as well, remember to use the internal project name. Once you have those two things, you have everything you need to make a connection object:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">api_key</span> <span class="op">&lt;-</span> <span class="st">"your_api_key_here"</span>
@@ -148,20 +146,20 @@
 <span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/platform_connect.html">platform_connect</a></span><span class="op">(</span>project <span class="op">=</span> <span class="st">"test_proj"</span><span class="op">)</span> <span class="co"># uses only GOR_API_KEY </span></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object ready to be passed into the <code>gor_query</code> and other functions interacting with the APIs.</p>
 </div>
-<div id="gor-query-services" class="section level3">
-<h3 class="hasAnchor">
-<a href="#gor-query-services" class="anchor"></a>Gor Query Services</h3>
+<div class="section level3">
+<h3 id="gor-query-services">Gor Query Services<a class="anchor" aria-label="anchor" href="#gor-query-services"></a>
+</h3>
 <p>Now <code>gor_query</code> can be used to run a gor query:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gor_query.html">gor_query</a></span><span class="op">(</span><span class="st">"gor #dbsnp# | top 100"</span>, <span class="va">conn</span><span class="op">)</span></code></pre></div>
 <p>The results come back as an R <code>data.frame</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></code></pre></div>
 <p>By default, character columns are returned as is, i.e. not converted to factors. This allows for more flexibility on the user-end, but as an example here we an turn all character columns into factors:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> 
-    <span class="va">result</span> <span class="op">%&gt;%</span>
-    <span class="fu">mutate_if</span><span class="op">(</span><span class="va">is.character</span>, <span class="va">factor</span><span class="op">)</span></code></pre></div>
+    <span class="va">result</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html" class="external-link">mutate_if</a></span><span class="op">(</span><span class="va">is.character</span>, <span class="va">factor</span><span class="op">)</span></code></pre></div>
 <p>It should also be noted that larger gor queries can be constructed inside a string block and piped directly into the <code>gor_query</code> function:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">chr21_results</span> <span class="op">&lt;-</span> <span class="st">"
@@ -169,14 +167,14 @@
     | where len(reference)=1 and len(allele)=1
     | calc snptype reference+'/'+allele 
     | hide rsIDs
-    | top 100"</span> <span class="op">%&gt;%</span>
+    | top 100"</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span>
     <span class="fu"><a href="reference/gor_query.html">gor_query</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">chr21_results</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">chr21_results</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="phenotype-catalog-services" class="section level3">
-<h3 class="hasAnchor">
-<a href="#phenotype-catalog-services" class="anchor"></a>Phenotype Catalog Services</h3>
+<div class="section level3">
+<h3 id="phenotype-catalog-services">Phenotype Catalog Services<a class="anchor" aria-label="anchor" href="#phenotype-catalog-services"></a>
+</h3>
 <p>We can list available phenotypes in the phenotype-catalog using <code>get_phenotypes</code> and pass the connection object as before:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/get_phenotypes.html">get_phenotypes</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span></code></pre></div>
@@ -191,41 +189,53 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/wuxi-nextcode/gorr/">https://​github.com/​wuxi-nextcode/​gorr/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/wuxi-nextcode/gorr/issues">https://​github.com/​wuxi-nextcode/​gorr/​issues</a>
-</li>
+<li><a href="https://github.com/wuxi-nextcode/gorr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/wuxi-nextcode/gorr/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
 <li><small>LGPL (&gt;= 2.1)</small></li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>
-<a href="https://genuitysci.com">Genuity Science</a> <br><small class="roles"> Author, maintainer, copyright holder </small>  </li>
-<li>Edvald Gislason <br><small class="roles"> Author </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html#citation">Citing gorr</a></li>
 </ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>
+<a href="https://genuitysci.com" class="external-link">Genuity Science</a> <br><small class="roles"> Author, maintainer, copyright holder </small>  </li>
+<li>Edvald Gislason <br><small class="roles"> Author </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+
 
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://genuitysci.com">Genuity Science</a>, Edvald Gislason.</p>
+  <p></p>
+<p>Developed by <a href="https://genuitysci.com" class="external-link">Genuity Science</a>, Edvald Gislason.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>
@@ -233,6 +243,8 @@
 
   
 
+
+  
 
   </body>
 </html>
