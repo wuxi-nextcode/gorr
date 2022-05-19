@@ -116,6 +116,8 @@ new_phenotype <- phenotype_refresh(new_phenotype, conn)
 new_phenotype
 ```
 
+In case the query fails we can call either `phenotype_get_error(phenotype, conn)`, returning latest error (formatted) or `phenotype_get_errors(phenotype, conn)` which returns all errors as lists along with their timestamps. 
+
 ## Update phenotype description
 
 Passing a phenotype object and a new description to `phenotype_update_description`  updates the phenotype's description in the project's phenotype-catalog. The output is, again, an updated `phenotype` object.

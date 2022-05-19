@@ -1,7 +1,7 @@
 Type: Package
 Package: gorr
-Title: GOR Direct Query API for R
-Version: 1.5.2
+Title: Genuity Science service API for R
+Version: 1.6.0
 Authors@R: c(
     person("Genuity", "Science", role = c("aut", "cre","cph"), email = "support@genuitysci.com"),
     person("Edvald", "Gislason", role = "aut", email = ""),
@@ -33,7 +33,7 @@ Imports:
     tidyr
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: 
     testthat (>= 2.0.0),
     knitr (>= 1.20),

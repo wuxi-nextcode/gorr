@@ -18,11 +18,11 @@ phenotype_plot <- function(phenotype, title=NULL, y=NULL, x=NULL) {
         request.fun <- switch(phenotype$result_type, QT = plot__qt, CATEGORY = plot__category, SET = plot__set)
 
         p <- request.fun(data, colname=phenotype$name, fill=GENUSCI_COL2) +
-            ggplot2::labs(title = if (is.null(title)) phenotype$name else title) +
+            ggplot2::labs(title = if (is.null(title)) "Phenotype Plot" else title) +
             ggplot2::theme(panel.background = ggplot2::element_blank(),
-                           axis.title.x = ggplot2::element_blank(),
                            plot.title = ggplot2::element_text(colour = GENUSCI_COL2),
-                           axis.line = ggplot2::element_line(colour = "black"))
+                           axis.line = ggplot2::element_line(colour = "black")) +
+            ggplot2::xlab(phenotype$name)
         p
     }
 
@@ -49,6 +49,7 @@ plot__qt <- function(df, colname, fill) {
 #' @return ggplot2 object
 plot__category <- function(df, colname, fill) {
     df <- df %>%
+        dplyr::mutate_at(2, factor) %>%
         dplyr::group_by_at(2) %>%
         dplyr::summarise(count=dplyr::n())
     p <- ggplot2::ggplot(data=df, ggplot2::aes_string(x=colname, y="count")) +

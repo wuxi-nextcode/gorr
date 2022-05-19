@@ -9,7 +9,11 @@ phenotype_upload_data(phenotype, data, conn = NULL)
 \arguments{
 \item{phenotype}{phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}}
 
-\item{data}{a list of lists to be uploaded}
+\item{data}{a data.frame or list of lists to be uploaded
+\itemize{
+\item For phenotypes of result_type 'SET' - data should be either a list single column data.frame.
+\item For other phenotypes the data.frame/tibble should contain 2 columns, pn and value or if list a pn value pair for each pn.
+}}
 
 \item{conn}{Deprecated : gor connection structure, create it using \code{\link{platform_connect}}}
 }

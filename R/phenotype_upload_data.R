@@ -5,7 +5,9 @@
 #' The `result_type` of the phenotype dictates if each sublist should contain one or two items.
 #'
 #' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
-#' @param data a list of lists to be uploaded
+#' @param data a data.frame or list of lists to be uploaded
+#'  * For phenotypes of result_type 'SET' - data should be either a list single column data.frame.
+#'  * For other phenotypes the data.frame/tibble should contain 2 columns, pn and value or if list a pn value pair for each pn.
 #' @param conn Deprecated : gor connection structure, create it using \code{\link{platform_connect}}
 #'
 #' @export
@@ -16,6 +18,8 @@ phenotype_upload_data <- function(phenotype, data, conn=NULL) {
     assertthat::assert_that(class(phenotype) == "phenotype")
     assertthat::assert_that(is.list(data) | is.data.frame(data))
     assertthat::assert_that(class(attr(phenotype, which = "conn")) == "platform_connection")
+
+    if ( phenotype$result_type == "SET" && is.data.frame(data) && ncol(data) > 1 ) gorr__failure(msg="Data for phenotypes of result_type 'SET' should be either a list or a single column data.frame")
 
 
     # If input is data.frame convert to list of lists
@@ -34,4 +38,6 @@ phenotype_upload_data <- function(phenotype, data, conn=NULL) {
                       conn = attr(phenotype, which = "conn"),
                       parse.body = F) %>%
         httr::stop_for_status()
+
+    gorr__info(msg="Successfully uploaded phenotype data")
 }

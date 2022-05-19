@@ -58,12 +58,14 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE", "PATCH"),
 #' "gor #dbsnp# | top 100" %>%
 #'     gor_query(conn)
 #' }
-gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, relations = NULL, persist = NULL, query.service = "queryservice") {
+gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, relations = NULL, persist = NULL, query.service = "queryserver") {
     assertthat::assert_that(is.string(query))
     assertthat::assert_that(class(conn) == "platform_connection")
 
-    if (!is.null(persist) && query.service == "queryserver")
-        gorr__failure("Persisting results not allowed using 'queryserver' in R-sdk. Please add 'write' statement to the GOR query or switch to using 'queryservice'")
+    if (!is.null(persist)) {
+        gorr__warning("Persisting results not allowed using 'queryserver' in R-sdk. Switching to 'queryservice'. Please add 'write' statement to the GOR query for persisting results in project if you want to use 'queryserver'.")
+        query.service = "queryservice"
+    }
 
     query.fun <- switch(query.service, queryservice = gorr__queryservice, queryserver = gorr__queryserver)
 
@@ -178,7 +180,7 @@ gorr__post_query <- function(query,
 #' @param content.fun content function used to extract content from the response, e.g. \code{\link[httr]{text_content}}
 #'
 #' @return response body from (\code{\link[httr]{content}})
-gorr__get_response_body <- function(response, content.fun = purrr::partial(httr::content, encoding = "UTF-8")) {
+gorr__get_response_body <- function(response, content.fun = purrr::partial(httr::content, encoding = "UTF-8", show_col_types = FALSE)) {
     response_body <- content.fun(response)
 
     # Conveniently converts HTTP errors to R errors
@@ -230,7 +232,7 @@ gorr__spinner <- function(msg) {
 }
 
 #' Custom wrapper for formatted query progress messages
-#' 
+#'
 #' @param elapsed elapsed time
 #' @param status optional query status message
 #' @param info optional additional info message
@@ -284,7 +286,7 @@ gorr__warning <- function(msg, detail = NULL, url=NULL) {
 }
 
 
-#' Custom wrapper for message() with formated messages
+#' Custom wrapper for message() with formatted messages
 #'
 #' @param msg  message
 #' @param detail exception details (chr or chr vector)

@@ -1,5 +1,5 @@
-pandoc: 2.11.2
-pkgdown: 1.6.1
+pandoc: '2.18'
+pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
   basic-query: basic-query.html
@@ -10,5 +10,5 @@ articles:
   phenotype-matrix-services: phenotype-matrix-services.html
   phenotype-playlist: phenotype-playlist.html
   phenotype-services: phenotype-services.html
-last_built: 2021-11-07T17:15Z
+last_built: 2022-05-19T11:00Z
 

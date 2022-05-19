@@ -9,7 +9,7 @@ gor_create(
   defs = NULL,
   conn = NULL,
   replace = NULL,
-  query.service = "queryservice"
+  query.service = "queryserver"
 )
 }
 \arguments{

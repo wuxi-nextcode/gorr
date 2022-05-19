@@ -12,7 +12,7 @@ gor_query(
   parse = T,
   relations = NULL,
   persist = NULL,
-  query.service = "queryservice"
+  query.service = "queryserver"
 )
 }
 \arguments{

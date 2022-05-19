@@ -2,7 +2,7 @@
 % Please edit documentation in R/gor_query.R
 \name{gorr__info}
 \alias{gorr__info}
-\title{Custom wrapper for message() with formated messages}
+\title{Custom wrapper for message() with formatted messages}
 \usage{
 gorr__info(msg, detail = NULL)
 }
@@ -12,5 +12,5 @@ gorr__info(msg, detail = NULL)
 \item{detail}{exception details (chr or chr vector)}
 }
 \description{
-Custom wrapper for message() with formated messages
+Custom wrapper for message() with formatted messages
 }

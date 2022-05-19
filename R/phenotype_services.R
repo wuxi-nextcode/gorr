@@ -312,6 +312,7 @@ get_phenotype <- function(name, conn) {
 #' @param category Enter the category for the phenotype (must be defined in the project - see get_categories) (optional)
 #' @param query NOR query that defines this phenotype (optional)
 #' @param tags comma separated string of tags eg. "height,weight" or character vector "c("height", "weight") (optional)
+#' @param data data.frame or list of phenotype PN values to be applied to `phenotype_upload_data` (optional)
 #'
 #' @return a list with the phenotype object
 #'
@@ -329,7 +330,7 @@ get_phenotype <- function(name, conn) {
 #' phenotype <- create_phenotype(name, result_type, conn, description)
 #' }
 create_phenotype <-
-    function(name, result_type, conn, description = NULL, url=NULL, category = NULL, query = NULL, tags = NULL) {
+    function(name, result_type, conn, description = NULL, url=NULL, category = NULL, query = NULL, tags = NULL, data=NULL) {
         assertthat::assert_that(is.string(name))
         assertthat::assert_that(is.string(result_type))
         assertthat::assert_that(class(conn) == "platform_connection")
@@ -374,7 +375,15 @@ create_phenotype <-
                               body = content,
                               conn = conn)
 
-        phenotype(resp$phenotype, conn = conn)
+        pheno <- phenotype(resp$phenotype, conn = conn)
+
+        if (!is.null(data)) {
+            try(
+                phenotype_upload_data(data = data, phenotype = pheno)
+            )
+        }
+
+        pheno
     }
 
 
@@ -451,13 +460,63 @@ phenotype_refresh <- function(phenotype, conn=NULL) {
 #' }
 phenotype_get_tags <- function(phenotype) {
     assertthat::assert_that(class(phenotype) == "phenotype")
-
     phenotype$tag_list %>% unlist()
 }
+
 
 # Temporary deprecated argument handler
 # msg of form "[arg_name] argument deprecated [- optional custom message]"
 deprecated_argument_msg <- function(arg, custom=NULL) {
     deparse(substitute(arg)) %>%
     paste("argument deprecated", if (!is.null(custom)) paste("-", custom))
+}
+
+#' Retrieve all errors for phenotype query runs
+#'
+#' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
+#'
+#' @return a list of errors from query runs
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' api_key <- Sys.getenv("GOR_API_KEY")
+#' project <- Sys.getenv("GOR_PROJECT")
+#' conn <- platform_connect(api_key, project)
+#' phenotype <- get_phenotype(name="height", conn)
+#' tags <- phenotype_get_errors(phenotype)
+#' }
+phenotype_get_errors <- function(phenotype) {
+    assertthat::assert_that(class(phenotype) == "phenotype")
+    purrr::map(phenotype$events, ~ if (.x$event_type =="error") list(message = .x$message, created_at = .x$created_at)) %>%
+        purrr::compact()
+}
+
+#' Retrieve latest error from phenotype query run
+#'
+#' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
+#'
+#' @return a formatted error message
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' api_key <- Sys.getenv("GOR_API_KEY")
+#' project <- Sys.getenv("GOR_PROJECT")
+#' conn <- platform_connect(api_key, project)
+#' phenotype <- get_phenotype(name="height", conn)
+#' tags <- phenotype_get_error(phenotype)
+#' }
+phenotype_get_error <- function(phenotype) {
+    assertthat::assert_that(class(phenotype) == "phenotype")
+    format_error <- purrr::compose(capture_output,
+                                   cat,
+                                   purrr::partial(gsub, pattern = "\\\\n", replacement = "\\\n", ... =),
+                                   purrr::partial(gsub, pattern = "\\\\t", replacement = "\\\t", ... =)
+    )
+
+    phenotype_get_errors(phenotype) %>%
+        dplyr::first() %>%
+        purrr::pluck("message") %>%
+        format_error()
 }

@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-In this example, we're going to demonstrate the result persistance feature in the Query API. Query results can be saved to a file on the server, usually under the `user_data/` directory, instead of loading them into memory on the client. This is useful e.g. when you're preparing `case-control` files or `covariates` for use as input into regression workflows, e.g. `PLINK`. 
+In this example, we're going to demonstrate the result persistance feature in the Query API. Query results can be saved to a file on the server, usually under the `user_data/` directory, instead of loading them into memory on the client. This is useful e.g. when you're preparing `case-control` files or `covariates` for use as input into regression workflows, e.g. `PLINK`.
 
 ## Load packages
 
