@@ -312,6 +312,7 @@ get_phenotype <- function(name, conn) {
 #' @param category Enter the category for the phenotype (must be defined in the project - see get_categories) (optional)
 #' @param query NOR query that defines this phenotype (optional)
 #' @param tags comma separated string of tags eg. "height,weight" or character vector "c("height", "weight") (optional)
+#' @param data data.frame or list of phenotype PN values to be applied to `phenotype_upload_data` (optional)
 #'
 #' @return a list with the phenotype object
 #'

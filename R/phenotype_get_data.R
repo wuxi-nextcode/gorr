@@ -67,7 +67,7 @@ get_data.phenotype_matrix <- function(pheno_obj, conn=NULL) {
 #' @param missing_value The string to substitute for a missing value in the data
 #' @param base Optional name of base set
 #' @export
-get_data.playlist <- function(pheno_obj, missing_value = NULL, base = NULL) {
+get_data.playlist <- function(pheno_obj, missing_value = NULL, base = NULL)
     content <- list(base = base,
                     phenotypes = purrr::map(names(pheno_obj$phenotypes), ~list(name = .x, missing_value = missing_value))
                     )
@@ -80,10 +80,9 @@ get_data.playlist <- function(pheno_obj, missing_value = NULL, base = NULL) {
 #' @param base Optional name of base set
 #' @export
 get_data.phenotype_list <- function(pheno_obj, missing_value = NULL, base = NULL) {
-    content <- list(base = base,
-                    phenotypes = purrr::map(pheno_obj, ~list(name = .x$name, missing_value = missing_value))
-                    )
-    query__phemat_data(conn = attr(pheno_obj, which = "conn"), content = content)
+    conn = attr(pheno_obj[[1]], which = "conn")
+    pheno_names = names(pheno_obj)
+    get_data(pheno_names, missing_value=missing_value, base=base, conn=conn)
 }
 
 
