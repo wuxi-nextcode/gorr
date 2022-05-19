@@ -32,6 +32,8 @@ create_phenotype(
 \item{query}{NOR query that defines this phenotype (optional)}
 
 \item{tags}{comma separated string of tags eg. "height,weight" or character vector "c("height", "weight") (optional)}
+
+\item{data}{data.frame or list of phenotype PN values to be applied to \code{phenotype_upload_data} (optional)}
 }
 \value{
 a list with the phenotype object
