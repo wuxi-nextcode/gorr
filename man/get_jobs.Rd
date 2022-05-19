@@ -22,7 +22,7 @@ get_jobs(
 
 \item{status}{Current status of jobs}
 
-\item{project}{Filter by project}
+\item{project}{Filter by project - use "all" for searching in all projects. Default: conn$project}
 
 \item{pipeline}{Filter by pipeline name}
 

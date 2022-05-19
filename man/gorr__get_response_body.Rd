@@ -6,7 +6,8 @@
 \usage{
 gorr__get_response_body(
   response,
-  content.fun = purrr::partial(httr::content, encoding = "UTF-8")
+  content.fun = purrr::partial(httr::content, encoding = "UTF-8", show_col_types =
+    FALSE)
 )
 }
 \arguments{

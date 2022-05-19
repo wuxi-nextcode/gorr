@@ -1,3 +1,10 @@
+# gorr 1.6.0
+
+* `queryserver` as default query service
+* add `phenotype_get_error` and `phenotype_get_errors` 
+* Improve `get_data` and `phenotype_plot` methods
+* Bugfixes
+
 # gorr 1.5.1
 
 * Speed up queryserver queries
