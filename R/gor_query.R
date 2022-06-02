@@ -161,7 +161,7 @@ gorr__post_query <- function(query,
                        useGzip = FALSE,
                        sendTerm = TRUE,
                        sendProgress = FALSE,
-                       sendAlive = TRUE)
+                       sendKeepAlive = FALSE)
                         )
     }
 

@@ -79,18 +79,20 @@ gorr__process_msg <- function(stream, spinner, elapsed, msg) {
         as.character()
 
     status <- parsed_msg[2]
-    if (status == "EXCEPTION") {
-        gorr__failure("Query Failure", detail = parsed_msg[3])
-    } else if (status == "GOR") {
-        msg <- list(status = "RUNNING", info = paste0(msg$info, "."))
-    } else if (status == "DONE") {
-        stats <- jsonlite::fromJSON(parsed_msg[3])
+    tryCatch({
+        if (status == "EXCEPTION") {
+            gorr__failure("Query Failure", detail = parsed_msg[3])
+        } else if (status == "GOR") {
+            msg <- list(status = "RUNNING", info = paste0(msg$info, "."))
+        } else if (status == "DONE") {
+            stats <- jsonlite::fromJSON(parsed_msg[3])
 
-        msg <- list(status = status, info = paste0(" ", " \n Result details: ",
-                                                   stats$lineCount, " rows, total size: ",
-                                                   fs::fs_bytes(stats$bytesCount), "bytes \n"))
-    } else {
-        msg <- list(status="UNKOWN", info = parsed_msg[1])
-    }
+            msg <- list(status = status, info = paste0(" ", " \n Result details: ",
+                                                       stats$lineCount, " rows, total size: ",
+                                                       fs::fs_bytes(stats$bytesCount), "bytes \n"))
+        } else {
+            msg <- list(status="UNKOWN", info = parsed_msg[1])
+        }
+    }, error = function(x) gorr__failure("Unprocessable Message", detail = stream))
     msg
 }
