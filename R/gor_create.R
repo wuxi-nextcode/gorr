@@ -23,7 +23,7 @@
 #' query("nor [air] | map -c Month [months]")
 #' }
 #' @export
-gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL, query.service = "queryserver") {
+gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL, query.service = "queryservice") {
     defs <- gor_define(defs)
 
     dots <- rlang::dots_list(...)
@@ -37,6 +37,7 @@ gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL, query.serv
             if (is.null(prev$conn)) gorr__failure("conn parameter must be supplied")
             conn <- prev$conn
         }
+        query.service <- prev$query.service
 
         defs <- merge(prev$defs, defs)
         dots <- merge(prev$dots, dots)
@@ -73,7 +74,7 @@ gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL, query.serv
         gor_query(query, conn = conn, relations = virtual_relations, query.service = query.service, ...)
     }
 
-    structure(fn, class = "gor_creation", defs = defs, dots = dots, conn = conn)
+    structure(fn, class = "gor_creation", defs = defs, dots = dots, conn = conn, query.service=query.service)
 }
 
 #' @export
