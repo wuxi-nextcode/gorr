@@ -1,3 +1,8 @@
+# gorr 1.6.2
+
+* Default query service reverted to `queryservice`
+
+
 # gorr 1.6.1
 
 * `queryserver` Improved exception handling 
