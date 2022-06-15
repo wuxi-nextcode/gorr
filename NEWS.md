@@ -1,7 +1,11 @@
+# gorr 1.6.3
+
+* `queryserver` as default query service
+* Bugfix
+
 # gorr 1.6.2
 
 * Default query service reverted to `queryservice`
-
 
 # gorr 1.6.1
 

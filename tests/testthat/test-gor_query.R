@@ -23,10 +23,34 @@ test_that("gor_connect works without parameters", {
 
 })
 
-test_that("gor_query works", {
+test_that("gor_query works using default query.service", {
     result <-
         "gor #dbsnp# | top 100" %>%
-        gor_query(conn)
+        gor_query(conn, )
+
+    expect_is(result, "data.frame")
+    cols <- sapply(colnames(result),tolower,USE.NAMES=F) # GOR is not case insensitive so we need to convert to lowercase so the tests won't brake between ref versions
+    expect_equal(cols, c("chrom", "pos", "reference", "allele", "rsids"))
+    expect_equal(dim(result), c(100,5), info = "Expected dimensions of this dataframe are 100rows x 5 columns")
+})
+
+
+test_that("gor_query works using queryserver", {
+    result <-
+        "gor #dbsnp# | top 100" %>%
+        gor_query(conn, query.service = "queryserver")
+
+    expect_is(result, "data.frame")
+    cols <- sapply(colnames(result),tolower,USE.NAMES=F) # GOR is not case insensitive so we need to convert to lowercase so the tests won't brake between ref versions
+    expect_equal(cols, c("chrom", "pos", "reference", "allele", "rsids"))
+    expect_equal(dim(result), c(100,5), info = "Expected dimensions of this dataframe are 100rows x 5 columns")
+})
+
+
+test_that("gor_query works for queryservice", {
+    result <-
+        "gor #dbsnp# | top 100" %>%
+        gor_query(conn, query.service = "queryservice")
 
     expect_is(result, "data.frame")
     cols <- sapply(colnames(result),tolower,USE.NAMES=F) # GOR is not case insensitive so we need to convert to lowercase so the tests won't brake between ref versions
