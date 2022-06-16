@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.3</span>
       </span>
     </div>
 
@@ -111,7 +111,7 @@
 <a href="mailto:edvald@wuxinextcode.com" class="email">edvald@wuxinextcode.com</a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-05-19</h4>
+            <h4 data-toc-skip class="date">2022-06-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/HEAD/vignettes/basic-query.Rmd" class="external-link"><code>vignettes/basic-query.Rmd</code></a></small>
       <div class="hidden name"><code>basic-query.Rmd</code></div>
@@ -151,8 +151,8 @@ i.e. <code>api_key</code> and <code>project</code>:</p>
 <span class="co">#&gt; • <span style="color: #0000BB;">Project: </span>ukbb_hg38</span>
 <span class="co">#&gt; • <span style="color: #0000BB;">API key issued at: </span>2022-05-18 10:18:54</span>
 <span class="co">#&gt; • <span style="color: #0000BB;">API key expires at: </span>Never</span>
-<span class="co">#&gt; • <span style="color: #0000BB;">Access token issued at: </span>2022-05-19 11:00:57</span>
-<span class="co">#&gt; • <span style="color: #0000BB;">Access token expires at: </span>2022-05-20 11:00:57</span></code></pre></div>
+<span class="co">#&gt; • <span style="color: #0000BB;">Access token issued at: </span>2022-06-16 15:55:00</span>
+<span class="co">#&gt; • <span style="color: #0000BB;">Access token expires at: </span>2022-06-17 15:55:00</span></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object
 to pass into the <code>gor_query</code> function to finally run a
 query:</p>
@@ -164,16 +164,16 @@ query:</p>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 100 × 5</span></span>
 <span class="co">#&gt;    chrom   pos reference allele rsids       </span>
 <span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> chr1  <span style="text-decoration: underline;">10</span>020 AA        A      rs775809821 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> chr1  <span style="text-decoration: underline;">10</span>039 A         C      rs978760828 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> chr1  <span style="text-decoration: underline;">10</span>043 T         A      rs1008829651</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> chr1  <span style="text-decoration: underline;">10</span>051 A         G      rs1052373574</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> chr1  <span style="text-decoration: underline;">10</span>054 C         CC     rs1326880612</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> chr1  <span style="text-decoration: underline;">10</span>055 T         A      rs892501864 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> chr1  <span style="text-decoration: underline;">10</span>057 A         AA     rs768019142 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> chr1  <span style="text-decoration: underline;">10</span>063 A         C      rs1010989343</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> chr1  <span style="text-decoration: underline;">10</span>077 C         G      rs1022805358</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> chr1  <span style="text-decoration: underline;">10</span>108 C         CT     rs1322538365</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> chr1  <span style="text-decoration: underline;">10</span>001 T         A      rs1570391677</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> chr1  <span style="text-decoration: underline;">10</span>001 T         C      rs1570391677</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> chr1  <span style="text-decoration: underline;">10</span>002 A         C      rs1570391692</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> chr1  <span style="text-decoration: underline;">10</span>003 A         C      rs1570391694</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> chr1  <span style="text-decoration: underline;">10</span>007 T         C      rs1639538116</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> chr1  <span style="text-decoration: underline;">10</span>007 T         G      rs1639538116</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> chr1  <span style="text-decoration: underline;">10</span>008 A         C      rs1570391698</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> chr1  <span style="text-decoration: underline;">10</span>008 A         G      rs1570391698</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> chr1  <span style="text-decoration: underline;">10</span>008 A         T      rs1570391698</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> chr1  <span style="text-decoration: underline;">10</span>009 A         C      rs1570391702</span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 90 more rows</span></span></code></pre></div>
 <p>It should also be noted that larger gor queries can be constructed
 inside a string block and piped directly into the <code>gor_query</code>
@@ -191,16 +191,16 @@ function:</p>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 100 × 5</span></span>
 <span class="co">#&gt;    chrom     pos reference allele snptype</span>
 <span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> chr21 5<span style="text-decoration: underline;">030</span>088 C         T      C/T    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> chr21 5<span style="text-decoration: underline;">030</span>105 C         A      C/A    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> chr21 5<span style="text-decoration: underline;">030</span>154 T         C      T/C    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> chr21 5<span style="text-decoration: underline;">030</span>173 G         C      G/C    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> chr21 5<span style="text-decoration: underline;">030</span>192 A         G      A/G    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> chr21 5<span style="text-decoration: underline;">030</span>208 A         G      A/G    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> chr21 5<span style="text-decoration: underline;">030</span>253 G         T      G/T    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> chr21 5<span style="text-decoration: underline;">030</span>278 C         G      C/G    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> chr21 5<span style="text-decoration: underline;">030</span>279 G         A      G/A    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> chr21 5<span style="text-decoration: underline;">030</span>282 C         T      C/T    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> chr21 5<span style="text-decoration: underline;">025</span>532 G         C      G/C    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> chr21 5<span style="text-decoration: underline;">030</span>088 C         T      C/T    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> chr21 5<span style="text-decoration: underline;">030</span>105 C         A      C/A    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> chr21 5<span style="text-decoration: underline;">030</span>151 T         G      T/G    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> chr21 5<span style="text-decoration: underline;">030</span>154 T         C      T/C    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> chr21 5<span style="text-decoration: underline;">030</span>160 T         A      T/A    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> chr21 5<span style="text-decoration: underline;">030</span>173 G         C      G/C    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> chr21 5<span style="text-decoration: underline;">030</span>192 A         G      A/G    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> chr21 5<span style="text-decoration: underline;">030</span>201 A         C      A/C    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> chr21 5<span style="text-decoration: underline;">030</span>208 A         G      A/G    </span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 90 more rows</span></span></code></pre></div>
 </div>
   </div>

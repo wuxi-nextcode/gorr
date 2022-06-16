@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.3</span>
       </span>
     </div>
 
@@ -111,7 +111,7 @@
 <a href="mailto:edvald@wuxinextcode.com" class="email">edvald@wuxinextcode.com</a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-05-19</h4>
+            <h4 data-toc-skip class="date">2022-06-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/HEAD/vignettes/persistance-of-results.Rmd" class="external-link"><code>vignettes/persistance-of-results.Rmd</code></a></small>
       <div class="hidden name"><code>persistance-of-results.Rmd</code></div>
@@ -181,16 +181,16 @@ file. Now we can read the file contents directly:</p>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 5</span></span>
 <span class="co">#&gt;    chrom   pos reference allele rsids       </span>
 <span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> chr1  <span style="text-decoration: underline;">10</span>020 AA        A      rs775809821 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> chr1  <span style="text-decoration: underline;">10</span>039 A         C      rs978760828 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> chr1  <span style="text-decoration: underline;">10</span>043 T         A      rs1008829651</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> chr1  <span style="text-decoration: underline;">10</span>051 A         G      rs1052373574</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> chr1  <span style="text-decoration: underline;">10</span>054 C         CC     rs1326880612</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> chr1  <span style="text-decoration: underline;">10</span>055 T         A      rs892501864 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> chr1  <span style="text-decoration: underline;">10</span>057 A         AA     rs768019142 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> chr1  <span style="text-decoration: underline;">10</span>063 A         C      rs1010989343</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> chr1  <span style="text-decoration: underline;">10</span>077 C         G      rs1022805358</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> chr1  <span style="text-decoration: underline;">10</span>108 C         CT     rs1322538365</span></code></pre></div>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> chr1  <span style="text-decoration: underline;">10</span>001 T         A      rs1570391677</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> chr1  <span style="text-decoration: underline;">10</span>001 T         C      rs1570391677</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> chr1  <span style="text-decoration: underline;">10</span>002 A         C      rs1570391692</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> chr1  <span style="text-decoration: underline;">10</span>003 A         C      rs1570391694</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> chr1  <span style="text-decoration: underline;">10</span>007 T         C      rs1639538116</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> chr1  <span style="text-decoration: underline;">10</span>007 T         G      rs1639538116</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> chr1  <span style="text-decoration: underline;">10</span>008 A         C      rs1570391698</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> chr1  <span style="text-decoration: underline;">10</span>008 A         G      rs1570391698</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> chr1  <span style="text-decoration: underline;">10</span>008 A         T      rs1570391698</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> chr1  <span style="text-decoration: underline;">10</span>009 A         C      rs1570391702</span></code></pre></div>
 <p>For reading the tsv file, we use <code>NOR</code> which is suitable
 for reading any tab-separated data-files and don’t assume genomic
 order:</p>
@@ -199,16 +199,16 @@ order:</p>
 <span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 3</span></span>
 <span class="co">#&gt;    reference allele rsids       </span>
 <span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> AA        A      rs775809821 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> A         C      rs978760828 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> T         A      rs1008829651</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> A         G      rs1052373574</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> C         CC     rs1326880612</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> T         A      rs892501864 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> A         AA     rs768019142 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> A         C      rs1010989343</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> C         G      rs1022805358</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> C         CT     rs1322538365</span></code></pre></div>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> T         A      rs1570391677</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> T         C      rs1570391677</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> A         C      rs1570391692</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> A         C      rs1570391694</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> T         C      rs1639538116</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> T         G      rs1639538116</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> A         C      rs1570391698</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> A         G      rs1570391698</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> A         T      rs1570391698</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> A         C      rs1570391702</span></code></pre></div>
 <p>It is sometimes useful to list the files of a given directory, we can
 use <code>nor</code> to do that:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -218,8 +218,8 @@ use <code>nor</code> to do that:</p>
 <span class="co">#&gt;   Filename           Filesize Filetype</span>
 <span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;fs::bytes&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">1</span> doc                     25K <span style="color: #949494;">""</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dbsnp_1000.gorz       11.3K <span style="color: #949494;">"</span>gorz<span style="color: #949494;">"</span>  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> dbsnp_1000.tsv        18.4K <span style="color: #949494;">"</span>tsv<span style="color: #949494;">"</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dbsnp_1000.gorz       9.12K <span style="color: #949494;">"</span>gorz<span style="color: #949494;">"</span>  </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> dbsnp_1000.tsv        21.1K <span style="color: #949494;">"</span>tsv<span style="color: #949494;">"</span></span></code></pre></div>
 <p>The table above also shows the size difference between the
 <code>gorz</code> and the <code>tsv</code> file</p>
 </div>
