@@ -11,15 +11,15 @@
 \usage{
 get_data(pheno_obj, ...)
 
-\method{get_data}{phenotype}(pheno_obj, conn = NULL)
+\method{get_data}{phenotype}(pheno_obj, conn = NULL, ...)
 
-\method{get_data}{phenotype_matrix}(pheno_obj, conn = NULL)
+\method{get_data}{phenotype_matrix}(pheno_obj, conn = NULL, ...)
 
-\method{get_data}{playlist}(pheno_obj, missing_value = NULL, base = NULL)
+\method{get_data}{playlist}(pheno_obj, missing_value = NULL, base = NULL, ...)
 
-\method{get_data}{phenotype_list}(pheno_obj, missing_value = NULL, base = NULL)
+\method{get_data}{phenotype_list}(pheno_obj, missing_value = NULL, base = NULL, ...)
 
-\method{get_data}{default}(pheno_obj, conn, missing_value = NA, base = NULL)
+\method{get_data}{default}(pheno_obj, conn, missing_value = NA, base = NULL, ...)
 }
 \arguments{
 \item{pheno_obj}{phenotype names, phenotype, phenotype matrix or phenotype playlist structure.}
