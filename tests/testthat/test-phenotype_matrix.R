@@ -6,7 +6,7 @@ initialize_phemat_tests <- function(){
     conn <<- platform_connect(
         api_key = Sys.getenv("GOR_API_KEY"),
         project = Sys.getenv("GOR_API_PROJECT"))
-    test_name <<- paste0("test_pheno", sample(1:100,1))
+    test_name <<- paste0("test_pheno", sample(1:1000,1))
     test_type <- "QT"
     test_desc <- "This is a test phenotype"
     phenotype <<- create_phenotype(name=test_name,
@@ -54,7 +54,7 @@ test_that("get_data works", {
 })
 
 clean_up_tests <- function() {
-    phenotype_delete(phenotype, conn)
+    phenotype_delete(phenotype)
 }
 
 clean_up_tests()

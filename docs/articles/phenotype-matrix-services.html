@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.3</span>
       </span>
     </div>
 
@@ -111,7 +111,7 @@
 Stefansson <a href="mailto:andri@genuitysci.com" class="email">andri@genuitysci.com</a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-05-19</h4>
+            <h4 data-toc-skip class="date">2022-06-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/HEAD/vignettes/phenotype-matrix-services.Rmd" class="external-link"><code>vignettes/phenotype-matrix-services.Rmd</code></a></small>
       <div class="hidden name"><code>phenotype-matrix-services.Rmd</code></div>
@@ -148,8 +148,8 @@ i.e. <code>api_key</code> and <code>project</code>:</p>
 <span class="co">#&gt; • <span style="color: #0000BB;">Project: </span>ukbb_hg38</span>
 <span class="co">#&gt; • <span style="color: #0000BB;">API key issued at: </span>2022-05-18 10:18:54</span>
 <span class="co">#&gt; • <span style="color: #0000BB;">API key expires at: </span>Never</span>
-<span class="co">#&gt; • <span style="color: #0000BB;">Access token issued at: </span>2022-05-19 11:01:38</span>
-<span class="co">#&gt; • <span style="color: #0000BB;">Access token expires at: </span>2022-05-20 11:01:38</span></code></pre></div>
+<span class="co">#&gt; • <span style="color: #0000BB;">Access token issued at: </span>2022-06-16 15:56:01</span>
+<span class="co">#&gt; • <span style="color: #0000BB;">Access token expires at: </span>2022-06-17 15:56:01</span></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object
 to pass into subsequent functions.</p>
 </div>
@@ -195,8 +195,8 @@ as one of its tags</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">phenos_subset_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">phenos</span><span class="op">)</span>,<span class="fl">5</span><span class="op">)</span>
 <span class="va">phenos_subset_names</span> 
-<span class="co">#&gt; [1] "phecode_case_255.12" "phecode_case_253.1"  "phecode_case_250.6" </span>
-<span class="co">#&gt; [4] "phecode_case_250.7"  "phecode_case_255.11"</span></code></pre></div>
+<span class="co">#&gt; [1] "phecode_case_253.3"  "phecode_case_255.21" "phecode_case_255.11"</span>
+<span class="co">#&gt; [4] "phecode_case_253.11" "phecode_case_180.3"</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="initialize-phenotype-matrix">Initialize phenotype matrix<a class="anchor" aria-label="anchor" href="#initialize-phenotype-matrix"></a>
@@ -231,7 +231,7 @@ phemat_add_phenotypes(names, phenotype_matrix, missing_value)</p>
 <code class="sourceCode R"><span class="va">pheno_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phemat_add_phenotypes.html">phemat_add_phenotypes</a></span><span class="op">(</span><span class="va">phenos_subset_names</span>, <span class="va">pheno_matrix</span>,  missing_value <span class="op">=</span> <span class="st">'-99'</span><span class="op">)</span> </code></pre></div>
 <pre><code><span class="co">#&gt; [1] "pheno_matrix class: phenotype_matrix"</span>
 <span class="co">#&gt; [1] "pheno_matrix content: base, phenotypes"</span>
-<span class="co">#&gt; [1] "pheno_matrix phenotypes: phecode_case_255.12, phecode_case_253.1, phecode_case_250.6, phecode_case_250.7, phecode_case_255.11"</span></code></pre>
+<span class="co">#&gt; [1] "pheno_matrix phenotypes: phecode_case_253.3, phecode_case_255.21, phecode_case_255.11, phecode_case_253.11, phecode_case_180.3"</span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="remove-phenotype-from-matrix">Remove phenotype from matrix<a class="anchor" aria-label="anchor" href="#remove-phenotype-from-matrix"></a>
@@ -239,44 +239,22 @@ phemat_add_phenotypes(names, phenotype_matrix, missing_value)</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rm_pheno</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">pheno_matrix</span><span class="op">$</span><span class="va">phenotypes</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
 <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Removing phenotype:"</span>, <span class="va">rm_pheno</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Removing phenotype: phecode_case_255.12"</span>
+<span class="co">#&gt; [1] "Removing phenotype: phecode_case_253.3"</span>
 <span class="va">pheno_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/phemat_remove_phenotype.html">phemat_remove_phenotype</a></span><span class="op">(</span>name<span class="op">=</span><span class="va">rm_pheno</span>, <span class="va">pheno_matrix</span><span class="op">)</span>
 <span class="va">pheno_matrix</span>
 <span class="co">#&gt; $base</span>
 <span class="co">#&gt; NULL</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $phenotypes</span>
-<span class="co">#&gt; $phenotypes$phecode_case_253.1</span>
-<span class="co">#&gt; $phenotypes$phecode_case_253.1$name</span>
-<span class="co">#&gt; [1] "phecode_case_253.1"</span>
+<span class="co">#&gt; $phenotypes$phecode_case_255.21</span>
+<span class="co">#&gt; $phenotypes$phecode_case_255.21$name</span>
+<span class="co">#&gt; [1] "phecode_case_255.21"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_253.1$missing_value</span>
+<span class="co">#&gt; $phenotypes$phecode_case_255.21$missing_value</span>
 <span class="co">#&gt; [1] "-99"</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_253.1$label</span>
-<span class="co">#&gt; [1] "phecode_case_253.1"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_250.6</span>
-<span class="co">#&gt; $phenotypes$phecode_case_250.6$name</span>
-<span class="co">#&gt; [1] "phecode_case_250.6"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_250.6$missing_value</span>
-<span class="co">#&gt; [1] "-99"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_250.6$label</span>
-<span class="co">#&gt; [1] "phecode_case_250.6"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_250.7</span>
-<span class="co">#&gt; $phenotypes$phecode_case_250.7$name</span>
-<span class="co">#&gt; [1] "phecode_case_250.7"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_250.7$missing_value</span>
-<span class="co">#&gt; [1] "-99"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $phenotypes$phecode_case_250.7$label</span>
-<span class="co">#&gt; [1] "phecode_case_250.7"</span>
+<span class="co">#&gt; $phenotypes$phecode_case_255.21$label</span>
+<span class="co">#&gt; [1] "phecode_case_255.21"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $phenotypes$phecode_case_255.11</span>
@@ -288,6 +266,28 @@ phemat_add_phenotypes(names, phenotype_matrix, missing_value)</p>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $phenotypes$phecode_case_255.11$label</span>
 <span class="co">#&gt; [1] "phecode_case_255.11"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $phenotypes$phecode_case_253.11</span>
+<span class="co">#&gt; $phenotypes$phecode_case_253.11$name</span>
+<span class="co">#&gt; [1] "phecode_case_253.11"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $phenotypes$phecode_case_253.11$missing_value</span>
+<span class="co">#&gt; [1] "-99"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $phenotypes$phecode_case_253.11$label</span>
+<span class="co">#&gt; [1] "phecode_case_253.11"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $phenotypes$phecode_case_180.3</span>
+<span class="co">#&gt; $phenotypes$phecode_case_180.3$name</span>
+<span class="co">#&gt; [1] "phecode_case_180.3"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $phenotypes$phecode_case_180.3$missing_value</span>
+<span class="co">#&gt; [1] "-99"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $phenotypes$phecode_case_180.3$label</span>
+<span class="co">#&gt; [1] "phecode_case_180.3"</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
@@ -303,20 +303,20 @@ listed</p>
 <code class="sourceCode R"><span class="va">pheno_data</span> <span class="op">&lt;-</span>  <span class="fu"><a href="../reference/get_data.html">get_data</a></span><span class="op">(</span><span class="va">pheno_matrix</span>, <span class="va">conn</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pheno_data</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 2,667 × 5</span></span>
-<span class="co">#&gt;         pn phecode_case_253.1 phecode_case_25… phecode_case_25… phecode_case_25…</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 2,692 × 5</span></span>
+<span class="co">#&gt;         pn phecode_case_255.… phecode_case_25… phecode_case_25… phecode_case_18…</span>
 <span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 1<span style="text-decoration: underline;">000</span>493                -<span style="color: #BB0000;">99</span>                1              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 1<span style="text-decoration: underline;">000</span>629                -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>                1              -<span style="color: #BB0000;">99</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 1<span style="text-decoration: underline;">005</span>858                -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>                1              -<span style="color: #BB0000;">99</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 1<span style="text-decoration: underline;">006</span>028                -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>                1              -<span style="color: #BB0000;">99</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 1<span style="text-decoration: underline;">008</span>099                  1              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 1<span style="text-decoration: underline;">011</span>621                -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>                1              -<span style="color: #BB0000;">99</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 1<span style="text-decoration: underline;">015</span>011                -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>                1              -<span style="color: #BB0000;">99</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 1<span style="text-decoration: underline;">015</span>826                -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>                1              -<span style="color: #BB0000;">99</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 1<span style="text-decoration: underline;">017</span>483                -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>                1              -<span style="color: #BB0000;">99</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 1<span style="text-decoration: underline;">021</span>089                  1              -<span style="color: #BB0000;">99</span>                1              -<span style="color: #BB0000;">99</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 2,657 more rows</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 1<span style="text-decoration: underline;">002</span>261                -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>                1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 1<span style="text-decoration: underline;">005</span>939                -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>                1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 1<span style="text-decoration: underline;">006</span>278                  1              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 1<span style="text-decoration: underline;">010</span>500                -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>                1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 1<span style="text-decoration: underline;">011</span>704                -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>                1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 1<span style="text-decoration: underline;">012</span>415                  1              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 1<span style="text-decoration: underline;">012</span>521                -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>                1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 1<span style="text-decoration: underline;">012</span>811                -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>                1</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 1<span style="text-decoration: underline;">018</span>263                  1              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 1<span style="text-decoration: underline;">022</span>873                -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>              -<span style="color: #BB0000;">99</span>                1</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 2,682 more rows</span></span></code></pre></div>
 </div>
   </div>
 

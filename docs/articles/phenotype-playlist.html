@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.3</span>
       </span>
     </div>
 
@@ -111,7 +111,7 @@
 Stefansson <a href="mailto:andri@genuitysci.com" class="email">andri@genuitysci.com</a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-05-19</h4>
+            <h4 data-toc-skip class="date">2022-06-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/HEAD/vignettes/phenotype-playlist.Rmd" class="external-link"><code>vignettes/phenotype-playlist.Rmd</code></a></small>
       <div class="hidden name"><code>phenotype-playlist.Rmd</code></div>
@@ -151,8 +151,8 @@ i.e. <code>api_key</code> and <code>project</code>:</p>
 <span class="co">#&gt; • <span style="color: #0000BB;">Project: </span>ukbb_hg38</span>
 <span class="co">#&gt; • <span style="color: #0000BB;">API key issued at: </span>2022-05-18 10:18:54</span>
 <span class="co">#&gt; • <span style="color: #0000BB;">API key expires at: </span>Never</span>
-<span class="co">#&gt; • <span style="color: #0000BB;">Access token issued at: </span>2022-05-19 11:01:43</span>
-<span class="co">#&gt; • <span style="color: #0000BB;">Access token expires at: </span>2022-05-20 11:01:43</span></code></pre></div>
+<span class="co">#&gt; • <span style="color: #0000BB;">Access token issued at: </span>2022-06-16 15:56:07</span>
+<span class="co">#&gt; • <span style="color: #0000BB;">Access token expires at: </span>2022-06-17 15:56:07</span></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object
 to pass into subsequent functions.</p>
 </div>
@@ -164,22 +164,15 @@ to pass into subsequent functions.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">playlists</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_playlists.html">get_playlists</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span>
 <span class="va">playlists</span>
-<span class="co">#&gt;  [1] "oktobertest1634900223" "andri_test2"           "oktobertest1634905751"</span>
-<span class="co">#&gt;  [4] "Diabetes76"            "oktobertest1634907885" "Diabetes77"           </span>
-<span class="co">#&gt;  [7] "Diabetes95"            "test_pl38"             "test_pl62"            </span>
-<span class="co">#&gt; [10] "Diabetes99"            "test_pl47"             "test_1"               </span>
-<span class="co">#&gt; [13] "test_2"                "test_5"                "Diabetes84"           </span>
-<span class="co">#&gt; [16] "Diabetes66"            "test_pl19"             "My covariates14"      </span>
-<span class="co">#&gt; [19] "Basic statistics"      "Pulmonology"           "Diabetes"             </span>
-<span class="co">#&gt; [22] "Cancers"               "Eye diseases"          "Age of diagnoses"     </span>
-<span class="co">#&gt; [25] "Anna's playlist"       "Anna's playlist2"      "Asthma"               </span>
-<span class="co">#&gt; [28] "Demo Playlist"         "andri tests"           "rtestpack_pl227"      </span>
-<span class="co">#&gt; [31] "test_pl2"              "test_pl52"             "Diabetes83"           </span>
-<span class="co">#&gt; [34] "rtestpack_pl742"       "oktobertest"           "rtestpack_pl477"      </span>
-<span class="co">#&gt; [37] "test_pl79"             "ymirs_test"            "rtestpack_pl871"      </span>
-<span class="co">#&gt; [40] "oktobertest17"         "oktobertest18"         "oktobertest1634815382"</span>
-<span class="co">#&gt; [43] "oktobertest1634815564" "oktobertest1634818035" "oktobertest1634826210"</span>
-<span class="co">#&gt; [46] "oktobertest1634828000"</span></code></pre></div>
+<span class="co">#&gt;  [1] "oktobertest1634900223" "oktobertest1634905751" "oktobertest1634907885"</span>
+<span class="co">#&gt;  [4] "My covariates14"       "Basic statistics"      "Pulmonology"          </span>
+<span class="co">#&gt;  [7] "Cancers"               "Eye diseases"          "Age of diagnoses"     </span>
+<span class="co">#&gt; [10] "Anna's playlist"       "Anna's playlist2"      "Asthma"               </span>
+<span class="co">#&gt; [13] "Demo Playlist"         "andri tests"           "rtestpack_pl227"      </span>
+<span class="co">#&gt; [16] "rtestpack_pl742"       "oktobertest"           "rtestpack_pl477"      </span>
+<span class="co">#&gt; [19] "rtestpack_pl871"       "oktobertest17"         "oktobertest18"        </span>
+<span class="co">#&gt; [22] "oktobertest1634815382" "oktobertest1634815564" "oktobertest1634818035"</span>
+<span class="co">#&gt; [25] "oktobertest1634826210" "oktobertest1634828000"</span></code></pre></div>
 <p>The results come back as a <code>vector</code> of playlist names
 available to the user.</p>
 </div>
@@ -203,8 +196,8 @@ exist in the project, to list all phenotypes see
 <p>A new playlist has now been added to the project. The results come
 back as a <code>playlist</code> object.</p>
 <pre><code><span class="co">#&gt; ── Phenotype playlist ──────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;  $name: Diabetes57</span>
-<span class="co">#&gt;  $id: 674</span>
+<span class="co">#&gt;  $name: Diabetes73</span>
+<span class="co">#&gt;  $id: 715</span>
 <span class="co">#&gt;  $description: A set of all phenotypes related to diabetes in UKBB</span>
 <span class="co">#&gt;  $phenotypes: </span>
 <span class="co">#&gt;  $created_by: andri@genuitysci.com</span></code></pre>
@@ -233,15 +226,15 @@ make sure that the phenotype does exist in the catalog and has not been
 assigned to the playlist already.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create a test phenotype </span>
-<span class="va">pheno_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"rtest_pheno"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">99</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="co"># Name of new phenotype</span>
+<span class="va">pheno_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"rtest_pheno"</span>, <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1000</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="co"># Name of new phenotype</span>
 <span class="va">result_type</span> <span class="op">&lt;-</span> <span class="st">"CATEGORY"</span> <span class="co"># Type of phenotype (either "QT", "SET" or "CATEGORY")</span>
 <span class="va">tmp_phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/create_phenotype.html">create_phenotype</a></span><span class="op">(</span><span class="va">pheno_name</span>, <span class="va">result_type</span>, <span class="va">conn</span><span class="op">)</span>
 <span class="va">new_playlist</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/playlist_add_phenotype.html">playlist_add_phenotype</a></span><span class="op">(</span><span class="va">pheno_name</span>, <span class="va">new_playlist</span>, <span class="va">conn</span><span class="op">)</span>
 <span class="co">#&gt; Warning in deprecated_argument_msg(conn) %&gt;% warning(): conn argument deprecated</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">new_playlist</span><span class="op">$</span><span class="va">phenotypes</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt; $rtest_pheno89</span>
+<span class="co">#&gt; $rtest_pheno209</span>
 <span class="co">#&gt; ── Phenotype ───────────────────────────────────────────────────────────────────</span>
-<span class="co">#&gt;  $name: rtest_pheno89</span>
+<span class="co">#&gt;  $name: rtest_pheno209</span>
 <span class="co">#&gt;  $description: </span>
 <span class="co">#&gt;  $result_type: CATEGORY</span>
 <span class="co">#&gt;  $tag_list: </span>
@@ -265,16 +258,16 @@ assigned to the playlist already.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/playlist_delete.html">playlist_delete</a></span><span class="op">(</span><span class="va">new_playlist</span>, <span class="va">conn</span><span class="op">)</span>
 <span class="co">#&gt; Warning in deprecated_argument_msg(conn) %&gt;% warning(): conn argument deprecated</span>
-<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/playlists/674]</span>
-<span class="co">#&gt;   Date: 2022-05-19 11:01</span>
+<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/playlists/715]</span>
+<span class="co">#&gt;   Date: 2022-06-16 15:56</span>
 <span class="co">#&gt;   Status: 204</span>
 <span class="co">#&gt;   Content-Type: &lt;unknown&gt;</span>
 <span class="co">#&gt; &lt;EMPTY BODY&gt;</span>
 <span class="co">#Clean up phenotype</span>
 <span class="fu"><a href="../reference/phenotype_delete.html">phenotype_delete</a></span><span class="op">(</span><span class="va">tmp_phenotype</span>, <span class="va">conn</span><span class="op">)</span>
 <span class="co">#&gt; Warning in deprecated_argument_msg(conn) %&gt;% warning(): conn argument deprecated</span>
-<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/phenotypes/rtest_pheno89]</span>
-<span class="co">#&gt;   Date: 2022-05-19 11:01</span>
+<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/phenotypes/rtest_pheno209]</span>
+<span class="co">#&gt;   Date: 2022-06-16 15:56</span>
 <span class="co">#&gt;   Status: 204</span>
 <span class="co">#&gt;   Content-Type: &lt;unknown&gt;</span>
 <span class="co">#&gt; &lt;EMPTY BODY&gt;</span></code></pre></div>

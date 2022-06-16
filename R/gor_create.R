@@ -23,7 +23,7 @@
 #' query("nor [air] | map -c Month [months]")
 #' }
 #' @export
-gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL, query.service = "queryservice") {
+gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL, query.service = "queryserver") {
     defs <- gor_define(defs)
 
     dots <- rlang::dots_list(...)

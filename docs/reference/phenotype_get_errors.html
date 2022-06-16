@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.3</span>
       </span>
     </div>
 
@@ -104,7 +104,7 @@
 <span class="r-in"><span class="va">project</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"GOR_PROJECT"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">conn</span> <span class="op">&lt;-</span> <span class="fu"><a href="platform_connect.html">platform_connect</a></span><span class="op">(</span><span class="va">api_key</span>, <span class="va">project</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">phenotype</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_phenotype.html">get_phenotype</a></span><span class="op">(</span>name<span class="op">=</span><span class="st">"height"</span>, <span class="va">conn</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">tags</span> <span class="op">&lt;-</span> <span class="fu">phenotype_get_errors</span><span class="op">(</span><span class="va">phenotype</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">phenotype_get_errors</span><span class="op">(</span><span class="va">phenotype</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>

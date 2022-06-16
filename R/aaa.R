@@ -1,3 +1,3 @@
 utils::globalVariables(c(
-    "iss", "scheme", "hostname", "path", "knit_engines", "query", "getDTthreads", "_fn", "_out", "."
+    "iss", "scheme", "hostname", "path", "knit_engines", "query", "getDTthreads", "_fn", "_out", ".", "name", "string", "code", "..count.."
 ))
