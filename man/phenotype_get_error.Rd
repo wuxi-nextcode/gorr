@@ -21,6 +21,6 @@ api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
 conn <- platform_connect(api_key, project)
 phenotype <- get_phenotype(name="height", conn)
-tags <- phenotype_get_error(phenotype)
+phenotype_get_error(phenotype)
 }
 }

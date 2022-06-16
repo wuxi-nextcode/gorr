@@ -95,7 +95,7 @@ Once a playlist has been fetched or created we can add phenotypes to it. As for 
 
 ```{r}
 # Create a test phenotype 
-pheno_name <- paste0("rtest_pheno", sample(1:99,1)) # Name of new phenotype
+pheno_name <- paste0("rtest_pheno", sample(1:1000,1)) # Name of new phenotype
 result_type <- "CATEGORY" # Type of phenotype (either "QT", "SET" or "CATEGORY")
 tmp_phenotype <- create_phenotype(pheno_name, result_type, conn)
 new_playlist  <- playlist_add_phenotype(pheno_name, new_playlist, conn)

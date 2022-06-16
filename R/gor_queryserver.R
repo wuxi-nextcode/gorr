@@ -73,26 +73,31 @@ gorr__kill_stream <- function() {
 # Process status messages from stream
 gorr__process_msg <- function(stream, spinner, elapsed, msg) {
     # Process last message from stream
+    tryCatch({
     parsed_msg <- gorr__extract_msg(stream) %>%
         dplyr::last() %>%
         stringr::str_match(pattern="^\\s?([\\w]+)\\s(.*)") %>% #Get ([STATUS]) ([REST])
         as.character()
-
-    status <- parsed_msg[2]
-    tryCatch({
-        if (status == "EXCEPTION") {
-            gorr__failure("Query Failure", detail = parsed_msg[3])
-        } else if (status == "GOR") {
-            msg <- list(status = "RUNNING", info = paste0(msg$info, "."))
-        } else if (status == "DONE") {
-            stats <- jsonlite::fromJSON(parsed_msg[3])
-
-            msg <- list(status = status, info = paste0(" ", " \n Result details: ",
-                                                       stats$lineCount, " rows, total size: ",
-                                                       fs::fs_bytes(stats$bytesCount), "bytes \n"))
-        } else {
-            msg <- list(status="UNKOWN", info = parsed_msg[1])
-        }
     }, error = function(x) gorr__failure("Unprocessable Message", detail = stream))
+    status <- parsed_msg[2]
+    if (status == "EXCEPTION") {
+        gorr__failure("FAILED", detail = gorr__get_error_msg(parsed_msg[3]))
+    } else if (status == "GOR") {
+        msg <- list(status = "RUNNING", info = paste0(msg$info, "."))
+    } else if (status == "DONE") {
+        stats <- jsonlite::fromJSON(parsed_msg[3])
+
+        msg <- list(status = status, info = paste0(" ", " \n Result details: ",
+                                                   stats$lineCount, " rows, total size: ",
+                                                   fs::fs_bytes(stats$bytesCount), "bytes \n"))
+    } else {
+        msg <- list(status="UNKOWN", info = parsed_msg[1])
+
+    }
     msg
 }
+
+gorr__get_error_msg <- purrr::compose(~ purrr::pluck(.x, 1, 1),
+                                      purrr::partial(stringr::str_split, pattern = "Stack Trace"),
+                                      ~ purrr::pluck(.x, "gorMessage"),
+                                      jsonlite::fromJSON)

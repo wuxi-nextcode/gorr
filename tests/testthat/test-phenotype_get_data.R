@@ -37,7 +37,7 @@ phenotype_mat <- NULL
 initialize_phemat_tests()
 
 test_that("get_data works for phenotype", {
-    result <- get_data(phenotype, conn = conn)
+    result <- get_data(phenotype)
 
     expect_equal(names(result), c("pn", test_name))
     expect_equal(dim(result), c(2, 2))

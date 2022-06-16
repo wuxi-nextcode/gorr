@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.3</span>
       </span>
     </div>
 
@@ -112,7 +112,7 @@ data frames</h1>
 <a href="mailto:edvald@wuxinextcode.com" class="email">edvald@wuxinextcode.com</a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-05-19</h4>
+            <h4 data-toc-skip class="date">2022-06-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/HEAD/vignettes/gor-create.Rmd" class="external-link"><code>vignettes/gor-create.Rmd</code></a></small>
       <div class="hidden name"><code>gor-create.Rmd</code></div>
@@ -174,11 +174,12 @@ as a local dataframe <code>mygenes</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mygenes</span> <span class="op">&lt;-</span> <span class="fu">query</span><span class="op">(</span><span class="st">"gor #genes# | grep BRCA"</span><span class="op">)</span>
 <span class="va">mygenes</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 4</span></span>
 <span class="co">#&gt;   chrom gene_start gene_end gene_symbol</span>
 <span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>266 BRCA2      </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> chr17   43<span style="text-decoration: underline;">044</span>294 43<span style="text-decoration: underline;">170</span>245 BRCA1</span></code></pre></div>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>268 BRCA2      </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> chr17   43<span style="text-decoration: underline;">044</span>294 43<span style="text-decoration: underline;">170</span>245 BRCA1      </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> chr17   43<span style="text-decoration: underline;">168</span>169 43<span style="text-decoration: underline;">168</span>249 BRCA1P1</span></code></pre></div>
 <p>Next we can expand on our previously defined <code>query</code>
 function by supplying it back into <code>gor_create</code> as the
 <code>replace</code> parameter. This time we include some definitions
@@ -200,11 +201,12 @@ called <em>virtual relations</em>:</p>
 <span class="co">#&gt;   def <span style="font-weight: bold;">variants</span> = #dbsnp#;</span>
 <span class="co">#&gt; <span style="color: #00BB00;">Create statements &amp; virtual relations</span></span>
 <span class="co">#&gt;  <span style="font-weight: bold;">mygenes</span></span>
-<span class="co">#&gt;    <span style="color: #949494;"># A tibble: 2 × 4</span></span>
+<span class="co">#&gt;    <span style="color: #949494;"># A tibble: 3 × 4</span></span>
 <span class="co">#&gt;      chrom gene_start gene_end gene_symbol</span>
 <span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="co">#&gt;    <span style="color: #BCBCBC;">1</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>266 BRCA2      </span>
-<span class="co">#&gt;    <span style="color: #BCBCBC;">2</span> chr17   43<span style="text-decoration: underline;">044</span>294 43<span style="text-decoration: underline;">170</span>245 BRCA1</span></code></pre></div>
+<span class="co">#&gt;    <span style="color: #BCBCBC;">1</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>268 BRCA2      </span>
+<span class="co">#&gt;    <span style="color: #BCBCBC;">2</span> chr17   43<span style="text-decoration: underline;">044</span>294 43<span style="text-decoration: underline;">170</span>245 BRCA1      </span>
+<span class="co">#&gt;    <span style="color: #BCBCBC;">3</span> chr17   43<span style="text-decoration: underline;">168</span>169 43<span style="text-decoration: underline;">168</span>249 BRCA1P1</span></code></pre></div>
 <p>Now that we have our updated <code>query</code> function, we can use
 it to <code>gor</code> our table of genes and join it to the
 <code>#dbsnp#</code> table we aliased as <code>variants</code> in the
@@ -219,11 +221,12 @@ gene in our table</p>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">gene_symbol</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>records <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,
             variants <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/n_distinct.html" class="external-link">n_distinct</a></span><span class="op">(</span><span class="va">rsids</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span>
 <span class="co">#&gt;   gene_symbol records variants</span>
 <span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> BRCA1         <span style="text-decoration: underline;">37</span>150    <span style="text-decoration: underline;">32</span>933</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> BRCA2         <span style="text-decoration: underline;">28</span>727    <span style="text-decoration: underline;">25</span>260</span></code></pre></div>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> BRCA1         <span style="text-decoration: underline;">60</span>548    <span style="text-decoration: underline;">49</span>772</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> BRCA1P1          34       31</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> BRCA2         <span style="text-decoration: underline;">42</span>346    <span style="text-decoration: underline;">35</span>724</span></code></pre></div>
 <p>The reason for the difference in <code># records</code>and
 <code># variants</code> above can be explained by looking into the
 data:</p>
@@ -238,23 +241,23 @@ data:</p>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">rsids</span><span class="op">)</span>
 
 <span class="va">target_variant</span>
-<span class="co">#&gt; [1] "rs71071031"</span></code></pre></div>
+<span class="co">#&gt; [1] "rs397838402"</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">brca_variants</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">rsids</span> <span class="op">==</span> <span class="va">target_variant</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">distance</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 23 × 8</span></span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 48 × 8</span></span>
 <span class="co">#&gt;    chrom gene_start gene_end gene_symbol      pos reference         allele rsids</span>
 <span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>266 BRCA2       32<span style="text-decoration: underline;">368</span>011 TTTTTTTTTTTTTTTT… T      rs71…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>266 BRCA2       32<span style="text-decoration: underline;">368</span>014 TTTTTTTTTTTTTTTT… T      rs71…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>266 BRCA2       32<span style="text-decoration: underline;">368</span>015 TTTTTTTTTTTTTTTT… T      rs71…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>266 BRCA2       32<span style="text-decoration: underline;">368</span>016 TTTTTTTTTTTTTTTT… T      rs71…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>266 BRCA2       32<span style="text-decoration: underline;">368</span>017 TTTTTTTTTTTTTTTT… T      rs71…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>266 BRCA2       32<span style="text-decoration: underline;">368</span>018 TTTTTTTTTTTTTTTT… T      rs71…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>266 BRCA2       32<span style="text-decoration: underline;">368</span>019 TTTTTTTTTTTTTTTT… T      rs71…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>266 BRCA2       32<span style="text-decoration: underline;">368</span>020 TTTTTTTTTTTTTTTT… T      rs71…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>266 BRCA2       32<span style="text-decoration: underline;">368</span>021 TTTTTTTTTTTTTTTTT T      rs71…</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>266 BRCA2       32<span style="text-decoration: underline;">368</span>022 TTTTTTTTTTTTTTTT  T      rs71…</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 13 more rows</span></span></code></pre></div>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>268 BRCA2       32<span style="text-decoration: underline;">395</span>970 TTTTTTTTTTTTTTTT… T      rs39…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>268 BRCA2       32<span style="text-decoration: underline;">395</span>971 TTTTTTTTTTTTTTTT… T      rs39…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>268 BRCA2       32<span style="text-decoration: underline;">395</span>972 TTTTTTTTTTTTTTTTT T      rs39…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>268 BRCA2       32<span style="text-decoration: underline;">395</span>973 TTTTTTTTTTTTTTTT  T      rs39…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>268 BRCA2       32<span style="text-decoration: underline;">395</span>974 TTTTTTTTTTTTTTT   T      rs39…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>268 BRCA2       32<span style="text-decoration: underline;">395</span>975 TTTTTTTTTTTTTT    T      rs39…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>268 BRCA2       32<span style="text-decoration: underline;">395</span>976 TTTTTTTTTTTTT     T      rs39…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>268 BRCA2       32<span style="text-decoration: underline;">395</span>977 TTTTTTTTTTTT      T      rs39…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>268 BRCA2       32<span style="text-decoration: underline;">395</span>978 TTTTTTTTTTT       T      rs39…</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> chr13   32<span style="text-decoration: underline;">315</span>085 32<span style="text-decoration: underline;">400</span>268 BRCA2       32<span style="text-decoration: underline;">395</span>979 TTTTTTTTTT        T      rs39…</span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 38 more rows</span></span></code></pre></div>
 </div>
   </div>
 

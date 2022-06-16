@@ -21,13 +21,13 @@
 #' phenotype_data <- get_data(phenotype_mat, conn)
 #' }
 get_data <- function(pheno_obj, ...) {
-    UseMethod("get_data", pheno_obj)
+    UseMethod("get_data")
 }
 
 #' @describeIn get_data Get phenotype data
 #' @param conn platform connection structure, create it using \code{\link{platform_connect}}
 #' @export
-get_data.phenotype <- function(pheno_obj, conn = NULL) {
+get_data.phenotype <- function(pheno_obj, conn = NULL, ...) {
     if (!missing(conn)) {
         warning("phenotype structure provided - conn argument ignored")
     }
@@ -44,7 +44,7 @@ get_data.phenotype <- function(pheno_obj, conn = NULL) {
 #' @describeIn get_data Get data for phenotypes in phenotype matrix
 #' @param conn platform connection structure, create it using \code{\link{platform_connect}}
 #' @export
-get_data.phenotype_matrix <- function(pheno_obj, conn = NULL) {
+get_data.phenotype_matrix <- function(pheno_obj, conn = NULL, ...) {
     assertthat::assert_that(!is.null(conn) || !is.null( attr(pheno_obj, which = "conn") ))
 
     conn_obj <- attr(pheno_obj, which = "conn") %||% conn
@@ -67,7 +67,7 @@ get_data.phenotype_matrix <- function(pheno_obj, conn = NULL) {
 #' @param missing_value The string to substitute for a missing value in the data
 #' @param base Optional name of base set
 #' @export
-get_data.playlist <- function(pheno_obj, missing_value = NULL, base = NULL) {
+get_data.playlist <- function(pheno_obj, missing_value = NULL, base = NULL, ...) {
     content <- list(base = base,
                     phenotypes = purrr::map(names(pheno_obj$phenotypes), ~list(name = .x, missing_value = missing_value))
                     )
@@ -79,7 +79,7 @@ get_data.playlist <- function(pheno_obj, missing_value = NULL, base = NULL) {
 #' @param missing_value The string to substitute for a missing value in the data
 #' @param base Optional name of base set
 #' @export
-get_data.phenotype_list <- function(pheno_obj, missing_value = NULL, base = NULL) {
+get_data.phenotype_list <- function(pheno_obj, missing_value = NULL, base = NULL, ...) {
     conn = attr(pheno_obj[[1]], which = "conn")
     pheno_names = names(pheno_obj)
     get_data(pheno_names, missing_value=missing_value, base=base, conn=conn)
@@ -91,7 +91,7 @@ get_data.phenotype_list <- function(pheno_obj, missing_value = NULL, base = NULL
 #' @param missing_value The string to substitute for a missing value in the data
 #' @param base Optional name of base set
 #' @export
-get_data.default <- function(pheno_obj, conn, missing_value = NA, base = NULL) {
+get_data.default <- function(pheno_obj, conn, missing_value = NA, base = NULL, ...) {
     assertthat::assert_that(is.list(pheno_obj) | is.character(pheno_obj))
 
     # Handle if provided pheno_obj is an element from an phenotype_list structure

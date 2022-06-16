@@ -484,7 +484,7 @@ deprecated_argument_msg <- function(arg, custom=NULL) {
 #' project <- Sys.getenv("GOR_PROJECT")
 #' conn <- platform_connect(api_key, project)
 #' phenotype <- get_phenotype(name="height", conn)
-#' tags <- phenotype_get_errors(phenotype)
+#' phenotype_get_errors(phenotype)
 #' }
 phenotype_get_errors <- function(phenotype) {
     assertthat::assert_that(class(phenotype) == "phenotype")
@@ -505,11 +505,11 @@ phenotype_get_errors <- function(phenotype) {
 #' project <- Sys.getenv("GOR_PROJECT")
 #' conn <- platform_connect(api_key, project)
 #' phenotype <- get_phenotype(name="height", conn)
-#' tags <- phenotype_get_error(phenotype)
+#' phenotype_get_error(phenotype)
 #' }
 phenotype_get_error <- function(phenotype) {
     assertthat::assert_that(class(phenotype) == "phenotype")
-    format_error <- purrr::compose(capture_output,
+    format_error <- purrr::compose(purrr::partial(utils::capture.output, split=TRUE),
                                    cat,
                                    purrr::partial(gsub, pattern = "\\\\n", replacement = "\\\n", ... =),
                                    purrr::partial(gsub, pattern = "\\\\t", replacement = "\\\t", ... =)

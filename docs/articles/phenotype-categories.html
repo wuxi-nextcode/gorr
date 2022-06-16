@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gorr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.6.3</span>
       </span>
     </div>
 
@@ -111,7 +111,7 @@
 Stefansson <a href="mailto:andri@genuitysci.com" class="email">andri@genuitysci.com</a>
 </h4>
             
-            <h4 data-toc-skip class="date">2022-05-19</h4>
+            <h4 data-toc-skip class="date">2022-06-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/wuxi-nextcode/gorr/blob/HEAD/vignettes/phenotype-categories.Rmd" class="external-link"><code>vignettes/phenotype-categories.Rmd</code></a></small>
       <div class="hidden name"><code>phenotype-categories.Rmd</code></div>
@@ -148,8 +148,8 @@ i.e. <code>api_key</code> and <code>project</code>:</p>
 <span class="co">#&gt; • <span style="color: #0000BB;">Project: </span>ukbb_hg38</span>
 <span class="co">#&gt; • <span style="color: #0000BB;">API key issued at: </span>2022-05-18 10:18:54</span>
 <span class="co">#&gt; • <span style="color: #0000BB;">API key expires at: </span>Never</span>
-<span class="co">#&gt; • <span style="color: #0000BB;">Access token issued at: </span>2022-05-19 11:01:32</span>
-<span class="co">#&gt; • <span style="color: #0000BB;">Access token expires at: </span>2022-05-20 11:01:32</span></code></pre></div>
+<span class="co">#&gt; • <span style="color: #0000BB;">Access token issued at: </span>2022-06-16 15:55:55</span>
+<span class="co">#&gt; • <span style="color: #0000BB;">Access token expires at: </span>2022-06-17 15:55:55</span></code></pre></div>
 <p>If everything goes as planned, we’ll have a <code>conn</code> object
 to pass into subsequent functions.</p>
 </div>
@@ -180,7 +180,7 @@ added as follows.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">new_category</span><span class="op">)</span>
 <span class="co">#&gt; $name</span>
-<span class="co">#&gt; [1] "rtestcat25"</span></code></pre></div>
+<span class="co">#&gt; [1] "rtestcat47"</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="delete-category">Delete category<a class="anchor" aria-label="anchor" href="#delete-category"></a>
@@ -193,11 +193,11 @@ object.</p>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">name</span><span class="op">)</span> <span class="co"># Category to be deleted</span>
 <span class="fu"><a href="../reference/category_delete.html">category_delete</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">conn</span><span class="op">)</span>
 <span class="fu"><a href="../reference/get_categories.html">get_categories</a></span><span class="op">(</span><span class="va">conn</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">#&gt; [1] "statistics"     "cardiovascular" "rtestCat73"     "rtestCat16"    </span>
-<span class="co">#&gt; [5] "rtestcat25"</span>
-<span class="co">#&gt; [1] "rtestcat25"</span>
-<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/categories/rtestcat25]</span>
-<span class="co">#&gt;   Date: 2022-05-19 11:01</span>
+<pre><code><span class="co">#&gt; [1] "statistics"     "cardiovascular" "rtestcat47"     "rtestCat73"    </span>
+<span class="co">#&gt; [5] "rtestCat16"</span>
+<span class="co">#&gt; [1] "rtestcat47"</span>
+<span class="co">#&gt; Response [https://platform.wuxinextcodedev.com/api/phenotype-catalog/projects/ukbb_hg38/categories/rtestcat47]</span>
+<span class="co">#&gt;   Date: 2022-06-16 15:55</span>
 <span class="co">#&gt;   Status: 204</span>
 <span class="co">#&gt;   Content-Type: &lt;unknown&gt;</span>
 <span class="co">#&gt; &lt;EMPTY BODY&gt;</span>

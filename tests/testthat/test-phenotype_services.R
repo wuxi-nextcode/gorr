@@ -6,27 +6,17 @@ conn <- NULL
 test_name <- NULL
 test_phenotype <- NULL
 
-test_that("phenotype_connect works", {
+
+init_phenotype_services_test <- function() {
     conn <<- platform_connect(
         api_key = Sys.getenv("GOR_API_KEY"),
         project = Sys.getenv("GOR_API_PROJECT"))
-    expect_is(conn, "platform_connection")
-    expect_true(!is.null(conn$header))
-    expect_true(!is.null(conn$header$headers[["Authorization"]]))
+}
 
-})
-
-
-test_that("phenotype_connect works without parameters", {
-    conn <- phenotype_connect()
-    expect_is(conn, "platform_connection")
-    expect_true(!is.null(conn$header))
-    expect_true(!is.null(conn$header$headers[["Authorization"]]))
-
-})
+init_phenotype_services_test()
 
 test_that("create_phenotype works", {
-    test_name <<- paste0("test_pheno", sample(1:100,1))
+    test_name <<- paste0("test_pheno", sample(1:1000,1))
     test_type <- "QT"
     test_desc <- "This is a test phenotype"
     test_phenotype <<- create_phenotype(name=test_name,
@@ -84,31 +74,24 @@ test_that("phenotype_upload_data (data.frame) works", {
     expect_error(phenotype_upload_data(data=input, test_phenotype, conn), NA) # Expect no error
 })
 
-
-test_that("phenotype_get_data works", {
-    data <- get_data(test_phenotype, conn) # Expect no error
-    expect_equal(names(data), c("pn", test_name))
-})
-
 #### Test phenotype tag services ####
 
-
-test_that("phenotype_add_tag works", {
-    test_phenotype <<- phenotype_add_tag(tag="test1,test2", test_phenotype, conn=conn)
+test_that("phenotype_add_tags works", {
+    test_phenotype <<- phenotype_add_tags(tag="test1,test2", test_phenotype)
 
     expect_is(test_phenotype, "phenotype")
     expect_equal(length(test_phenotype$tag_list), 2)
 })
 
 test_that("phenotype_set_tags works", {
-    test_phenotype <<- phenotype_set_tags(tag="test3,test4,test5", test_phenotype, conn=conn)
+    test_phenotype <<- phenotype_set_tags(tag="test3,test4,test5", test_phenotype)
 
     expect_is(test_phenotype, "phenotype")
     expect_equal(length(test_phenotype$tag_list), 3)
 })
 
-test_that("phenotype_delete_tag works", {
-    test_phenotype <<- phenotype_delete_tag(tag="test4", test_phenotype, conn=conn)
+test_that("phenotype_delete_tags works", {
+    test_phenotype <<- phenotype_delete_tags(tag="test4", test_phenotype)
 
     expect_is(test_phenotype, "phenotype")
     expect_equal(length(test_phenotype$tag_list), 2)
@@ -127,5 +110,5 @@ test_that("phenotype_get_tags works", {
 
 
 test_that("phenotype_delete works", {
-    expect_error(phenotype_delete(test_phenotype, conn), NA) # Expect no error
+    expect_error(phenotype_delete(test_phenotype), NA) # Expect no error
 })
