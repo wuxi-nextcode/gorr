@@ -41,8 +41,8 @@ gorr__queryserver <- function(query, conn, parse, relations, spinner = invisible
                                            stream.handler = gorr__stream_handler,
                                            ...)
     },
-    interrupt = function(err) gorr__kill_stream(),
-    error = function(err) {closeAllConnections(); stop(err)}
+    interrupt = function() gorr__kill_stream(),
+    error = stop
     )
 
     # Concatenate result string
@@ -59,15 +59,8 @@ gorr__extract_msg <- purrr::compose(unlist, purrr::partial(stringr::str_extract_
 gorr__remove_msg <- purrr::partial(stringr::str_remove_all, pattern = "#>.*?\\n") # Remove messages between (and including) #> and new line
 
 #' Kill remote query stream
-gorr__kill_stream <- function() {
-    if (interactive()) {
-        cli::cat_line("")
-        cli::cat_line("Killing Query", col = "red")
-    }
-
-    closeAllConnections()
-
-    gorr__failure("Killed query")
+gorr__interrupt_stream <- function() {
+    gorr__failure("Query interrupted by user")
 }
 
 # Process status messages from stream
