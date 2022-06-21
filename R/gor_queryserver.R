@@ -41,8 +41,8 @@ gorr__queryserver <- function(query, conn, parse, relations, spinner = invisible
                                            stream.handler = gorr__stream_handler,
                                            ...)
     },
-    interrupt = function() gorr__failure("Query interrupted by user"),
-    error = stop
+    interrupt = function(x) gorr__failure("Query interrupted by user"),
+    error = function(err) stop(err)
     )
 
     # Concatenate result string
