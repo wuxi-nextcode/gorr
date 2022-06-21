@@ -9,3 +9,5 @@ inst/doc
 testscript.R
 pkgdown
 .lintr
+
+/.vscode
