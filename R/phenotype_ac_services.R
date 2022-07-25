@@ -17,12 +17,12 @@
 get_analysis_catalogs <- function(conn, phenotype_name = NULL, limit = 100) {
     assertthat::assert_that(class(conn) == "platform_connection")
 
-    url <- gorr__gorr__get_endpoint(conn, "phenotype-catalog", "self") %>%
+    url <- gorr__get_endpoint(conn, "phenotype-catalog", "self") %>%
             paste("analysis_catalogs", sep = "/")
 
     if (!is.null(phenotype_name)) {
         assertthat::assert_that(is.character(phenotype_name))
-        url <- gorr__gorr__get_endpoint(conn, "phenotype-catalog", "phenotypes") %>%
+        url <- gorr__get_endpoint(conn, "phenotype-catalog", "phenotypes") %>%
             paste(phenotype_name, "analysis_catalogs", sep = "/")
     }
 
@@ -32,8 +32,8 @@ get_analysis_catalogs <- function(conn, phenotype_name = NULL, limit = 100) {
                               query = content,
                               conn = conn)
 
-
     analysis_catalogs <- resp$analysis_catalogs %>%
+        purrr::set_names(purrr::map_chr(.,~.x$name)) %>%
         purrr::map(~AnalysisCatalog(.x, conn = conn))
 
     analysis_catalogs
@@ -58,7 +58,7 @@ get_analysis_catalogs <- function(conn, phenotype_name = NULL, limit = 100) {
 get_analysis_catalog <- function(conn, analysis_catalog_name) {
     assertthat::assert_that(class(conn) == "platform_connection")
 
-    url <- gorr__gorr__get_endpoint(conn, "phenotype-catalog", "self") %>%
+    url <- gorr__get_endpoint(conn, "phenotype-catalog", "self") %>%
         paste("analysis_catalogs", analysis_catalog_name, sep = "/")
 
     resp <- gorr__api_request("GET",
@@ -80,7 +80,6 @@ get_analysis_catalog <- function(conn, analysis_catalog_name) {
 #' @param name: excluded_pns: the PNs to exclude from the analysis, e.g. ['PN1','PN2'] (optional)
 #'
 #' @return analysis_catalog structure
-#' @export
 create_analysis_catalog  <- function(conn,
                                      playlist_id,
                                      name,
@@ -93,7 +92,7 @@ create_analysis_catalog  <- function(conn,
     assertthat::assert_that(is.null(excluded_pns) || is.list(excluded_pns))
 
 
-    url <- gorr__gorr__get_endpoint(conn, "phenotype-catalog", "self") %>%
+    url <- gorr__get_endpoint(conn, "phenotype-catalog", "self") %>%
             paste("playlists", playlist_id, "analysis_catalogs", sep = "/")
 
     content = list(
@@ -136,7 +135,7 @@ get_analysis_catalog_runs <- function(conn, phenotype_name, limit = 100) {
     assertthat::assert_that(class(conn) == "platform_connection")
     assertthat::is.string(phenotype_name)
 
-    url <- gorr__gorr__get_endpoint(conn, "phenotype-catalog", "phenotypes") %>%
+    url <- gorr__get_endpoint(conn, "phenotype-catalog", "phenotypes") %>%
         paste(phenotype_name, "analysis_catalog_runs", sep = "/")
 
     content = list(
@@ -151,6 +150,7 @@ get_analysis_catalog_runs <- function(conn, phenotype_name, limit = 100) {
     AnalysisCatalog(resp$analysis_catalog_runs, conn=conn)
 
     analysis_catalog_runs <- resp$analysis_catalog_runs %>%
+        purrr::set_names(purrr::map_chr(.,~.x$name)) %>%
         purrr::map(~AnalysisCatalogRun(.x, conn = conn))
 
     analysis_catalog_runs
@@ -179,7 +179,7 @@ get_analysis_catalog_run <- function(conn, analysis_catalog_name, analysis_catal
     assertthat::is.string(analysis_catalog_run_name)
 
 
-    url <- gorr__gorr__get_endpoint(conn, "phenotype-catalog", "self") %>%
+    url <- gorr__get_endpoint(conn, "phenotype-catalog", "self") %>%
         paste("analysis_catalogs", analysis_catalog_name, "runs",
               analysis_catalog_run_name, sep = "/")
 

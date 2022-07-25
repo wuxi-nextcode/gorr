@@ -1,3 +1,7 @@
+# gorr 1.7.0
+
+* analysis-catalog support added
+
 # gorr 1.6.3
 
 * `queryserver` as default query service
