@@ -123,7 +123,6 @@ get_phenotypes_dataframe <- function(conn,
                                     updated_at = updated_at,
                                     result_types = result_types,
                                     names = pheno_names)
-
     phenotypes_dataframe <- phenotypes %>%
                                 do.call(rbind, .) %>%
                                 as.data.frame()
