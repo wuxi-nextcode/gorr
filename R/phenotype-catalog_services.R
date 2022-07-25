@@ -1,113 +1,3 @@
-validate_phenotype <- function(phenotype) {
-    values <- unclass(phenotype)
-    req_names <- c(
-        "project_key",
-        "name",
-        "description",
-        "result_type",
-        "links",
-        "tag_list"
-    )
-
-    req_links <- c("self",
-                   "upload")
-
-    link_names <- names(get("links", values))
-    links <- get("links", values) %>% unlist()
-
-    if (!all(req_names %in% names(values))) {
-        stop("Phenotype must include the following property: ",
-                paste0(req_names, collapse = ", "),
-                call. = FALSE)
-    }
-
-    if (!all(all(req_links %in% link_names) &
-             (!is.null(values$links[["self"]]) &
-              !is.null(values$links[["self"]])))) {
-        stop("Phenotype links must include a valid 'self' and 'upload' links",
-                call. = FALSE)
-    }
-
-    phenotype
-}
-
-new_phenotype <- function(phenotype, conn) {
-    structure(phenotype, class = "phenotype", conn = conn)
-}
-
-
-# Phenotype class constructor
-# A local object representing a phenotype response from the phenotype
-# catalog service.
-#
-# Note that most of the attributes come directly from the phenotype
-# serverside response and are therefore not documented directly here.
-# Please refer to the API Documentation for the phenotype catalog service.
-#
-# In addition to the ones documented here, this object has at least these attributes:
-#
-# * name - Phenotype name
-# * description - Textual description of this phenotype
-# * result_type - Type of result. Cannot be changed. One of SET, QT, CATEGORY
-# * created_at - Timestamp when the phenotype was first created
-# * updated_at - Timestamp when the phenotype was last updated
-# * created_by - Username who created the phenotype
-# * versions - List of data versions available in this phenotype
-phenotype <- function(phenotype, conn) {
-    new_phenotype(phenotype, conn) %>%
-        validate_phenotype()
-}
-
-#' @export
-print.phenotype <- function(x, ...) {
-
-    bullet <- purrr::partial(cli::cat_bullet, bullet = " ")
-    cli::cat_rule(left = ("Phenotype"))
-
-    bullet("$name: ", x$name)
-    bullet("$description: ", x$description)
-    bullet("$result_type: ", x$result_type)
-    bullet("$tag_list: ", paste(x$tag_list, collapse = ", "))
-    bullet("$pn_count: ", x$pn_count)
-    bullet("$query: ", x$query)
-}
-
-# Internal method to be called by `get_phenotypes`, `get_phenotypes_matrix` and `get_phenotypes_dataframe`
-# See documentation of those methods for more details
-query__phenotypes <- function(conn, all_tags, any_tags, pn_count, categories, limit, states, search, updated_at, result_types, names) {
-    assertthat::assert_that(class(conn) == "platform_connection")
-    assertthat::assert_that(is.numeric(limit))
-    assertthat::assert_that(is.list(all_tags) | is.character(all_tags))
-    assertthat::assert_that(is.list(any_tags) | is.character(any_tags))
-    assertthat::assert_that(is.null(pn_count) | is.character(pn_count))
-    assertthat::assert_that(is.list(categories) | is.character(categories))
-    assertthat::assert_that(is.list(states) | is.character(states))
-    assertthat::assert_that(is.null(search) | is.character(search))
-    assertthat::assert_that(is.null(updated_at) | is.character(updated_at))
-    assertthat::assert_that(is.list(result_types) | is.character(result_types))
-    assertthat::assert_that(is.list(names) | is.character(names))
-
-    url <- gorr__get_endpoint(conn, "phenotype-catalog", "phenotypes")
-
-    content <- list(with_all_tags = paste(all_tags, collapse = ","),
-                    with_any_tags = paste(any_tags, collapse = ","),
-                    pn_count = pn_count,
-                    category = paste(categories, collapse = ","),
-                    limit = limit,
-                    state = paste(states, collapse = ","),
-                    search = search,
-                    updated_at = updated_at,
-                    result_type = paste(result_types, collapse = ","),
-                    names = paste(names, collapse = ","))
-
-    resp <- gorr__api_request("GET",
-                              url = url,
-                              query = content,
-                              conn = conn)
-    resp$phenotypes
-}
-
-
 #' A list of all/subset of phenotypes in the current project.
 #'
 #' @param conn gor connection structure, create it using \code{\link{platform_connect}}
@@ -153,9 +43,9 @@ get_phenotypes <- function(conn,
         any_tags <- append(any_tags, tags)
     }
     assertthat::assert_that(class(conn) == "platform_connection")
+    assertthat::assert_that(class(playlist) == "playlist" || is.null(playlist))
 
     if (!is.null(playlist)) {
-        assertthat::assert_that(class(playlist) == "playlist")
         pheno_names <- names(playlist$phenotypes)
     }
 
@@ -170,27 +60,9 @@ get_phenotypes <- function(conn,
                                     updated_at = updated_at,
                                     result_types = result_types,
                                     names = pheno_names) %>%
-        purrr::map(phenotype, conn = conn)
+        purrr::map(Phenotype, conn = conn)
 
-    attr(phenotypes, "names") <- phenotypes %>% purrr::map_chr(~.x$name)
-
-    structure(phenotypes, class = "phenotype_list", conn = conn)
-}
-
-
-#' @export
-print.phenotype_list <- function(x, ...) {
-
-    bullet <- purrr::partial(cli::cat_bullet, bullet = " ")
-    cli::cat_rule(left = ("Phenotypes"))
-
-    if (length(attr(x, "names")) == 0) {
-        cli::cat_line("  None")
-    } else {
-        for (name in attr(x, "names")) {
-            bullet("$", name)
-        }
-    }
+    PhenotypeList(phenotypes, conn=conn)
 }
 
 #' A dataframe of all/subset of phenotypes in the current project.
@@ -234,10 +106,9 @@ get_phenotypes_dataframe <- function(conn,
                                      filtered=TRUE) {
     assertthat::assert_that(is.list(pheno_names) | is.character(pheno_names))
     assertthat::assert_that(is.logical(filtered))
-
+    assertthat::assert_that(class(playlist) == "playlist" || is.null(playlist))
 
     if (!is.null(playlist)) {
-        assertthat::assert_that(class(playlist) == "playlist")
         pheno_names <- names(playlist$phenotypes)
     }
 
@@ -252,11 +123,10 @@ get_phenotypes_dataframe <- function(conn,
                                     updated_at = updated_at,
                                     result_types = result_types,
                                     names = pheno_names)
-
-
+s
     phenotypes_dataframe <- phenotypes %>%
-        do.call(rbind, .)  %>%
-        as.data.frame()
+                                do.call(rbind, .) %>%
+                                as.data.frame()
 
     if (nrow(phenotypes_dataframe) == 0) {
         return(phenotypes_dataframe)
@@ -292,12 +162,12 @@ get_phenotype <- function(name, conn) {
     assertthat::assert_that(is.character(name))
     assertthat::assert_that(class(conn) == "platform_connection")
 
-    url <-
-        paste(gorr__get_endpoint(conn, "phenotype-catalog", "phenotypes"), name, sep = "/")
+    url <- gorr__get_endpoint(conn, "phenotype-catalog", "phenotypes") %>%
+            paste(name, sep = "/")
 
     resp <- gorr__api_request("GET", url = url, conn = conn)
 
-    phenotype(resp$phenotype, conn = conn)
+    Phenotype(resp$phenotype, conn = conn)
 }
 
 
@@ -334,20 +204,14 @@ create_phenotype <-
         assertthat::assert_that(is.string(name))
         assertthat::assert_that(is.string(result_type))
         assertthat::assert_that(class(conn) == "platform_connection")
+        assertthat::assert_that(is.string(description) || is.null(description))
+        assertthat::assert_that(is.string(url) || is.null(url))
+        assertthat::assert_that(is.string(query) || is.null(query))
+        assertthat::assert_that(is.character(tags)  || is.null(tags))
 
         SUPPORTED_RESULT_TYPES <- c("SET", "QT", "CATEGORY")
 
-        if (!is.null(description)) {
-            assertthat::assert_that(is.string(description))
-        }
-        if (!is.null(url)) {
-            assertthat::assert_that(is.string(url))
-        }
-        if (!is.null(query)) {
-            assertthat::assert_that(is.string(query))
-        }
         if (!is.null(tags)) {
-            assertthat::assert_that(is.character(tags))
             tags <- purrr::map(tags, ~base::strsplit(.x, ",", fixed = TRUE)) %>%
                 unlist() %>%
                 as.list()
@@ -369,13 +233,8 @@ create_phenotype <-
                         query = query,
                         tag_list = tags)
 
-        resp <-
-            gorr__api_request("POST",
-                              url = uri,
-                              body = content,
-                              conn = conn)
-
-        pheno <- phenotype(resp$phenotype, conn = conn)
+        resp <- gorr__api_request("POST", url = uri, body = content, conn = conn)
+        pheno <- Phenotype(resp$phenotype, conn = conn)
 
         if (!is.null(data)) {
             try(
@@ -386,12 +245,15 @@ create_phenotype <-
         pheno
     }
 
+#--- Phenotype Playlists
 
-#' Delete a phenotype, including all data from a project
+
+#' A list of all the playlists in the current project.
 #'
-#' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
-#' @param conn Deprecated : gor connection structure, create it using \code{\link{platform_connect}}
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
+#' @param limit Maximum number of results (default: 100)
 #'
+#' @return List of playlists
 #' @export
 #'
 #' @examples
@@ -399,55 +261,74 @@ create_phenotype <-
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
 #' conn <- platform_connect(api_key, project)
-#' name <- "height"
-#' phenotype <- get_phenotype(name, conn)
-#' phenotype_delete(phenotype, conn)
+#' playlists <- get_playlists(conn)
 #' }
-phenotype_delete <- function(phenotype, conn=NULL) {
-    if (!missing(conn)) {
-        deprecated_argument_msg(conn) %>%
-        warning()
+get_playlists <- function(conn, limit = 100) {
+    assertthat::assert_that(class(conn) == "platform_connection")
+    assertthat::assert_that(is.numeric(limit))
+
+    url <- gorr__get_endpoint(conn, "phenotype-catalog", "self") %>%
+            paste("playlists", sep="/")
+
+    content <- list(limit = limit)
+
+    resp <- gorr__api_request("GET", url = url, query = content, conn = conn)
+
+    fetch__from_lst(resp$playlists, "name")
+}
+
+
+#' Get playlist in the current project based on the playlist's name OR id.
+#'
+#' @param name Playlist name
+#' @param id Playlist id
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
+#'
+#' @return A playlist object
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' api_key <- Sys.getenv("GOR_API_KEY")
+#' project <- Sys.getenv("GOR_PROJECT")
+#' conn <- platform_connect(api_key, project)
+#' playlist <- get_playlist(id=1, conn)
+#' }
+get_playlist <- function(name = NULL, id = NULL, conn) {
+    assertthat::assert_that(class(conn) == "platform_connection")
+
+    if (is.null(name) && is.null(id)) {
+        stop("Name OR id must be supplied")
+    } else if (!is.null(name) && !is.null(id)) {
+        stop("Name and id cannot both be supplied")
     }
-    assertthat::assert_that(class(phenotype) == "phenotype")
-    assertthat::assert_that(class(attr(phenotype, which = "conn")) == "platform_connection")
-
-    url <- get__link(phenotype, "self")
-
-    gorr__api_request("DELETE",
-                      url = url,
-                      conn = attr(phenotype, which = "conn"),
-                      parse.body = F)
-}
 
 
-#' Refresh phenotype
-#'
-#' Fetches current (up-to-date) phenotype version from project.
-#'
-#' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
-#' @param conn Deprecated : gor connection structure, create it using \code{\link{platform_connect}}
-#'
-#' @return phenotype structure
-#' @export
-phenotype_refresh <- function(phenotype, conn=NULL) {
-    if (!missing(conn)) {
-        deprecated_argument_msg(conn) %>%
-        warning()
+    url <- gorr__get_endpoint(conn, "phenotype-catalog", "self") %>%
+            paste("playlists", sep="/")
+
+    if (!is.null(id)) {
+        url <- paste(url, id, sep = "/")
     }
-    assertthat::assert_that(class(phenotype) == "phenotype")
-    assertthat::assert_that(class(attr(phenotype, which = "conn")) == "platform_connection")
 
-    url <- get__link(phenotype, "self")
-    resp <- gorr__api_request("GET", url = url, conn = attr(phenotype, which = "conn"))
+    resp <- gorr__api_request("GET", url = url, query = list(name = name), conn = conn)
+    # This is needed as response is different because of different enpoints when querying by id or name
+    if (!is.null(id)) {
+        return(PhenotypePlaylist(resp$playlist, conn = conn))
+    }
 
-    phenotype(resp$phenotype, conn = attr(phenotype, which = "conn"))
+    PhenotypePlaylist(resp$playlist[[1]], conn = conn)
 }
 
-#' Retrieve all tags for phenotype
+
+#' Create a new playlist in the current project.
 #'
-#' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
+#' @param name Unique (lowercase) playlist name in the project
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
+#' @param description Free text description of the playlist (optional)
+#' @param phenotypes comma seperated string of phenotypes to  add (optional) eg. "pheno1,pheno2"  or character vector c("pheno1", "pheno2")
 #'
-#' @return a list of phenotype tags
+#' @return A playlist object
 #' @export
 #'
 #' @examples
@@ -455,27 +336,94 @@ phenotype_refresh <- function(phenotype, conn=NULL) {
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
 #' conn <- platform_connect(api_key, project)
-#' phenotype <- get_phenotype(name="height", conn)
-#' tags <- phenotype_get_tags(phenotype)
+#' name <- "testpl"
+#' playlist <- create_playlist(name = name, conn)
 #' }
-phenotype_get_tags <- function(phenotype) {
-    assertthat::assert_that(class(phenotype) == "phenotype")
-    phenotype$tag_list %>% unlist()
+create_playlist <- function(name, conn, description=NULL, phenotypes=NULL) {
+    assertthat::assert_that(is.string(name))
+    assertthat::assert_that(class(conn) == "platform_connection")
+
+    if (!is.null(description)) {
+        assertthat::assert_that(is.string(description))
+    }
+    if (!is.null(phenotypes)) {
+        assertthat::assert_that(is.character(phenotypes))
+        phenotypes <- purrr::map(phenotypes, ~base::strsplit(.x, ",", fixed = TRUE)) %>%
+            unlist() %>%
+            as.list()
+    }
+
+    url <- gorr__get_endpoint(conn, "phenotype-catalog", "self") %>%
+            paste("playlists", sep="/")
+    payload <- list(playlist = list(name = name,
+                                    description = description,
+                                    phenotypes = phenotypes))
+
+    resp <- gorr__api_request("POST", url = url, body = payload, conn = conn)
+    PhenotypePlaylist(resp$playlist, conn = conn)
 }
 
 
-# Temporary deprecated argument handler
-# msg of form "[arg_name] argument deprecated [- optional custom message]"
-deprecated_argument_msg <- function(arg, custom=NULL) {
-    deparse(substitute(arg)) %>%
-    paste("argument deprecated", if (!is.null(custom)) paste("-", custom))
+#--- Phenotype Matrix
+
+
+#' Get a phenotype matrix object.
+#'
+#' @param base Optional name of base set
+#' @param ... named arguments passed to `get_phenotypes` for populating matrix.
+#'
+#' @return a phenotype matrix object
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' phenotype_mat <- get_phenotype_matrix()
+#' }
+get_phenotype_matrix <- function(base = NULL, ...) {
+    dots <- rlang::dots_list(...)
+    phemat <- PhenotypeMatrix(base = base)
+    if (length(dots)>0) {
+        if (!("conn" %in% names(dots))) gorr__failure("Please provide connector object for populating matrix using `get_phenotypes`")
+        phenotypes = get_phenotypes(...)
+        phemat <- phemat_add_phenotypes(names = purrr::map_chr(phenotypes, ~.x$name), phemat)
+    }
+    phemat
 }
 
-#' Retrieve all errors for phenotype query runs
+
+#' Get a phenotype matrix object.
 #'
-#' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
+#' @param conn platform connection structure, create it using \code{\link{platform_connect}}
+#' @param base Optional name of base set
+#' @param ... named arguments passed to `get_phenotypes` for populating matrix.
 #'
-#' @return a list of errors from query runs
+#' @return a phenotype matrix object
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' phenotype_mat <- get_phenotype_matrix()
+#' }
+create_phenotype_matrix <- function(conn, base = NULL, ...) {
+    dots <- rlang::dots_list(...)
+    phemat <- PhenotypeMatrix(base = base, conn = conn)
+    if (length(dots)>0) {
+        phenotypes = get_phenotypes(..., conn = conn)
+        phemat <- phemat_add_phenotypes(names = purrr::map_chr(phenotypes, ~.x$name), phemat)
+    }
+    phemat
+}
+
+
+#' Get all tags
+#'
+#' Get all tags available in the catalog
+#'
+#' @param conn gor connection structure, create it using \code{\link{platform_connect}}
+#'
+#' @return A list of phenotype tags
 #' @export
 #'
 #' @examples
@@ -483,40 +431,14 @@ deprecated_argument_msg <- function(arg, custom=NULL) {
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
 #' conn <- platform_connect(api_key, project)
-#' phenotype <- get_phenotype(name="height", conn)
-#' phenotype_get_errors(phenotype)
+#' tags <- get_tags(conn)
 #' }
-phenotype_get_errors <- function(phenotype) {
-    assertthat::assert_that(class(phenotype) == "phenotype")
-    purrr::map(phenotype$events, ~ if (.x$event_type =="error") list(message = .x$message, created_at = .x$created_at)) %>%
-        purrr::compact()
+get_tags <- function(conn) {
+    assertthat::assert_that(class(conn) == "platform_connection")
+
+    url <-  gorr__get_endpoint(conn, "phenotype-catalog", "tags")
+    resp <- gorr__api_request("GET", url, conn = conn)
+
+    fetch__from_lst(resp$tags, "name")
 }
 
-#' Retrieve latest error from phenotype query run
-#'
-#' @param phenotype phenotype structure, create or get it using \code{\link{create_phenotype}} or \code{\link{get_phenotype}}
-#'
-#' @return a formatted error message
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' api_key <- Sys.getenv("GOR_API_KEY")
-#' project <- Sys.getenv("GOR_PROJECT")
-#' conn <- platform_connect(api_key, project)
-#' phenotype <- get_phenotype(name="height", conn)
-#' phenotype_get_error(phenotype)
-#' }
-phenotype_get_error <- function(phenotype) {
-    assertthat::assert_that(class(phenotype) == "phenotype")
-    format_error <- purrr::compose(purrr::partial(utils::capture.output, split=TRUE),
-                                   cat,
-                                   purrr::partial(gsub, pattern = "\\\\n", replacement = "\\\n", ... =),
-                                   purrr::partial(gsub, pattern = "\\\\t", replacement = "\\\t", ... =)
-    )
-
-    phenotype_get_errors(phenotype) %>%
-        dplyr::first() %>%
-        purrr::pluck("message") %>%
-        format_error()
-}
