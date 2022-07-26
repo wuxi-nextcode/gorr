@@ -26,12 +26,11 @@ AnalysisCatalog <- function(data, conn){
 #' @export
 print.analysis_catalog <- function(x, ...) {
     bullet <- purrr::partial(cli::cat_bullet, bullet = " ")
-    cli::cat_rule(left = ("Phenotype"))
+    item_name <- function(x) paste0("$", x, ": ")
+    cli::cat_rule(left = ("Analysis Catalog"))
 
     bullet("$name: ", x$name)
-    bullet("$description: ", x$description)
-    bullet("$result_type: ", x$result_type)
-    bullet("$tag_list: ", paste(x$tag_list, collapse = ", "))
-    bullet("$pn_count: ", x$pn_count)
-    bullet("$query: ", x$query)
+    x <- purrr::list_modify(x, "name" = NULL) %>% purrr::compact()
+    purrr::modify_at(x, "recipe_parameters", list) %>%
+        purrr::walk2(., names(x), ~bullet(item_name(.y), .x))
 }

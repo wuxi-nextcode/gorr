@@ -23,12 +23,10 @@ AnalysisCatalogRun <- function(data, conn){
 #' @export
 print.analysis_catalog_run <- function(x, ...) {
     bullet <- purrr::partial(cli::cat_bullet, bullet = " ")
-    cli::cat_rule(left = ("Phenotype"))
+    item_name <- function(x) paste0("$", x, ": ")
+    cli::cat_rule(left = ("Analysis Catalog Run"))
 
     bullet("$name: ", x$name)
-    bullet("$description: ", x$description)
-    bullet("$result_type: ", x$result_type)
-    bullet("$tag_list: ", paste(x$tag_list, collapse = ", "))
-    bullet("$pn_count: ", x$pn_count)
-    bullet("$query: ", x$query)
+    x <- purrr::list_modify(x, "name" = NULL) %>% purrr::compact()
+    purrr::walk2(x, names(x), ~bullet(item_name(.y), .x))
 }
