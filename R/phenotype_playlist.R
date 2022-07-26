@@ -14,18 +14,18 @@
 # * versions - List of data versions available in this playlist
 PhenotypePlaylist <- function(data, conn) {
     # Set playlist$phenotypes to be phenotype objects
-    playlist$phenotypes <- playlist$phenotypes %>%
-        purrr::map(gorr:::phenotype, conn = conn)
-    attr(playlist$phenotypes, "names") <- playlist$phenotypes %>% purrr::map_chr(~.x$name)
+    data$phenotypes <- data$phenotypes %>%
+        purrr::set_names(purrr::map_chr(.,~.x$name)) %>%
+        purrr::map(Phenotype, conn = conn)
 
-    structure(playlist, class = "playlist", conn = conn, .Names = )
+    structure(data, class = "playlist", conn = conn)
 }
 
 #' @export
-print.phenotype_playlist <- function(x, ...) {
+print.playlist <- function(x, ...) {
 
     bullet <- purrr::partial(cli::cat_bullet, bullet = " ")
-    cli::cat_rule(left = ("Phenotype playlist"))
+    cli::cat_rule(left = ("Playlist"))
 
     bullet("$name: ", x$name)
     bullet("$id: ", x$id)
