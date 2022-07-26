@@ -22,7 +22,7 @@ PhenotypePlaylist <- function(data, conn) {
 }
 
 #' @export
-print.phenotype_playlist <- function(x, ...) {
+print.playlist <- function(x, ...) {
 
     bullet <- purrr::partial(cli::cat_bullet, bullet = " ")
     cli::cat_rule(left = ("Playlist"))
