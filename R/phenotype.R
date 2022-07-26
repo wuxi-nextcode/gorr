@@ -213,7 +213,7 @@ phenotype_update <-
                               body = content,
                               conn = attr(phenotype, which = "conn"))
 
-        phenotype(resp$phenotype, conn = attr(phenotype, which = "conn"))
+        Phenotype(resp$phenotype, conn = attr(phenotype, which = "conn"))
     }
 
 
