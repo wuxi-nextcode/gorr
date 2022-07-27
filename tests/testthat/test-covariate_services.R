@@ -1,15 +1,4 @@
-library(dplyr)
-
 context("test-covariate_services.R")
-
-conn <- NULL
-init_covariate_services_tests <- function() {
-    conn <<- platform_connect(
-        api_key = Sys.getenv("GOR_API_KEY"),
-        project = Sys.getenv("GOR_API_PROJECT"))
-}
-
-init_covariate_services_tests()
 
 test_that("get_covariates works", {
     result <- get_covariates(conn)

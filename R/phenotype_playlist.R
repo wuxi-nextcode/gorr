@@ -86,11 +86,6 @@ playlist_add_phenotype <- function(name, playlist, conn = NULL) {
 #'
 #' @return A playlist object
 playlist_update_phenotypes <- function(names, playlist, remove) {
-    assertthat::assert_that(class(playlist) == "playlist")
-    assertthat::assert_that(class(attr(playlist, which = "conn")) == "platform_connection")
-    assertthat::assert_that(is.character(names))
-    assertthat::assert_that(is.logical(remove))
-
     url <- get__link(playlist, "self")
 
     phenotypes <- purrr::map(names, ~base::strsplit(.x, ",", fixed = TRUE)) %>%
@@ -193,7 +188,7 @@ playlist_refresh <- function(playlist, conn = NULL) {
 
     resp <- gorr__api_request("GET", url = url, attr(playlist, which = "conn"))
 
-    playlist(resp$playlist, conn = attr(playlist, which = "conn"))
+    PhenotypePlaylist(resp$playlist, conn = attr(playlist, which = "conn"))
 }
 
 #' Delete a playlist from a project.
