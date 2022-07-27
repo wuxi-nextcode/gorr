@@ -4,14 +4,12 @@
 \alias{get_analysis_catalog_runs}
 \title{A list of all the analysis catalog runs in the current project for a given phenotype.}
 \usage{
-get_analysis_catalog_runs(phenotype_name, conn, limit = 100)
+get_analysis_catalog_runs(phenotype_name, conn)
 }
 \arguments{
 \item{phenotype_name}{Only list analysis catalog runs for a specific phenotype name}
 
 \item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
-
-\item{limit}{Maximum number of results (default: 100)}
 }
 \value{
 List of analysis catalog runs

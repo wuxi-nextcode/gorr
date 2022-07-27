@@ -4,14 +4,12 @@
 \alias{get_analysis_catalogs}
 \title{A list of all the analysis catalogs in the current project. Optionally scope results to a given phenotype name.}
 \usage{
-get_analysis_catalogs(conn, phenotype_name = NULL, limit = 100)
+get_analysis_catalogs(conn, phenotype_name = NULL)
 }
 \arguments{
 \item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 
 \item{phenotype_name}{optional: Only fetch analysis catalogs that relate to a given phenotype name}
-
-\item{limit}{Maximum number of results fetched (default: 100)}
 }
 \value{
 List of analysis catalogs
