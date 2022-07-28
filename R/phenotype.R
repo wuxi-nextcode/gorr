@@ -20,20 +20,33 @@ Phenotype <- function(phenotype, conn) {
     structure(phenotype, class = "phenotype", conn = conn)
 }
 
+# print.phenotype <- function(x, ...) {
+#
+#     bullet <- purrr::partial(cli::cat_bullet, bullet = " ")
+#     cli::cat_rule(left = ("Phenotype"))
+#
+#     bullet("$name: ", x$name)
+#     bullet("$description: ", x$description)
+#     bullet("$result_type: ", x$result_type)
+#     bullet("$tag_list: ", paste(x$tag_list, collapse = ", "))
+#     bullet("$pn_count: ", x$pn_count)
+#     bullet("$query: ", x$query)
+# }
 
 #' @export
 print.phenotype <- function(x, ...) {
-
     bullet <- purrr::partial(cli::cat_bullet, bullet = " ")
-    cli::cat_rule(left = ("Phenotype"))
-
+    item_name <- function(x) paste0("$", x, ": ")
+    cli::cat_rule(left = "Phenotype")
     bullet("$name: ", x$name)
-    bullet("$description: ", x$description)
-    bullet("$result_type: ", x$result_type)
-    bullet("$tag_list: ", paste(x$tag_list, collapse = ", "))
-    bullet("$pn_count: ", x$pn_count)
-    bullet("$query: ", x$query)
+
+    excl <- c("name", "links")
+    conv <- c("tag_list")
+    x <- x[(!(names(x)  %in% excl))]
+    purrr::modify_at(x, conv, list) %>%
+        purrr::walk2(., names(x), ~bullet(item_name(.y), .x))
 }
+
 
 
 #' Delete a phenotype, including all data from a project
@@ -89,7 +102,7 @@ phenotype_refresh <- function(phenotype, conn=NULL) {
     url <- get__link(phenotype, "self")
     resp <- gorr__api_request("GET", url = url, conn = attr(phenotype, which = "conn"))
 
-    phenotype(resp$phenotype, conn = attr(phenotype, which = "conn"))
+    Phenotype(resp$phenotype, conn = attr(phenotype, which = "conn"))
 }
 
 

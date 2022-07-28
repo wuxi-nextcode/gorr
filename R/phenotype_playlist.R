@@ -21,17 +21,30 @@ PhenotypePlaylist <- function(data, conn) {
     structure(data, class = "playlist", conn = conn)
 }
 
+# print.playlist <- function(x, ...) {
+#     bullet <- purrr::partial(cli::cat_bullet, bullet = " ")
+#     cli::cat_rule(left = ("Playlist"))
+#
+#     bullet("$name: ", x$name)
+#     bullet("$id: ", x$id)
+#     bullet("$description: ", x$description)
+#     bullet("$phenotypes: ", paste(names(x$phenotypes), collapse= ", "))
+#     bullet("$created_by: ", x$created_by)
+# }
+
 #' @export
 print.playlist <- function(x, ...) {
-
     bullet <- purrr::partial(cli::cat_bullet, bullet = " ")
+    item_name <- function(x) paste0("$", x, ": ")
     cli::cat_rule(left = ("Playlist"))
-
     bullet("$name: ", x$name)
-    bullet("$id: ", x$id)
-    bullet("$description: ", x$description)
     bullet("$phenotypes: ", paste(names(x$phenotypes), collapse= ", "))
-    bullet("$created_by: ", x$created_by)
+
+    excl <- c("name", "links", "phenotypes")
+    conv <- c("tag_list")
+    x <- x[(!(names(x)  %in% excl))]
+    purrr::modify_at(x, conv, list) %>%
+        purrr::walk2(., names(x), ~bullet(item_name(.y), .x))
 }
 
 

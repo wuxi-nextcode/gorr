@@ -1,8 +1,8 @@
 
-#' PhenotypeList class constructor
-#'
-#'
-#'
+# PhenotypeList class constructor
+#
+#
+#
 PhenotypeList <- function(data, conn) {
     structure(data, class="phenotype_list", conn=conn, .Names=purrr::map_chr(data, ~.x$name))
 }
