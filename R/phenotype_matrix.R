@@ -1,94 +1,17 @@
-validate_phenotype_matrix <- function(phenotype_matrix) {
-    values <- unclass(phenotype_matrix)
-
-    req_names <- c("base", "phenotypes")
-
-    if (!is.list(values)) {
-        stop(
-            "phenotype_matrix should be a list type object",
-            call. = FALSE
-            )
-        }
-
-    if (!all(req_names %in%  names(values))) {
-          stop(
-              "phenotype_matrix must include the following properties: ", paste0(req_names, collapse = ", "),
-              call. = FALSE
-              )
-        }
-
-    phenotype_matrix
-}
-
-
-new_phenotype_matrix <- function(base, phenotypes, conn) {
-    phenotype_matrix <- list(base = base,
-                            phenotypes = phenotypes
-                            )
-    structure(phenotype_matrix, class = "phenotype_matrix", conn = conn)
-
-}
-
-
 # Phenotype matrix class constructor
+#
 # A builder to create a phenotype matrix request.
 #
 # You start by using phemat_add_phenotype() or phemat_add_phenotypes()
 # to add a list of phenotypes and then call get_data()
 # to retrieve the phenotype matrix from the server.
-phenotype_matrix <- function(base, phenotypes = list(), conn = NULL) {
-    new_phenotype_matrix(base = base, phenotypes = phenotypes, conn = conn) %>%
-        validate_phenotype_matrix()
+PhenotypeMatrix <- function(base, phenotypes = list(), conn = NULL) {
+    phenotype_matrix <- list(base = base,
+                             phenotypes = phenotypes
+    )
+    structure(phenotype_matrix, class = "phenotype_matrix", conn = conn)
 }
 
-
-#' Get a phenotype matrix object.
-#'
-#' @param base Optional name of base set
-#' @param ... named arguments passed to `get_phenotypes` for populating matrix.
-#'
-#' @return a phenotype matrix object
-#'
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' phenotype_mat <- get_phenotype_matrix()
-#' }
-get_phenotype_matrix <- function(base = NULL, ...) {
-    dots <- rlang::dots_list(...)
-    phemat <- phenotype_matrix(base = base)
-    if (length(dots)>0) {
-        if (!("conn" %in% names(dots))) gorr__failure("Please provide connector object for populating matrix using `get_phenotypes`")
-        phenotypes = get_phenotypes(...)
-        phemat <- phemat_add_phenotypes(names = purrr::map_chr(phenotypes, ~.x$name), phemat)
-    }
-    phemat
-}
-
-#' Get a phenotype matrix object.
-#'
-#' @param conn platform connection structure, create it using \code{\link{platform_connect}}
-#' @param base Optional name of base set
-#' @param ... named arguments passed to `get_phenotypes` for populating matrix.
-#'
-#' @return a phenotype matrix object
-#'
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' phenotype_mat <- get_phenotype_matrix()
-#' }
-create_phenotype_matrix <- function(conn, base = NULL, ...) {
-    dots <- rlang::dots_list(...)
-    phemat <- phenotype_matrix(base = base, conn = conn)
-    if (length(dots)>0) {
-        phenotypes = get_phenotypes(..., conn = conn)
-        phemat <- phemat_add_phenotypes(names = purrr::map_chr(phenotypes, ~.x$name), phemat)
-    }
-    phemat
-}
 
 #' Add a new phenotype to the matrix request.
 #'

@@ -71,10 +71,10 @@ get_analysis_catalog <- function(analysis_catalog_name, conn) {
 #' @param playlist_id The id of the playlist that contains the phenotypes to use for analysis
 #' @param name Analysis Catalog name
 #' @param recipe_name The name of the recipe to use
-#' @param recipe_parameters: The parameters required to run the recipe
+#' @param recipe_parameters The parameters required to run the recipe
 #' @param conn gor connection structure, create it using \code{\link{platform_connect}}
-#' @param covariate_phenotypes: The names of phenotypes to use as covariates, e.g. ['Pheno1','Pheno2'] (optional)
-#' @param name: excluded_pns: the PNs to exclude from the analysis, e.g. ['PN1','PN2'] (optional)
+#' @param covariate_phenotypes The names of phenotypes to use as covariates, e.g. c("Pheno1','Pheno2')s (optional)
+#' @param excluded_pns the PNs to exclude from the analysis, e.g. c('PN1','PN2') (optional)
 #'
 #' @return analysis_catalog structure
 create_analysis_catalog  <- function(playlist_id,
@@ -161,7 +161,9 @@ get_analysis_catalog_runs <- function(phenotype_name, conn) {
 #' api_key <- Sys.getenv("GOR_API_KEY")
 #' project <- Sys.getenv("GOR_PROJECT")
 #' conn <- platform_connect(api_key, project)
-#' catalog <- get_analysis_catalog_run(analysis_catalog_name="test_ac_1", analysis_catalog_run_name = "test_ac_run_1", conn = conn)
+#' catalog <- get_analysis_catalog_run(analysis_catalog_name="test_ac_1",
+#'                                       analysis_catalog_run_name = "test_ac_run_1",
+#'                                       conn = conn)
 #' }
 get_analysis_catalog_run <- function(analysis_catalog_name, analysis_catalog_run_name, conn) {
     assertthat::assert_that(class(conn) == "platform_connection")
