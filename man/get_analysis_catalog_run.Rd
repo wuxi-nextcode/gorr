@@ -28,6 +28,8 @@ Get an analysis catalog run in the current project by name.
 api_key <- Sys.getenv("GOR_API_KEY")
 project <- Sys.getenv("GOR_PROJECT")
 conn <- platform_connect(api_key, project)
-catalog <- get_analysis_catalog_run(analysis_catalog_name="test_ac_1", analysis_catalog_run_name = "test_ac_run_1", conn = conn)
+catalog <- get_analysis_catalog_run(analysis_catalog_name="test_ac_1",
+                                      analysis_catalog_run_name = "test_ac_run_1",
+                                      conn = conn)
 }
 }

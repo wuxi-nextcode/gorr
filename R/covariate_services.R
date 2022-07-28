@@ -46,6 +46,7 @@ get_covariates <- function(conn) {
     combined_data
 }
 
+
 #' Get a single covariate by its id.
 #'
 #' @param id Unique covariate id in the project

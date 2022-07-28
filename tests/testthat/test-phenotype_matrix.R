@@ -1,11 +1,6 @@
-library(dplyr)
-
 context("test-phenotype_matrix.R")
 
 initialize_phemat_tests <- function(){
-    conn <<- platform_connect(
-        api_key = Sys.getenv("GOR_API_KEY"),
-        project = Sys.getenv("GOR_API_PROJECT"))
     test_name <<- paste0("test_pheno", sample(1:1000,1))
     test_type <- "QT"
     test_desc <- "This is a test phenotype"
@@ -16,6 +11,10 @@ initialize_phemat_tests <- function(){
     test_data <- list(list("20001", "obese"), list("20002", "lean"))
     phenotype_upload_data(data=test_data, phenotype, conn)
 
+}
+
+clean_up_tests <- function() {
+    phenotype_delete(phenotype)
 }
 
 phenotype_matrix <- NULL
@@ -52,9 +51,5 @@ test_that("get_data works", {
     expect_equal(dim(result), c(2,2))
 
 })
-
-clean_up_tests <- function() {
-    phenotype_delete(phenotype)
-}
 
 clean_up_tests()

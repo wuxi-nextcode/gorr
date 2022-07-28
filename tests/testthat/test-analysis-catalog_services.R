@@ -1,16 +1,4 @@
-library(dplyr)
-
 context("test-analysis-catalog_services.R")
-
-conn <- NULL
-
-init_phenotype_services_test <- function() {
-    conn <<- platform_connect(
-        api_key = Sys.getenv("GOR_API_KEY"),
-        project = Sys.getenv("GOR_API_PROJECT"))
-}
-
-init_phenotype_services_test()
 
 test_that("get_analysis_catalogs works", {
     catalogs <<- get_analysis_catalogs(conn = conn)

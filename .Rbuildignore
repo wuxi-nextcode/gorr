@@ -13,3 +13,4 @@ Makefile
 vignettes/.gitignore
 ..Rcheck
 pkgdown
+.vscode

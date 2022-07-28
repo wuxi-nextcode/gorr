@@ -21,13 +21,13 @@ create_analysis_catalog(
 
 \item{recipe_name}{The name of the recipe to use}
 
+\item{recipe_parameters}{The parameters required to run the recipe}
+
 \item{conn}{gor connection structure, create it using \code{\link{platform_connect}}}
 
-\item{recipe_parameters:}{The parameters required to run the recipe}
+\item{covariate_phenotypes}{The names of phenotypes to use as covariates, e.g. c("Pheno1','Pheno2')s (optional)}
 
-\item{covariate_phenotypes:}{The names of phenotypes to use as covariates, e.g. \link{'Pheno1','Pheno2'} (optional)}
-
-\item{name:}{excluded_pns: the PNs to exclude from the analysis, e.g. \link{'PN1','PN2'} (optional)}
+\item{excluded_pns}{the PNs to exclude from the analysis, e.g. c('PN1','PN2') (optional)}
 }
 \value{
 analysis_catalog structure

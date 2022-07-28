@@ -1,13 +1,8 @@
-library(dplyr)
-
-context("test-phenotype_get_data.R")
+context("test-get_data.R")
 
 initialize_phemat_tests <- function() {
-    conn <<- platform_connect(
-        api_key = Sys.getenv("GOR_API_KEY"),
-        project = Sys.getenv("GOR_API_PROJECT"))
-    test_name <<- paste0("test_pheno", sample(1:100, 1))
-    test_name2 <<- paste0("test_pheno", sample(1:100, 1))
+    test_name <<- paste0("test_pheno", sample(1:1000, 1))
+    test_name2 <<- paste0("test_pheno", sample(1:1000, 1))
     test_type <- "CATEGORY"
     phenotype <<- create_phenotype(name = test_name,
                                    result_type = test_type,
