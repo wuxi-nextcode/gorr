@@ -13,6 +13,7 @@
 #'
 #' @return partial-application of function \code{\link{gor_query}} with the `conn` and `relations` parameters set.
 #'
+#' @importFrom methods is
 #' @examples
 #' \dontrun{
 #' query <- gor_create(conn = conn)
@@ -28,7 +29,7 @@ gor_create <- function(..., defs = NULL, conn = NULL, replace = NULL, query.serv
 
     dots <- rlang::dots_list(...)
     if (!is.null(replace)) {
-        if (class(replace) != "gor_creation") {
+        if (!is(replace, "gor_creation")) {
             gorr__failure("replace parameter must be of class gor_creation, see gor_create")
         }
 

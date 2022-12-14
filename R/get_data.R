@@ -90,13 +90,16 @@ get_data.phenotype_list <- function(pheno_obj, missing_value = NULL, base = NULL
 #' @param conn platform connection structure, create it using \code{\link{platform_connect}}
 #' @param missing_value The string to substitute for a missing value in the data
 #' @param base Optional name of base set
+#'
+#' @importFrom methods is
+#'
 #' @export
 get_data.default <- function(pheno_obj, conn, missing_value = NA, base = NULL, ...) {
     assertthat::assert_that(is.list(pheno_obj) | is.character(pheno_obj))
 
     # Handle if provided pheno_obj is an element from an phenotype_list structure
     try({
-        if (class(pheno_obj[[1]]) == "phenotype") {
+        if (is(pheno_obj[[1]], "phenotype")) {
             return(get_data(pheno_obj[[1]]))
         }
     })
