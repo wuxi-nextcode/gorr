@@ -42,17 +42,17 @@ using \code{\link{phemat_add_phenotype}} or \code{\link{phemat_add_phenotypes}}
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{phenotype}: Get phenotype data
+\item \code{get_data(phenotype)}: Get phenotype data
 
-\item \code{phenotype_matrix}: Get data for phenotypes in phenotype matrix
+\item \code{get_data(phenotype_matrix)}: Get data for phenotypes in phenotype matrix
 
-\item \code{playlist}: Get data phenotypes in phenotype playlist
+\item \code{get_data(playlist)}: Get data phenotypes in phenotype playlist
 
-\item \code{phenotype_list}: Get data phenotypes in phenotype list
+\item \code{get_data(phenotype_list)}: Get data phenotypes in phenotype list
 
-\item \code{default}: Get data phenotype/s by phenotype names
+\item \code{get_data(default)}: Get data phenotype/s by phenotype names
+
 }}
-
 \examples{
 \dontrun{
 api_key <- Sys.getenv("GOR_API_KEY")
