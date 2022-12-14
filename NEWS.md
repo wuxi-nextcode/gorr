@@ -1,3 +1,7 @@
+# gorr 1.7.1
+
+* fix bug in queryserver calls
+
 # gorr 1.7.0
 
 * analysis-catalog support added
