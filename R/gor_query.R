@@ -12,7 +12,7 @@ ENDPOINTS <- list(queryservice = list(name = "gor-query-api",
 
 
 gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE", "PATCH"),
-                              url, conn, body = list(), query=list(), parse.body = T, stream.handler = NULL) {
+                              url, conn, body = list(), query=list(), parse.body = T) {
     request.fun <- match.arg(request.fun)
     request.fun <- switch(request.fun, POST = httr::POST, GET = httr::GET, DELETE = httr::DELETE, PATCH = httr::PATCH)
 
@@ -25,8 +25,7 @@ gorr__api_request <- function(request.fun = c("POST", "GET", "DELETE", "PATCH"),
                             query = query,
                             conn$header,
                             encode = "json",
-                            if (debug) httr::verbose(),
-                            if (!is.null(stream.handler)) httr::write_stream(stream.handler)
+                            if (debug) httr::verbose()
                             )
     if (parse.body) {
             response <- gorr__get_response_body(response)
@@ -78,7 +77,10 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, re
         cli::cat_line(query, col = "silver")
         cli::cat_rule("", col = "blue")
     }
-    spinner("Submitting Query\n")
+
+    if (query.service == "queryservice") {
+        spinner("Submitting Query\n")
+    }
 
     result <- query.fun(query = query,
               conn = conn,
@@ -111,7 +113,6 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, re
 #' @param parse.body logical, should the response body be fetched
 #' @param query.service qquery service to use - either 'queryservice' (old) or 'queryserver' (new)
 #' @param persist remote path to file for saving results of the query into. Query results will not be fetched if this parameter is set.
-#' @param stream.handler function to be passed as an input to POST request stream httr::write_stream(fcn), Default: NULL
 #' @param ... placeholder for unused arguments
 #'
 #'
@@ -122,7 +123,7 @@ gorr__post_query <- function(query,
                              parse.body,
                              query.service = c("queryservice", "queryserver"),
                              persist = NULL,
-                             stream.handler = NULL, ...) {
+                             ...) {
 
     query.service <- match.arg(query.service)
 
@@ -169,8 +170,7 @@ gorr__post_query <- function(query,
         url = gorr__get_endpoint(conn, ENDPOINTS[[query.service]]$name, "query"),
         body = body,
         conn = conn,
-        parse.body = parse.body,
-        stream.handler = stream.handler)
+        parse.body = parse.body)
 }
 
 

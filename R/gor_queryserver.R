@@ -12,80 +12,66 @@
 gorr__queryserver <- function(query, conn, parse, relations, spinner = invisible, ...) {
     start_time <- lubridate::now()
 
-    # Function that handles stream - nb stream handler does not return anything hence we append to a variable
-    gorr__stream_handler <- function(x) {
-        elapsed <- lubridate::now() - start_time
-        stream <- readBin(x, character())
-        if (gorr__check_for_msg(stream)) {
-            MESSAGE <<- gorr__process_msg(stream, spinner, elapsed, MESSAGE)
-            stream <- gorr__remove_msg(stream)
-        }
-        spinner(gorr__elapsed_time(elapsed, status = MESSAGE$status, info = MESSAGE$info)) # Print progress to cli
-
-        # Add stream to an array ()
-        # Potential for faster append https://stackoverflow.com/questions/22235809/append-value-to-empty-vector-in-r
-        RESULT[idx] <<- stream
-
-        idx <<- idx + 1
-    }
-
-    # Initialize for stream handling
-    RESULT <- character(0)
-    MESSAGE <- list(status = "RUNNING", info = "")
-    idx <- 1
     tryCatch({
+        spinner("Submitting and Running Query\n")
         response <- gorr__post_query(query = query,
                                            conn = conn,
                                            relations = relations,
                                            parse.body = F,
-                                           stream.handler = gorr__stream_handler,
                                            ...)
-    },
-    interrupt = function(x) gorr__failure("Query interrupted by user"),
+        spinner(gorr__elapsed_time(lubridate::now() - start_time,
+                                    status = "Preparing Results",
+                                    info = ""))
+    }, interrupt = function(x) gorr__failure("Query interrupted by user"),
     error = function(err) stop(err)
     )
 
-    # Concatenate result string
-    paste0(RESULT, collapse="")
-}
+    result_txt <- readBin(response$content, character())
 
-# Check for status messages in stream
-gorr__check_for_msg <- function(msg) grepl("#>", msg, fixed=T)
+    # Get last msg from string
+    msg_line <- stringi::stri_extract_last_regex(result_txt,"#>.*?\\n")
 
-# Extract status messages from stream
-gorr__extract_msg <- purrr::compose(unlist, purrr::partial(stringr::str_extract_all, pattern = "(?<=#>)(.*?)(?=\\n)")) # Extract message between #> and new line
-
-# Remove status messages from stream
-gorr__remove_msg <- purrr::partial(stringr::str_remove_all, pattern = "#>.*?\\n") # Remove messages between (and including) #> and new line
-
-# Process status messages from stream
-gorr__process_msg <- function(stream, spinner, elapsed, msg) {
-    # Process last message from stream
-    tryCatch({
-    parsed_msg <- gorr__extract_msg(stream) %>%
-        dplyr::last() %>%
-        stringr::str_match(pattern="^\\s?([\\w]+)\\s(.*)") %>% #Get ([STATUS]) ([REST])
-        as.character()
-    }, error = function(x) gorr__failure("Unprocessable Message", detail = stream))
-    status <- parsed_msg[2]
-    if (status == "EXCEPTION") {
-        gorr__failure("FAILED", detail = gorr__get_error_msg(parsed_msg[3]))
-    } else if (status == "GOR") {
-        msg <- list(status = "RUNNING", info = paste0(msg$info, "."))
-    } else if (status == "DONE") {
-        stats <- jsonlite::fromJSON(parsed_msg[3])
-
-        msg <- list(status = status, info = paste0(" ", " \n Result details: ",
-                                                   stats$lineCount, " rows, total size: ",
-                                                   fs::fs_bytes(stats$bytesCount), "bytes \n"))
-    } else {
-        msg <- list(status="UNKOWN", info = parsed_msg[1])
-
+    # If last message is an exception message - terminate execution
+    if (startsWith(msg_line, "#> EXCEPTION")) {
+        gorr__throw_error_from_line(msg_line)
+    } else if (!startsWith(msg_line, "#> DONE")) {
+        gorr__failure("Incomplete response from server - missing 'DONE' message")
     }
-    msg
+
+    ### Process result data
+    # Remove all messages from stream
+    result_txt <- gorr__remove_msg(result_txt)
+
+    # Process result stats
+    query_stats <- get__query_stats(msg_line)
+    spinner(gorr__elapsed_time(lubridate::now() - start_time,
+                                   status = "DONE",
+                                   info = query_stats))
+
+    result_txt
 }
 
-gorr__get_error_msg <- purrr::compose(~ purrr::pluck(.x, 1, 1),
+gorr__remove_msg <- purrr::partial(stringi::stri_replace_last_regex, pattern = "#>.*?\\n",replacement = "") # Remove last message messages between (and including) #> and new line
+
+gorr__get_line_info <- purrr::compose(~ purrr::pluck(.x, 3),
+                                      purrr::partial(stringr::str_match, pattern = "#>\\s?([\\w]+)\\s(.*)"))
+
+get__query_stats <- function(line) {
+    line_info <- gorr__get_line_info(line)
+    query_stats <- jsonlite::fromJSON(gorr__get_line_info(line))
+    info <- paste0(" ", " \n Result details: ",
+                   query_stats$lineCount, " rows, total size: ",
+                  fs::fs_bytes(query_stats$bytesCount), "bytes \n")
+    info
+}
+
+# Process error messages from stream
+gorr__throw_error_from_line <- function(line) {
+    line_info <- gorr__get_line_info(line)
+    gorr__failure("FAILED", detail = gorr__get_exception_details(line_info))
+}
+
+gorr__get_exception_details <- purrr::compose(~ purrr::pluck(.x, 1, 1),
                                       purrr::partial(stringr::str_split, pattern = "Stack Trace"),
                                       ~ purrr::pluck(.x, "gorMessage"),
                                       jsonlite::fromJSON)

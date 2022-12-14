@@ -11,7 +11,6 @@ gorr__post_query(
   parse.body,
   query.service = c("queryservice", "queryserver"),
   persist = NULL,
-  stream.handler = NULL,
   ...
 )
 }
@@ -27,8 +26,6 @@ gorr__post_query(
 \item{query.service}{qquery service to use - either 'queryservice' (old) or 'queryserver' (new)}
 
 \item{persist}{remote path to file for saving results of the query into. Query results will not be fetched if this parameter is set.}
-
-\item{stream.handler}{function to be passed as an input to POST request stream httr::write_stream(fcn), Default: NULL}
 
 \item{...}{placeholder for unused arguments}
 }
