@@ -39,8 +39,8 @@ gorr__queryserver <- function(query, conn, parse, relations, spinner = invisible
     }
 
     ### Process result data
-    # Remove all messages from stream
-    result_txt <- gorr__remove_msg(result_txt)
+    # Remove last message from stream
+    result_txt <- stringi::stri_replace_last(result_txt, replacement="",fixed=msg_line)
 
     # Process result stats
     query_stats <- get__query_stats(msg_line)
@@ -50,8 +50,6 @@ gorr__queryserver <- function(query, conn, parse, relations, spinner = invisible
 
     result_txt
 }
-
-gorr__remove_msg <- purrr::partial(stringi::stri_replace_last_regex, pattern = "#>.*?\\n",replacement = "") # Remove last message messages between (and including) #> and new line
 
 gorr__get_line_info <- purrr::compose(~ purrr::pluck(.x, 3),
                                       purrr::partial(stringr::str_match, pattern = "#>\\s?([\\w]+)\\s(.*)"))

@@ -1,3 +1,7 @@
+# gorr 1.7.2
+
+* Bugfix
+
 # gorr 1.7.1
 
 * fix bug in queryserver calls
