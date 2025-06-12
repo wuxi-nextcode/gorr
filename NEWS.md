@@ -1,3 +1,7 @@
+# gorr 1.7.3
+
+* Better handling of empyt query results.
+
 # gorr 1.7.2
 
 * Bugfix
