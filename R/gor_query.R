@@ -92,7 +92,7 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, re
               spinner = spinner)
 
 
-    if (parse && !is.null(result)) {
+    if (parse && !gorr_is_empty(result)) {
         result <- gorr__read_tsv(text = result)
         if (!is.data.frame(result)) gorr__failure("Unexpected result:", result)
     }
@@ -101,7 +101,7 @@ gor_query <- function(query, conn, timeout = 0, page_size = 100e3, parse = T, re
         cli::cat_rule("Done", col = "green")
     }
 
-    if (is.null(result)) invisible(result) else result
+    if (gorr_is_empty(result)) invisible(result) else result
 }
 
 
@@ -314,5 +314,18 @@ gorr__cat <- function(line=T, rule=F, col="white") {
     if (interactive()) {
         cli::cat_line("")
         if (rule) cli::cat_rule(col = col)
+    }
+}
+
+#' Check if str, or list, is null or empty.
+gorr_is_empty <- function(x) {
+    if (is.null(x)) {
+        return(TRUE)
+    } else if (is.character(x)) {
+        return(length(x) == 0 || all(x == ""))
+    } else if (is.list(x)) {
+        return(length(x) == 0 || all(sapply(x, gorr_is_empty)))
+    } else {
+        return(FALSE)
     }
 }
